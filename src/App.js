@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import NotFound from './pages/NotFound';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import NonLogin from './pages/NonLogin';
 
 const Container = styled.div`
   max-width: 430px;
@@ -18,7 +19,8 @@ function App() {
       <Reset />
       <BrowserRouter>
         <Routes>
-          <Route path='/' index element={<Login />}></Route>
+          <Route path='/' index element={<NonLogin />}></Route>
+          <Route path='/login' index element={<Login />}></Route>
           <Route path='/signup' element={<Signup />}></Route>
           <Route path='*' element={<NotFound />}></Route>
         </Routes>
