@@ -1,4 +1,4 @@
-import { ToastStyle } from "./style";
+import { ToastStyle } from './style';
 
 export const ToastTheme = {
   SUCCESS: 0,
@@ -12,16 +12,7 @@ const Toast = ({ toastTheme, children }) => {
     toastTheme = ToastTheme.SUCCESS;
   }
 
-  return (
-    <ToastStyle toastTheme={toastTheme}>
-      {toastTheme === ToastTheme.ERROR ? (
-        <img src="images/icon_error.svg" alt="error_icon" />
-      ) : (
-        <img src="images/icon_check.svg" alt="check_icon" />
-      )}
-      {children}
-    </ToastStyle>
-  );
+  return <ToastStyle toastTheme={toastTheme}>{children}</ToastStyle>;
 };
 
 export default Toast;

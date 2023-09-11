@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { ToastTheme } from "./Toast";
+import styled from 'styled-components';
+import { ToastTheme } from './Toast';
 
 export const ToastStyle = styled.div`
   position: fixed;
@@ -10,7 +10,9 @@ export const ToastStyle = styled.div`
   max-width: 344px;
   display: flex;
   align-items: center;
-  background-color: ${props => (props.toastTheme == ToastTheme.SUCCESS) ? "#000000" : "#000000"};
+  justify-content: center;
+  background-color: ${(props) =>
+    props.toastTheme == ToastTheme.SUCCESS ? '#000000' : '#FF6B6B'};
   padding: 16px;
   gap: 8px;
   font-size: 16px;
@@ -21,11 +23,17 @@ export const ToastStyle = styled.div`
   transform: translateY(20px);
   animation: toastAnimation 3s ease forwards;
   @keyframes toastAnimation {
-    0% {opacity: 0;
-      transform: translateY(20px);}
-    50% {opacity: 1;
-      transform: translateY(0);}
-    100% {opacity: 0;
-      transform: translateY(20px);}
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
   }
 `;

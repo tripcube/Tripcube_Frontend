@@ -20,9 +20,7 @@ const Signup = () => {
   const [invalidIdInfo, setInvalidIdInfo] = useState('');
   const [invalidPwdInfo, setInvalidPwdInfo] = useState('');
   const [invalidMatchingPwdInfo, setInvalidMatchingPwdInfo] = useState('');
-  const checkEmptyUserInfoValue = Object.values(userInfo).some(
-    (data) => !data,
-  );
+  const checkEmptyUserInfoValue = Object.values(userInfo).some((data) => !data);
 
   const navigate = useNavigate();
 
@@ -69,7 +67,6 @@ const Signup = () => {
     try {
       console.log('data-name', data);
       const res = await serverapi.post(api, data);
-      console.log('res', res);
       if (res.status === 200) {
         console.log('res.data', res.data);
         return !res.data.data;
@@ -91,7 +88,8 @@ const Signup = () => {
     try {
       console.log('data-signup', data);
       const res = await serverapi.post(api, data);
-      if (res.status === 200) {
+      console.log('res', res);
+      if (res.status === 201) {
         setToastMessage('회원가입이 성공적으로 완료되었습니다.');
         setToastTheme(ToastTheme.SUCCESS);
         setShowToast(true);
@@ -122,32 +120,32 @@ const Signup = () => {
   const pwdChangeHandler = (e) => {
     setUserInfo({ ...userInfo, password: e.target.value });
     if (!pwdCheck(e.target.value)) {
-      setInvalidPwdInfo("8-16자의 영문 대소문자, 숫자, 특수문자만 사용 가능");
+      setInvalidPwdInfo('8-16자의 영문 대소문자, 숫자, 특수문자만 사용 가능');
       return;
     }
     if (userInfo.matchingPwd || invalidMatchingPwdInfo) {
       if (e.target.value !== userInfo.matchingPwd) {
-        setInvalidMatchingPwdInfo("비밀번호가 서로 다릅니다.");
+        setInvalidMatchingPwdInfo('비밀번호가 서로 다릅니다.');
       } else {
-        setInvalidMatchingPwdInfo("");
+        setInvalidMatchingPwdInfo('');
       }
     }
-    setInvalidPwdInfo("");
+    setInvalidPwdInfo('');
   };
 
   const matchingPwdChangeHandler = (e) => {
     setUserInfo({ ...userInfo, matchingPwd: e.target.value });
     if (userInfo.password !== e.target.value) {
-      setInvalidMatchingPwdInfo("비밀번호가 서로 다릅니다.");
+      setInvalidMatchingPwdInfo('비밀번호가 서로 다릅니다.');
       return;
     }
-    setInvalidMatchingPwdInfo("");
+    setInvalidMatchingPwdInfo('');
   };
 
   const nameChangeHandler = async (e) => {
     setUserInfo({ ...userInfo, name: e.target.value });
     if (await isNameDuplicated(e.target.value)) {
-      setInvalidIdInfo('이미 존재하는 닉네임입니다.');
+      setInvalidNameInfo('이미 존재하는 닉네임입니다.');
       return;
     }
     setInvalidNameInfo('');
@@ -169,11 +167,19 @@ const Signup = () => {
     console.log('!checkEmptyUserInfoValue', !checkEmptyUserInfoValue);
     console.log('userInfo', userInfo);
 
-    console.log('isAllValid', !invalidIdInfo &&
-    !invalidPwdInfo &&
-    !invalidMatchingPwdInfo &&
-    !checkEmptyUserInfoValue);
-  }, [invalidIdInfo, invalidPwdInfo, invalidMatchingPwdInfo, checkEmptyUserInfoValue]);
+    console.log(
+      'isAllValid',
+      !invalidIdInfo &&
+        !invalidPwdInfo &&
+        !invalidMatchingPwdInfo &&
+        !checkEmptyUserInfoValue,
+    );
+  }, [
+    invalidIdInfo,
+    invalidPwdInfo,
+    invalidMatchingPwdInfo,
+    checkEmptyUserInfoValue,
+  ]);
 
   return (
     <div>
@@ -211,8 +217,8 @@ const Signup = () => {
           description={invalidPwdInfo}
         />
         <Input
-          label="비밀번호 확인"
-          type="password"
+          label='비밀번호 확인'
+          type='password'
           onChangeHandler={matchingPwdChangeHandler}
           value={userInfo.matchingPwd}
           isError={!!invalidMatchingPwdInfo}

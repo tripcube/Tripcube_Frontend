@@ -36,7 +36,7 @@ export const BaseButtonStyle = styled.button`
   }};
 
   border: ${(props) =>
-    props.buttonTheme === ButtonTheme.WHITE ? '1px solid #7BAB6E' : 'none'};
+    props.buttonTheme == ButtonTheme.WHITE ? '1px solid #7BAB6E' : 'none'};
   color: ${(props) => {
     let color;
     switch (props.buttonTheme) {
@@ -55,7 +55,7 @@ export const BaseButtonStyle = styled.button`
     return color;
   }};
   margin: ${(props) =>
-    props.buttonTheme === ButtonTheme.WHITE ? '-1px' : '0px'};
+    props.buttonTheme == ButtonTheme.WHITE ? '-1px' : '0px'};
 
   line-height: ${(props) =>
     props.buttonSize == ButtonSize.NORMAL ? '17px' : '16px'};

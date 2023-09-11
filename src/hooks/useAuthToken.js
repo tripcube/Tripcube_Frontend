@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import useFlutterWebview from './useFlutterWebview';
 import { useEffect } from 'react';
 import useSleep from './useSleep';
 
@@ -30,27 +29,12 @@ const useAuthToken = () => {
     localStorage.setItem('refreshToken', token);
   };
 
-  const {
-    isMobile,
-    getAuthToken: getAuthTokenFromMobile,
-    storeAuthToken: storeAuthTokenFromMobile,
-  } = useFlutterWebview();
-
   const getRefreshToken = async () => {
-    if (isMobile()) {
-      return await getAuthTokenFromMobile();
-    } else {
-      return await getAuthTokenFromLocalStorage();
-    }
+    return await getAuthTokenFromLocalStorage();
   };
 
   const setRefreshToken = async (token) => {
-    if (isMobile()) {
-      muLock.current = true;
-      storeAuthTokenFromMobile(token);
-    } else {
-      storeAuthTokenToLocalStorage(token);
-    }
+    storeAuthTokenToLocalStorage(token);
   };
 
   useEffect(() => {
