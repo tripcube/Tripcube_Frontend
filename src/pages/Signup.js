@@ -182,10 +182,54 @@ const Signup = () => {
   ]);
 
   return (
-    <div>
-      <LogoWrapper>
-        <LogoImg src='images/tripcube_logo.svg' alt='logo' />
-      </LogoWrapper>
+    <InfoWrapper>
+      <div>
+        <LogoWrapper>
+          <LogoImg src='images/tripcube_logo.svg' alt='logo' />
+        </LogoWrapper>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
+            padding: '20px 27px',
+          }}
+        >
+          <Input
+            label='이름'
+            onChangeHandler={nameChangeHandler}
+            value={userInfo.name}
+            isError={!!invalidNameInfo}
+            description={invalidNameInfo}
+          />
+          <Input
+            label='아이디'
+            onChangeHandler={idChangeHandler}
+            value={userInfo.loginId}
+            isError={!!invalidIdInfo}
+            description={invalidIdInfo}
+          />
+          <Input
+            label='비밀번호'
+            type='password'
+            onChangeHandler={pwdChangeHandler}
+            value={userInfo.password}
+            isError={!!invalidPwdInfo}
+            description={invalidPwdInfo}
+          />
+          <Input
+            label='비밀번호 확인'
+            type='password'
+            onChangeHandler={matchingPwdChangeHandler}
+            value={userInfo.matchingPwd}
+            isError={!!invalidMatchingPwdInfo}
+            description={invalidMatchingPwdInfo}
+          />
+
+          {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
+          {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
+        </div>
+      </div>
       <div
         style={{
           display: 'flex',
@@ -194,36 +238,6 @@ const Signup = () => {
           padding: '20px 27px',
         }}
       >
-        <Input
-          label='이름'
-          onChangeHandler={nameChangeHandler}
-          value={userInfo.name}
-          isError={!!invalidNameInfo}
-          description={invalidNameInfo}
-        />
-        <Input
-          label='아이디'
-          onChangeHandler={idChangeHandler}
-          value={userInfo.loginId}
-          isError={!!invalidIdInfo}
-          description={invalidIdInfo}
-        />
-        <Input
-          label='비밀번호'
-          type='password'
-          onChangeHandler={pwdChangeHandler}
-          value={userInfo.password}
-          isError={!!invalidPwdInfo}
-          description={invalidPwdInfo}
-        />
-        <Input
-          label='비밀번호 확인'
-          type='password'
-          onChangeHandler={matchingPwdChangeHandler}
-          value={userInfo.matchingPwd}
-          isError={!!invalidMatchingPwdInfo}
-          description={invalidMatchingPwdInfo}
-        />
         <Button
           disabled={!isAllValid}
           buttonSize={ButtonSize.LARGE}
@@ -234,11 +248,8 @@ const Signup = () => {
         >
           회원가입
         </Button>
-
-        {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
-        {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
       </div>
-    </div>
+    </InfoWrapper>
   );
 };
 
@@ -254,4 +265,10 @@ const LogoWrapper = styled.div`
 
 const LogoImg = styled.img`
   width: 130px;
+`;
+const InfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-between;
 `;

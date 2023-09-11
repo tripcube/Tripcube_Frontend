@@ -67,42 +67,55 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <LogoWrapper>
-        <LogoImg src='images/tripcube_logo.svg' alt='logo' />
-      </LogoWrapper>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '20px',
-          padding: '20px 27px',
-        }}
-      >
-        <Input label='아이디' value={idValue} onChangeHandler={onChangeId} />
-        <Input
-          label='비밀번호'
-          value={pwdValue}
-          type='password'
-          onChangeHandler={onChangePwd}
-          onKeyPress={onPressEnter}
-        />
-        <Button
-          buttonSize={ButtonSize.LARGE}
-          ButtonTheme={ButtonTheme.BLACK}
-          disabled={idValue.length > 0 && pwdValue.length > 0 ? false : true}
-          handler={() => {
-            login();
+    <InfoWrapper>
+      <div>
+        <LogoWrapper>
+          <LogoImg src='images/tripcube_logo.svg' alt='logo' />
+        </LogoWrapper>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
+            padding: '20px 27px',
           }}
         >
-          로그인
-        </Button>
-        <SubLink href='/findAccount'>
-          아이디 또는 비밀번호를 잊으셨나요?
-        </SubLink>
+          <Input label='아이디' value={idValue} onChangeHandler={onChangeId} />
+          <Input
+            label='비밀번호'
+            value={pwdValue}
+            type='password'
+            onChangeHandler={onChangePwd}
+            onKeyPress={onPressEnter}
+          />
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
+            padding: '20px 27px',
+          }}
+        >
+          <Button
+            buttonSize={ButtonSize.LARGE}
+            ButtonTheme={ButtonTheme.BLACK}
+            disabled={idValue.length > 0 && pwdValue.length > 0 ? false : true}
+            handler={() => {
+              login();
+            }}
+          >
+            로그인
+          </Button>
+          <SubLink href='/findAccount'>
+            아이디 또는 비밀번호를 잊으셨나요?
+          </SubLink>
+        </div>
+        {showToast && (
+          <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
+        )}
       </div>
-      {showToast && <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>}
-    </div>
+    </InfoWrapper>
   );
 };
 
@@ -128,4 +141,11 @@ const LogoWrapper = styled.div`
 
 const LogoImg = styled.img`
   width: 130px;
+`;
+
+const InfoWrapper = styled.div`
+  display: flex;
+  flexdirection: column;
+  height: 100vh;
+  justify-content: space-between;
 `;
