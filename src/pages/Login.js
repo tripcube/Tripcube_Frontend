@@ -145,7 +145,7 @@ const LogoImg = styled.img`
 
 const InfoWrapper = styled.div`
   display: flex;
-  flexdirection: column;
+  flex-direction: column;
   height: 100vh;
   justify-content: space-between;
 `;
