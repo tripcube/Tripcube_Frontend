@@ -10,7 +10,7 @@ export const ToastStyle = styled.div`
   max-width: 344px;
   display: flex;
   align-items: center;
-  background-color: ${props => (props.toastTheme == ToastTheme.SUCCESS) ? "#7BAB6E" : "#FF6B6B"};
+  background-color: ${props => (props.toastTheme == ToastTheme.SUCCESS) ? "#000000" : "#000000"};
   padding: 16px;
   gap: 8px;
   font-size: 16px;

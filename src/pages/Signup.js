@@ -11,6 +11,7 @@ const Signup = () => {
     loginId: '',
     password: '',
     name: '',
+    matchingPwd: '',
   });
   const [toastTheme, setToastTheme] = useState(ToastTheme.SUCCESS);
   const [toastMessage, setToastMessage] = useState('');
@@ -20,7 +21,7 @@ const Signup = () => {
   const [invalidPwdInfo, setInvalidPwdInfo] = useState('');
   const [invalidMatchingPwdInfo, setInvalidMatchingPwdInfo] = useState('');
   const checkEmptyUserInfoValue = Object.values(userInfo).some(
-    (data) => data === '',
+    (data) => !data,
   );
 
   const navigate = useNavigate();
@@ -42,29 +43,38 @@ const Signup = () => {
     return pwdRegEx.test(userInfo);
   };
 
-  const isIdDuplicated = async (uid) => {
-    const api = `/new/check-id/${uid}`;
+  const isIdDuplicated = async (loginId) => {
+    const api = `auth/new/check-id`;
+    const data = {
+      loginId: loginId,
+    };
     try {
-      const res = await serverapi.get(api);
+      console.log('data-loginId', data);
+      const res = await serverapi.post(api, data);
       if (res.status === 200) {
-        return res.data.dup;
+        console.log('res.data', res.data);
+        return !res.data.data;
       }
+      return true;
     } catch (e) {
       console.log(e.response);
     }
   };
 
-  const isNameDuplicated = async () => {
-    const api = `/new/check-name`;
+  const isNameDuplicated = async (name) => {
+    const api = `auth/new/check-name`;
     const data = {
-      name: userInfo.name,
+      name: name,
     };
     try {
+      console.log('data-name', data);
       const res = await serverapi.post(api, data);
-      console.log('data', data);
+      console.log('res', res);
       if (res.status === 200) {
-        return res.data;
+        console.log('res.data', res.data);
+        return !res.data.data;
       }
+      return true;
     } catch (e) {
       console.log(e.response);
     }
@@ -73,14 +83,15 @@ const Signup = () => {
   const signup = async () => {
     const api = '/auth/new';
     const data = {
-      id: userInfo.id,
-      password: userInfo.pwd,
+      loginId: userInfo.loginId,
+      password: userInfo.password,
       name: userInfo.name,
     };
 
     try {
+      console.log('data-signup', data);
       const res = await serverapi.post(api, data);
-      if (res.status === 201) {
+      if (res.status === 200) {
         setToastMessage('회원가입이 성공적으로 완료되었습니다.');
         setToastTheme(ToastTheme.SUCCESS);
         setShowToast(true);
@@ -96,7 +107,7 @@ const Signup = () => {
   };
 
   const idChangeHandler = async (e) => {
-    setUserInfo({ ...userInfo, id: e.target.value });
+    setUserInfo({ ...userInfo, loginId: e.target.value });
     if (!idCheck(e.target.value)) {
       setInvalidIdInfo('6-15자의 영문 소문자, 숫자만 사용 가능');
       return;
@@ -109,28 +120,28 @@ const Signup = () => {
   };
 
   const pwdChangeHandler = (e) => {
-    setUserInfo({ ...userInfo, pwd: e.target.value });
+    setUserInfo({ ...userInfo, password: e.target.value });
     if (!pwdCheck(e.target.value)) {
-      setInvalidPwdInfo('8-16자의 영문 대소문자, 숫자, 특수문자만 사용 가능');
+      setInvalidPwdInfo("8-16자의 영문 대소문자, 숫자, 특수문자만 사용 가능");
       return;
     }
     if (userInfo.matchingPwd || invalidMatchingPwdInfo) {
       if (e.target.value !== userInfo.matchingPwd) {
-        setInvalidMatchingPwdInfo('비밀번호가 서로 다릅니다.');
+        setInvalidMatchingPwdInfo("비밀번호가 서로 다릅니다.");
       } else {
-        setInvalidMatchingPwdInfo('');
+        setInvalidMatchingPwdInfo("");
       }
     }
-    setInvalidPwdInfo('');
+    setInvalidPwdInfo("");
   };
 
   const matchingPwdChangeHandler = (e) => {
     setUserInfo({ ...userInfo, matchingPwd: e.target.value });
-    if (userInfo.pwd !== e.target.value) {
-      setInvalidMatchingPwdInfo('비밀번호가 서로 다릅니다.');
+    if (userInfo.password !== e.target.value) {
+      setInvalidMatchingPwdInfo("비밀번호가 서로 다릅니다.");
       return;
     }
-    setInvalidMatchingPwdInfo('');
+    setInvalidMatchingPwdInfo("");
   };
 
   const nameChangeHandler = async (e) => {
@@ -150,6 +161,19 @@ const Signup = () => {
       return () => clearTimeout(timer);
     }
   }, [showToast]);
+
+  useEffect(() => {
+    console.log('!invalidIdInfo', !invalidIdInfo);
+    console.log('!invalidPwdInfo', !invalidPwdInfo);
+    console.log('!invalidMatchingPwdInfo', !invalidMatchingPwdInfo);
+    console.log('!checkEmptyUserInfoValue', !checkEmptyUserInfoValue);
+    console.log('userInfo', userInfo);
+
+    console.log('isAllValid', !invalidIdInfo &&
+    !invalidPwdInfo &&
+    !invalidMatchingPwdInfo &&
+    !checkEmptyUserInfoValue);
+  }, [invalidIdInfo, invalidPwdInfo, invalidMatchingPwdInfo, checkEmptyUserInfoValue]);
 
   return (
     <div>
@@ -174,7 +198,7 @@ const Signup = () => {
         <Input
           label='아이디'
           onChangeHandler={idChangeHandler}
-          value={userInfo.id}
+          value={userInfo.loginId}
           isError={!!invalidIdInfo}
           description={invalidIdInfo}
         />
@@ -182,13 +206,13 @@ const Signup = () => {
           label='비밀번호'
           type='password'
           onChangeHandler={pwdChangeHandler}
-          value={userInfo.pwd}
+          value={userInfo.password}
           isError={!!invalidPwdInfo}
           description={invalidPwdInfo}
         />
         <Input
-          label='비밀번호 확인'
-          type='password'
+          label="비밀번호 확인"
+          type="password"
           onChangeHandler={matchingPwdChangeHandler}
           value={userInfo.matchingPwd}
           isError={!!invalidMatchingPwdInfo}
