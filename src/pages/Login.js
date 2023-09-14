@@ -44,7 +44,7 @@ const Login = () => {
       const res = await serverapi.post(api, data);
       console.log('res', res);
       if (res.status === 201) {
-        navigate('/main');
+        navigate('/home');
 
         setAccessToken(res.data.accessToken);
         await setRefreshToken(res.data.refreshToken);
@@ -53,7 +53,7 @@ const Login = () => {
         console.log('refresh: ', await getRefreshToken());
       }
     } catch (e) {
-      if (e.response.status === 400) {
+      if (e.response.status === 401) {
         setToastMessage('회원정보가 일치하지 않습니다.');
         setShowToast(true);
       }
@@ -69,7 +69,7 @@ const Login = () => {
   return (
     <InfoWrapper>
       <div>
-        <LogoWrapper>
+        <LogoWrapper href='/nonlogin'>
           <LogoImg src='images/tripcube_logo.svg' alt='logo' />
         </LogoWrapper>
         <div
@@ -89,32 +89,30 @@ const Login = () => {
             onKeyPress={onPressEnter}
           />
         </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '20px',
-            padding: '20px 27px',
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+          padding: '20px 27px',
+        }}
+      >
+        <SubLink href='/findAccount'>
+          아이디 또는 비밀번호를 잊으셨나요?
+        </SubLink>
+        <Button
+          buttonSize={ButtonSize.LARGE}
+          ButtonTheme={ButtonTheme.BLACK}
+          disabled={idValue.length > 0 && pwdValue.length > 0 ? false : true}
+          handler={() => {
+            login();
           }}
         >
-          <Button
-            buttonSize={ButtonSize.LARGE}
-            ButtonTheme={ButtonTheme.BLACK}
-            disabled={idValue.length > 0 && pwdValue.length > 0 ? false : true}
-            handler={() => {
-              login();
-            }}
-          >
-            로그인
-          </Button>
-          <SubLink href='/findAccount'>
-            아이디 또는 비밀번호를 잊으셨나요?
-          </SubLink>
-        </div>
-        {showToast && (
-          <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
-        )}
+          로그인
+        </Button>
       </div>
+      {showToast && <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>}
     </InfoWrapper>
   );
 };
@@ -131,9 +129,9 @@ const SubLink = styled.a`
   align-items: center;
 `;
 
-const LogoWrapper = styled.div`
-  margin-top: 120px;
-  margin-bottom: 60px;
+const LogoWrapper = styled.a`
+  padding-top: 120px;
+  padding-bottom: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -147,5 +145,6 @@ const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 100vw;
   justify-content: space-between;
 `;

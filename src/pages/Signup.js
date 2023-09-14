@@ -184,7 +184,7 @@ const Signup = () => {
   return (
     <InfoWrapper>
       <div>
-        <LogoWrapper>
+        <LogoWrapper href='/nonlogin'>
           <LogoImg src='images/tripcube_logo.svg' alt='logo' />
         </LogoWrapper>
         <div
@@ -225,9 +225,6 @@ const Signup = () => {
             isError={!!invalidMatchingPwdInfo}
             description={invalidMatchingPwdInfo}
           />
-
-          {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
-          {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
         </div>
       </div>
       <div
@@ -249,15 +246,17 @@ const Signup = () => {
           회원가입
         </Button>
       </div>
+      {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
+      {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
     </InfoWrapper>
   );
 };
 
 export default Signup;
 
-const LogoWrapper = styled.div`
-  margin-top: 120px;
-  margin-bottom: 60px;
+const LogoWrapper = styled.a`
+  padding-top: 120px;
+  padding-bottom: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -270,5 +269,6 @@ const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 100vw;
   justify-content: space-between;
 `;
