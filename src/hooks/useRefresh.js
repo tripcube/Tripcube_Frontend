@@ -1,5 +1,6 @@
 import serverapi from '../api/serverapi';
 import useAuthToken from './useAuthToken';
+import axios from 'axios';
 
 const useRefresh = () => {
   const { getRefreshToken, setRefreshToken, setAccessToken } = useAuthToken();
@@ -8,13 +9,13 @@ const useRefresh = () => {
   const refresh = async () => {
     try {
       const refreshToken = await getRefreshToken();
-      const res = await serverapi.get('/user/token', {
+      const res = await axios.get('http://sw.uos.ac.kr:8080/auth/renew', {
         headers: {
           Authorization: `${refreshToken}`,
         },
       });
-      console.log(`access_token: ${res.data.access_token}`);
-      setAccessToken(res.data.access_token);
+      console.log(`accessToken: ${res.data.accessToken}`);
+      setAccessToken(res.data.accessToken );
     } catch (e) {
       // 401 : refresh token 만료
       if (e.status === 401) {
