@@ -1,16 +1,16 @@
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const Header = ({ children }) => {
   const navigate = useNavigate();
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: '100%' }}>
       <HeaderStyle>
         <img
-          src="images/delete_button.svg"
-          alt="X"
-          onClick={navigate("/home")}
+          src='images/delete_button.svg'
+          alt='X'
+          onClick={() => navigate('/home')}
         />
         {children}
       </HeaderStyle>

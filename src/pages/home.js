@@ -30,7 +30,8 @@ function UserRec(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log('res.data.data', res.data.data);
+      console.log('getList-res.data.data', res.data.data);
+      console.log('getList-page', page);
       if (res.status === 201) {
         const tmp = [...list, ...res.data.data];
         setList(tmp);
@@ -56,6 +57,15 @@ function UserRec(props) {
             onClick={() => navigate(`/detail/${place.placeId}`)}
           />
         ))}
+        <Button
+          buttonSize={ButtonSize.NORMAL}
+          ButtonTheme={ButtonTheme.BLACK}
+          handler={() => {
+            getList();
+          }}
+        >
+          장소 더 보기
+        </Button>
       </PlaceStyle>
     </>
   );
@@ -70,6 +80,7 @@ function AreaRec(props) {
   const [area2, setArea2] = useState(1);
   const [tag, setTag] = useState(1);
   const { getAccessToken } = useAuthToken();
+  const navigate = useNavigate();
 
   const getPop = async () => {
     const api = `places/recommend/hot-place?areaCode1=${area1}&areaCode2=${area2}&page=${poppage}`;
@@ -80,7 +91,7 @@ function AreaRec(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log('res.data.data', res.data.data);
+      console.log('getPop-res.data.data', res.data.data);
       if (res.status === 201) {
         const popTmp = [...poplist, ...res.data.data];
         setPoplist(popTmp);
@@ -100,7 +111,7 @@ function AreaRec(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log('res.data.data', res.data.data);
+      console.log('getGood-res.data.data', res.data.data);
       if (res.status === 201) {
         const goodTmp = [...goodlist, ...res.data.data];
         setGoodlist(goodTmp);
@@ -172,29 +183,67 @@ function AreaRec(props) {
         </FormControl>
       </>
       <TextStyle>지난 24시간 인기 장소</TextStyle>
+      <PlaceStyle>
+        {poplist.map((place, index) => (
+          <Place
+            key={place.placeId}
+            place={place}
+            onClick={() => navigate(`/detail/${place.placeId}`)}
+          />
+        ))}
+        <Button
+          buttonSize={ButtonSize.NORMAL}
+          ButtonTheme={ButtonTheme.BLACK}
+          handler={() => {
+            getPop();
+          }}
+        >
+          장소 더 보기
+        </Button>
+      </PlaceStyle>
       <div>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
-            <InputLabel id='demo-select-small-label'>활동 선택</InputLabel>
-            <Select
-              labelId='demo-select-small-label'
-              id='demo-select-small'
-              value={tag}
-              onChange={onChangeTag}
-              autoWidth
-              label='활동 선택'
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <TextStyle>
+            <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
+              <InputLabel id='demo-select-small-label'>활동 선택</InputLabel>
+              <Select
+                labelId='demo-select-small-label'
+                id='demo-select-small'
+                value={tag}
+                onChange={onChangeTag}
+                autoWidth
+                label='활동 선택'
+              >
+                {tags.map(
+                  (tag) =>
+                    tag.num !== 0 && (
+                      <MenuItem key={tag.num} value={tag.num}>
+                        {tag.explanation}
+                      </MenuItem>
+                    ),
+                )}
+              </Select>
+            </FormControl>
+            좋은 장소
+          </TextStyle>
+          <PlaceStyle>
+            {goodlist.map((place, index) => (
+              <Place
+                key={place.placeId}
+                place={place}
+                onClick={() => navigate(`/detail/${place.placeId}`)}
+              />
+            ))}
+            <Button
+              buttonSize={ButtonSize.NORMAL}
+              ButtonTheme={ButtonTheme.BLACK}
+              handler={() => {
+                getGood();
+              }}
             >
-              {tags.map(
-                (tag) =>
-                  tag.num !== 0 && (
-                    <MenuItem key={tag.num} value={tag.num}>
-                      {tag.explanation}
-                    </MenuItem>
-                  ),
-              )}
-            </Select>
-          </FormControl>
-          <TextStyle>좋은 장소</TextStyle>
+              장소 더 보기
+            </Button>
+          </PlaceStyle>
         </div>
 
         <div>
@@ -244,6 +293,9 @@ export default Home;
 const TextStyle = styled.div`
   font-size: 20px;
   font-weight: 600;
+  padding: 20px 0px 10px 0px;
+  display: flex;
+  align-items: center;
 `;
 
 const PlaceStyle = styled.div`
@@ -251,4 +303,6 @@ const PlaceStyle = styled.div`
   gap: 16px;
   width: 100%;
   overflow-x: auto;
+  height: auto;
+  align-items: center;
 `;
