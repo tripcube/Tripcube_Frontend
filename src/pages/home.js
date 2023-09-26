@@ -1,16 +1,65 @@
-import React, { useEffect, useState } from "react";
-import Input from "../components/Input/Input";
-import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
-import { useNavigate } from "react-router-dom";
-import serverapi from "../api/serverapi";
-import useAuthToken from "../hooks/useAuthToken";
-import TopNav from "../components/TopNav/TopNav";
-import areaCode1 from "../constants/areaCode1";
-import areaCode2 from "../constants/areaCode2";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
+import React, { useEffect, useState } from 'react';
+import Input from '../components/Input/Input';
+import Button, { ButtonSize, ButtonTheme } from '../components/Button/Button';
+import { useNavigate } from 'react-router-dom';
+import serverapi from '../api/serverapi';
+import useAuthToken from '../hooks/useAuthToken';
+import TopNav from '../components/TopNav/TopNav';
+import areaCode1 from '../constants/areaCode1';
+import areaCode2 from '../constants/areaCode2';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Place from '../components/Place/Place';
+import styled from 'styled-components';
+import tags from '../constants/tags';
+
+function UserRec(props) {
+  const [page, setPage] = useState(1);
+  const [list, setList] = useState([]);
+  const { getAccessToken } = useAuthToken();
+  const navigate = useNavigate();
+
+  const getList = async () => {
+    const api = `places/recommend/like-place?page=${page}`;
+
+    try {
+      const res = await serverapi.get(api, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      });
+      console.log('res.data.data', res.data.data);
+      if (res.status === 201) {
+        const tmp = [...list, ...res.data.data];
+        setList(tmp);
+        setPage(page + 1);
+      }
+    } catch (e) {
+      console.log('error', e);
+    }
+  };
+
+  useEffect(() => {
+    getList();
+  }, []);
+
+  return (
+    <>
+      <TextStyle>회원님이 좋아할 장소</TextStyle>
+      <PlaceStyle>
+        {list.map((place, index) => (
+          <Place
+            key={place.placeId}
+            place={place}
+            onClick={() => navigate(`/detail/${place.placeId}`)}
+          />
+        ))}
+      </PlaceStyle>
+    </>
+  );
+}
 
 function AreaRec(props) {
   const [poppage, setPoppage] = useState(1);
@@ -31,19 +80,19 @@ function AreaRec(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log("res.data.data", res.data.data);
+      console.log('res.data.data', res.data.data);
       if (res.status === 201) {
         const popTmp = [...poplist, ...res.data.data];
         setPoplist(popTmp);
         setPoppage(poppage + 1);
       }
     } catch (e) {
-      console.log("error", e);
+      console.log('error', e);
     }
   };
 
   const getGood = async () => {
-    const api = `/recommend/todo-place?areaCode1=${area1}&areaCode2=${area2}&page=${goodpage}&tag=${tag}`;
+    const api = `places/recommend/todo-place?areaCode1=${area1}&areaCode2=${area2}&page=${goodpage}&tag=${tag}`;
 
     try {
       const res = await serverapi.get(api, {
@@ -51,21 +100,21 @@ function AreaRec(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log("res.data.data", res.data.data);
+      console.log('res.data.data', res.data.data);
       if (res.status === 201) {
         const goodTmp = [...goodlist, ...res.data.data];
         setGoodlist(goodTmp);
         setGoodpage(goodpage + 1);
       }
     } catch (e) {
-      console.log("error", e);
+      console.log('error', e);
     }
   };
 
   useEffect(() => {
     getPop();
     getGood();
-    console.log("area1", area1);
+    console.log('area1', area1);
   }, [area1, area2]);
 
   useEffect(() => {
@@ -76,47 +125,96 @@ function AreaRec(props) {
     setArea1(event.target.value);
   };
 
+  const onChangeArea2 = (event) => {
+    setArea2(event.target.value);
+  };
+
+  const onChangeTag = (event) => {
+    setTag(event.target.value);
+  };
+
   return (
-    <div style={{ paddingTop: "40px" }}>
-      <FormControl sx={{ m: 1, minWidth: 80 }}>
-        <InputLabel id="demo-simple-select-autowidth-label">
-          시/도/구
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-autowidth-small-label"
-          id="demo-simple-select-small-autowidth"
-          value={area1}
-          onChange={onChangeArea1}
-          autoWidth
-          label="시/도/구"
-        >
-          {areaCode1.map((area) => (
-            <MenuItem key={area.num} value={area.num}>
-              {area.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <TextStyle>지난 24시간 인기 장소</TextStyle>
-      <div>
-        {poplist && poplist.length > 0 && (
-          <div
-            style={{
-              display: "flex",
-            }}
+    <div>
+      <>
+        <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
+          <InputLabel id='demo-select-small-label'>도/시/구</InputLabel>
+          <Select
+            labelId='demo-select-small-label'
+            id='demo-select-small'
+            value={area1}
+            onChange={onChangeArea1}
+            autoWidth
+            label='도/시'
           >
-            {poplist.map((place, index) => (
-              <Place place={place} key={place.placeId} />
+            {areaCode1.map((area) => (
+              <MenuItem key={area.num} value={area.num}>
+                {area.name}
+              </MenuItem>
             ))}
-          </div>
-        )}
-      </div>
+          </Select>
+        </FormControl>
+        <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
+          <InputLabel id='demo-select-small-label'>시/구/군</InputLabel>
+          <Select
+            labelId='demo-select-small-label'
+            id='demo-select-small'
+            value={area2}
+            onChange={onChangeArea2}
+            autoWidth
+            label='시/구/군'
+          >
+            {areaCode2[area1].map((area) => (
+              <MenuItem key={area.num} value={area.num}>
+                {area.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </>
       <TextStyle>지난 24시간 인기 장소</TextStyle>
       <div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
+            <InputLabel id='demo-select-small-label'>활동 선택</InputLabel>
+            <Select
+              labelId='demo-select-small-label'
+              id='demo-select-small'
+              value={tag}
+              onChange={onChangeTag}
+              autoWidth
+              label='활동 선택'
+            >
+              {tags.map(
+                (tag) =>
+                  tag.num !== 0 && (
+                    <MenuItem key={tag.num} value={tag.num}>
+                      {tag.explanation}
+                    </MenuItem>
+                  ),
+              )}
+            </Select>
+          </FormControl>
+          <TextStyle>좋은 장소</TextStyle>
+        </div>
+
+        <div>
+          {poplist && poplist.length > 0 && (
+            <div
+              style={{
+                display: 'flex',
+              }}
+            >
+              {poplist.map((place, index) => (
+                <Place place={place} key={place.placeId} />
+              ))}
+            </div>
+          )}
+        </div>
+
         {poplist && poplist.length > 0 && (
           <div
             style={{
-              display: "flex",
+              display: 'flex',
             }}
           >
             {poplist.map((place, index) => (
@@ -133,9 +231,24 @@ function Home() {
   return (
     <div>
       <TopNav>장소</TopNav>
-      <AreaRec />
+      <div style={{ padding: '60px 12px 0px 12px' }}>
+        <AreaRec />
+        <UserRec />
+      </div>
     </div>
   );
 }
 
 export default Home;
+
+const TextStyle = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+`;
+
+const PlaceStyle = styled.div`
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  overflow-x: auto;
+`;

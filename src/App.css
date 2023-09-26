@@ -1,5 +1,11 @@
+@font-face {
+  font-family: 'NanumSquareR';
+  src: url('./assets/NanumSquareR.ttf');
+}
+
 .App {
   text-align: center;
+  font-family: 'NanumSquareR';
 }
 
 .App-logo {
@@ -35,9 +41,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-@font-face {
-  font-family: "NanumBarunGothic";
-  src: url("./assets/NanumBarunGothic.ttf");
 }

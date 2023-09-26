@@ -1,15 +1,15 @@
-import styled from "styled-components";
-import TagChip from "../TagChip/TagChip";
+import styled from 'styled-components';
+import TagChip from '../TagChip/TagChip';
 
 const Place = ({ place }) => {
   return (
-    <div style={{ display: "flex" }}>
-      <img src={place.placeImage} width="112px" height="164px" />
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <img src={place.placeImage} width='112px' height='164px' />
       <NameTextStyle>{place.placeName}</NameTextStyle>
       {place.tags && place.tags.length > 0 && (
         <div
           style={{
-            display: "flex",
+            display: 'flex',
           }}
         >
           {place.tags.map((tag, index) => (
