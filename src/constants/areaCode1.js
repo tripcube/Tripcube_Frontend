@@ -1,4 +1,5 @@
 const areaCode1 = [
+  { name: "전국", num: 0 },
   { name: "서울", num: 1 },
   { name: "인천", num: 2 },
   { name: "대전", num: 3 },

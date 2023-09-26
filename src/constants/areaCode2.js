@@ -1,4 +1,5 @@
 const areaCode2 = {
+  0: [{ name: " ", num: 0, areaCode1: 0 }],
   1: [
     { name: "강남구", num: 1, areaCode1: 1 },
     { name: "강동구", num: 2, areaCode1: 1 },
