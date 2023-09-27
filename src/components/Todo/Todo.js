@@ -57,15 +57,17 @@ const Todo = ({ todoId, numTag, numLike, children, like }) => {
 
         {like ? (
           <img
-            src="images/love_filled.svg"
-            alt="love_filled"
+            src={require("../../images/heartFilled.svg").default}
+            alt="heartFilled"
             onClick={() => hate()}
+            style={{ marginLeft: "4px" }}
           />
         ) : (
           <img
-            src="images/love_empty.svg"
-            alt="love_empty"
+            src={require("../../images/heartEmpty.svg").default}
+            alt="heartEmpty"
             onClick={() => love()}
+            style={{ marginLeft: "4px" }}
           />
         )}
       </div>

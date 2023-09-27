@@ -5,8 +5,7 @@ import serverapi from "../api/serverapi";
 import useAuthToken from "../hooks/useAuthToken";
 import styled from "styled-components";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
-import BottomToast from "../components/BottomToast/BottomToast";
-import TagChip from "../components/TagChip/TagChip";
+import TagChip, { ChipSize } from "../components/TagChip/TagChip";
 import BottomSheet from "../components/BottomSheet/BottomSheet";
 import Input from "../components/Input/Input";
 import Todo from "../components/Todo/Todo";
@@ -157,7 +156,7 @@ function PlaceTodo(props) {
           alignItems: "center",
         }}
       >
-        <Title>여기서 뭐할까?</Title>
+        <Title>여기서 뭐 할까?</Title>
         <Button
           buttonSize={ButtonSize.NORMAL}
           ButtonTheme={ButtonTheme.BLACK}
@@ -220,13 +219,14 @@ function PlaceDetail(props) {
 
   return (
     <>
-      <Title>공간정보</Title>
-      <Content>{placeInfo.address}</Content>
+      <Title>공간 정보</Title>
+      <Content>- {placeInfo.address}</Content>
+
+      <Content>- 전화: {placeInfo.tel}</Content>
+      <Content>- 주차 {placeInfo.parking}</Content>
       <Content
         dangerouslySetInnerHTML={{ __html: placeInfo.website }}
       ></Content>
-      <Content>전화: {placeInfo.tel}</Content>
-      <Content>주차 {placeInfo.parking}</Content>
       {placeInfo.tags && placeInfo.tags.length > 0 && (
         <div
           style={{
@@ -234,7 +234,7 @@ function PlaceDetail(props) {
           }}
         >
           {placeInfo.tags.map((tag, index) => (
-            <TagChip key={tag} num={tag} />
+            <TagChip key={tag} num={tag} chipSize={ChipSize.NORMAL} />
           ))}
         </div>
       )}
@@ -324,7 +324,7 @@ export default Detail;
 
 const Title = styled.div`
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 600;
   margin-top: 20px;
   margin-bottom: 20px;
 `;

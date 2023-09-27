@@ -14,12 +14,16 @@ import MenuItem from "@mui/material/MenuItem";
 import Place from "../components/Place/Place";
 import styled from "styled-components";
 import tags from "../constants/tags";
+import Toast, { ToastTheme } from "../components/Toast/Toast";
 
 function UserRec(props) {
   const [page, setPage] = useState(1);
   const [list, setList] = useState([]);
   const { getAccessToken } = useAuthToken();
   const navigate = useNavigate();
+
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const getList = async () => {
     const api = `places/recommend/like-place?page=${page}`;
@@ -30,12 +34,17 @@ function UserRec(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log("getList-res.data.data", res.data.data);
       console.log("getList-page", page);
       if (res.status === 201) {
+        if (res.data.data.length === 0 && list.length !== 0) {
+          console.log("res.data.data.length", res.data.data.length);
+          setToastMessage("더 이상 불러올 장소가 없습니다");
+          setShowToast(true);
+        }
         const tmp = [...list, ...res.data.data];
         setList(tmp);
         setPage(page + 1);
+        console.log("list", list);
       }
     } catch (e) {
       console.log("error", e);
@@ -48,7 +57,10 @@ function UserRec(props) {
 
   return (
     <>
-      <TextStyle>회원님이 좋아할 장소</TextStyle>
+      <TextStyle>
+        <img src="images/flag.svg" alt="Popular" />
+        회원님이 좋아할 장소
+      </TextStyle>
       <PlaceStyle>
         {list.map((place, index) => (
           <Place
@@ -67,6 +79,9 @@ function UserRec(props) {
           장소 더 보기
         </Button>
       </PlaceStyle>
+      {showToast && (
+        <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>
+      )}
     </>
   );
 }
@@ -82,6 +97,9 @@ function AreaRec(props) {
   const { getAccessToken } = useAuthToken();
   const navigate = useNavigate();
 
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+
   const getPop = async () => {
     const api = `places/recommend/hot-place?areaCode1=${area1}&areaCode2=${area2}&page=${poppage}`;
 
@@ -91,11 +109,16 @@ function AreaRec(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log("getPop-res.data.data", res.data.data);
       if (res.status === 201) {
+        if (res.data.data.length === 0 && poplist.length !== 0) {
+          console.log("res.data.data.length", res.data.data.length);
+          setToastMessage("더 이상 불러올 장소가 없습니다");
+          setShowToast(true);
+        }
         const popTmp = [...poplist, ...res.data.data];
         setPoplist(popTmp);
         setPoppage(poppage + 1);
+        console.log("poplist", poplist);
       }
     } catch (e) {
       console.log("error", e);
@@ -111,41 +134,43 @@ function AreaRec(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log("getGood-res.data.data", res.data.data);
       if (res.status === 201) {
+        if (res.data.data.length === 0 && goodlist.length !== 0) {
+          console.log("res.data.data.length", res.data.data.length);
+          setToastMessage("더 이상 불러올 장소가 없습니다");
+          setShowToast(true);
+        }
         const goodTmp = [...goodlist, ...res.data.data];
         setGoodlist(goodTmp);
         setGoodpage(goodpage + 1);
+        console.log("goodlist", goodlist);
       }
     } catch (e) {
       console.log("error", e);
     }
   };
 
-  useEffect(() => {
-    getPop();
-    getGood();
-    console.log("area1", area1);
-    console.log("area2", area2);
+  const areaReset = () => {
     setPoplist([]);
     setGoodlist([]);
-  }, [area1, area2]);
-
-  useEffect(() => {
+    getPop();
     getGood();
-    setGoodlist([]);
-  }, [tag]);
+  };
 
   const onChangeArea1 = (event) => {
     setArea1(event.target.value);
+    areaReset();
   };
 
   const onChangeArea2 = (event) => {
     setArea2(event.target.value);
+    areaReset();
   };
 
   const onChangeTag = (event) => {
     setTag(event.target.value);
+    setGoodlist([]);
+    getGood();
   };
 
   return (
@@ -186,28 +211,38 @@ function AreaRec(props) {
           </Select>
         </FormControl>
       </>
-      <TextStyle>지난 24시간 인기 장소</TextStyle>
+      <TextStyle>
+        <img src="images/flag.svg" alt="Popular" />
+        지난 24시간 인기 장소
+      </TextStyle>
       <PlaceStyle>
-        {poplist.map((place, index) => (
-          <Place
-            key={place.placeId}
-            place={place}
-            onClick={() => navigate(`/detail/${place.placeId}`)}
-          />
-        ))}
-        <Button
-          buttonSize={ButtonSize.NORMAL}
-          ButtonTheme={ButtonTheme.BLACK}
-          handler={() => {
-            getPop();
-          }}
-        >
-          장소 더 보기
-        </Button>
+        {poplist.length !== 0 ? (
+          <>
+            {poplist.map((place, index) => (
+              <Place
+                key={place.placeId}
+                place={place}
+                onClick={() => navigate(`/detail/${place.placeId}`)}
+              />
+            ))}
+            <Button
+              buttonSize={ButtonSize.NORMAL}
+              ButtonTheme={ButtonTheme.BLACK}
+              handler={() => {
+                getPop();
+              }}
+            >
+              장소 더 보기
+            </Button>
+          </>
+        ) : (
+          <a>불러올 장소가 없습니다</a>
+        )}
       </PlaceStyle>
       <div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <TextStyle>
+            <img src="images/flag.svg" alt="Popular" />
             <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
               <InputLabel id="demo-select-small-label">활동 선택</InputLabel>
               <Select
@@ -231,25 +266,34 @@ function AreaRec(props) {
             좋은 장소
           </TextStyle>
           <PlaceStyle>
-            {goodlist.map((place, index) => (
-              <Place
-                key={place.placeId}
-                place={place}
-                onClick={() => navigate(`/detail/${place.placeId}`)}
-              />
-            ))}
-            <Button
-              buttonSize={ButtonSize.NORMAL}
-              ButtonTheme={ButtonTheme.BLACK}
-              handler={() => {
-                getGood();
-              }}
-            >
-              장소 더 보기
-            </Button>
+            {goodlist.length !== 0 ? (
+              <>
+                {goodlist.map((place, index) => (
+                  <Place
+                    key={place.placeId}
+                    place={place}
+                    onClick={() => navigate(`/detail/${place.placeId}`)}
+                  />
+                ))}
+                <Button
+                  buttonSize={ButtonSize.NORMAL}
+                  ButtonTheme={ButtonTheme.BLACK}
+                  handler={() => {
+                    getGood();
+                  }}
+                >
+                  장소 더 보기
+                </Button>
+              </>
+            ) : (
+              <a>불러올 장소가 없습니다</a>
+            )}
           </PlaceStyle>
         </div>
       </div>
+      {showToast && (
+        <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>
+      )}
     </div>
   );
 }

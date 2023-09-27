@@ -6,8 +6,12 @@ function BottomSheet({ title, closeModal, children }) {
       <StyledModalBackground />
       <StyledBottomSheet>
         <StyledBottomSheetHeader>
-          <img src="images/delete_button.svg" alt="X" onClick={closeModal} />
-          <div>{title}</div>
+          <img
+            src={require("../../images/delete.svg").default}
+            alt="delete"
+            onClick={closeModal}
+          />{" "}
+          {title}
         </StyledBottomSheetHeader>
         <div style={{ padding: "15px" }}>{children}</div>
       </StyledBottomSheet>
@@ -52,6 +56,7 @@ const StyledBottomSheetHeader = styled.div`
   position: sticky;
   top: 0;
   background: #ffffff;
+  flex-direction: row-reverse;
 
   & > img {
     cursor: pointer;
