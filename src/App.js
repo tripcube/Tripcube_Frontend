@@ -40,6 +40,8 @@ const Container = styled.div`
 const PrivateRoute = () => {
   const { isUnauthorized } = useAuthorized();
 
+  console.log('isUnauthorized', isUnauthorized());
+
   if (isUnauthorized()) {
     return <Navigate to='/nonlogin' replace />;
   }
@@ -71,14 +73,14 @@ function App() {
           <GlobalStyle />
           <Reset />
           <Routes>
+            <Route element={<PrivateRoute />}>
+              <Route path='/detail/:placeId' element={<Detail />} />
+              <Route path='/map' element={<Map />} />
+              <Route path='/scrap' element={<Scrap />} />
+              <Route path='/mypage' element={<MyPage />} />
+              <Route path='/home' element={<Home />} />
+            </Route>
             <Route element={<CommonRoute />}>
-              <Route element={<PrivateRoute />}>
-                <Route path='/detail/:placeId' element={<Detail />} />
-                <Route path='/map' element={<Map />} />
-                <Route path='/scrap' element={<Scrap />} />
-                <Route path='/mypage' element={<MyPage />} />
-                <Route path='/home' element={<Home />} />
-              </Route>
               <Route element={<Outlet />}>
                 <Route path='/nonlogin' index element={<NonLogin />}></Route>
                 <Route path='/login' index element={<Login />}></Route>

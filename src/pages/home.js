@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Input from '../components/Input/Input';
 import Button, { ButtonSize, ButtonTheme } from '../components/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import serverapi from '../api/serverapi';
@@ -126,10 +125,17 @@ function AreaRec(props) {
     getPop();
     getGood();
     console.log('area1', area1);
+    console.log('area2', area2);
+    setPoplist([]);
+    setPoppage(0);
+    setGoodlist([]);
+    setGoodpage(0);
   }, [area1, area2]);
 
   useEffect(() => {
     getGood();
+    setGoodlist([]);
+    setGoodpage(0);
   }, [tag]);
 
   const onChangeArea1 = (event) => {
@@ -245,32 +251,6 @@ function AreaRec(props) {
             </Button>
           </PlaceStyle>
         </div>
-
-        <div>
-          {poplist && poplist.length > 0 && (
-            <div
-              style={{
-                display: 'flex',
-              }}
-            >
-              {poplist.map((place, index) => (
-                <Place place={place} key={place.placeId} />
-              ))}
-            </div>
-          )}
-        </div>
-
-        {poplist && poplist.length > 0 && (
-          <div
-            style={{
-              display: 'flex',
-            }}
-          >
-            {poplist.map((place, index) => (
-              <Place place={place} key={place.placeId} />
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
