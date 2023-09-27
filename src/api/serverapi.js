@@ -4,7 +4,8 @@ import axios from 'axios';
 const onErrorResponse = async (error) => {
   if (axios.isAxiosError(error)) {
     const { status } = error.response;
-    console.log('status', status);
+    console.log('Error code', status);
+  } else {
   }
   return Promise.reject(error);
 };
