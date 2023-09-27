@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
 // ErrorInterceptor
 const onErrorResponse = async (error) => {
   if (axios.isAxiosError(error)) {
     const { status } = error.response;
-    console.log("Error code", status);
+    console.log('Error code', status);
   } else {
   }
   return Promise.reject(error);

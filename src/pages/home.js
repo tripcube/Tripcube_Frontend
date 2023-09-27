@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Input from "../components/Input/Input";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import { useNavigate } from "react-router-dom";
 import serverapi from "../api/serverapi";
@@ -14,7 +13,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Place from "../components/Place/Place";
 import styled from "styled-components";
 import tags from "../constants/tags";
-import Toast, { ToastTheme } from "../components/Toast/Toast";
 
 function UserRec(props) {
   const [page, setPage] = useState(1);
@@ -152,7 +150,9 @@ function AreaRec(props) {
 
   const areaReset = () => {
     setPoplist([]);
+    setPoppage(0);
     setGoodlist([]);
+    setGoodpage(0);
     getPop();
     getGood();
   };
@@ -170,6 +170,7 @@ function AreaRec(props) {
   const onChangeTag = (event) => {
     setTag(event.target.value);
     setGoodlist([]);
+    setGoodpage(0);
     getGood();
   };
 
