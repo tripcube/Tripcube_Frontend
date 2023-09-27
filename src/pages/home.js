@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import Input from '../components/Input/Input';
-import Button, { ButtonSize, ButtonTheme } from '../components/Button/Button';
-import { useNavigate } from 'react-router-dom';
-import serverapi from '../api/serverapi';
-import useAuthToken from '../hooks/useAuthToken';
-import TopNav from '../components/TopNav/TopNav';
-import areaCode1 from '../constants/areaCode1';
-import areaCode2 from '../constants/areaCode2';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Place from '../components/Place/Place';
-import styled from 'styled-components';
-import tags from '../constants/tags';
+import React, { useEffect, useState } from "react";
+import Input from "../components/Input/Input";
+import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
+import { useNavigate } from "react-router-dom";
+import serverapi from "../api/serverapi";
+import useAuthToken from "../hooks/useAuthToken";
+import TopNav from "../components/TopNav/TopNav";
+import areaCode1 from "../constants/areaCode1";
+import areaCode2 from "../constants/areaCode2";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import Place from "../components/Place/Place";
+import styled from "styled-components";
+import tags from "../constants/tags";
 
 function UserRec(props) {
   const [page, setPage] = useState(1);
@@ -30,15 +30,15 @@ function UserRec(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log('getList-res.data.data', res.data.data);
-      console.log('getList-page', page);
+      console.log("getList-res.data.data", res.data.data);
+      console.log("getList-page", page);
       if (res.status === 201) {
         const tmp = [...list, ...res.data.data];
         setList(tmp);
         setPage(page + 1);
       }
     } catch (e) {
-      console.log('error', e);
+      console.log("error", e);
     }
   };
 
@@ -91,14 +91,14 @@ function AreaRec(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log('getPop-res.data.data', res.data.data);
+      console.log("getPop-res.data.data", res.data.data);
       if (res.status === 201) {
         const popTmp = [...poplist, ...res.data.data];
         setPoplist(popTmp);
         setPoppage(poppage + 1);
       }
     } catch (e) {
-      console.log('error', e);
+      console.log("error", e);
     }
   };
 
@@ -111,25 +111,29 @@ function AreaRec(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log('getGood-res.data.data', res.data.data);
+      console.log("getGood-res.data.data", res.data.data);
       if (res.status === 201) {
         const goodTmp = [...goodlist, ...res.data.data];
         setGoodlist(goodTmp);
         setGoodpage(goodpage + 1);
       }
     } catch (e) {
-      console.log('error', e);
+      console.log("error", e);
     }
   };
 
   useEffect(() => {
     getPop();
     getGood();
-    console.log('area1', area1);
+    console.log("area1", area1);
+    console.log("area2", area2);
+    setPoplist([]);
+    setGoodlist([]);
   }, [area1, area2]);
 
   useEffect(() => {
     getGood();
+    setGoodlist([]);
   }, [tag]);
 
   const onChangeArea1 = (event) => {
@@ -147,15 +151,15 @@ function AreaRec(props) {
   return (
     <div>
       <>
-        <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
-          <InputLabel id='demo-select-small-label'>도/시/구</InputLabel>
+        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+          <InputLabel id="demo-select-small-label">도/시/구</InputLabel>
           <Select
-            labelId='demo-select-small-label'
-            id='demo-select-small'
+            labelId="demo-select-small-label"
+            id="demo-select-small"
             value={area1}
             onChange={onChangeArea1}
             autoWidth
-            label='도/시'
+            label="도/시"
           >
             {areaCode1.map((area) => (
               <MenuItem key={area.num} value={area.num}>
@@ -164,15 +168,15 @@ function AreaRec(props) {
             ))}
           </Select>
         </FormControl>
-        <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
-          <InputLabel id='demo-select-small-label'>시/구/군</InputLabel>
+        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+          <InputLabel id="demo-select-small-label">시/구/군</InputLabel>
           <Select
-            labelId='demo-select-small-label'
-            id='demo-select-small'
+            labelId="demo-select-small-label"
+            id="demo-select-small"
             value={area2}
             onChange={onChangeArea2}
             autoWidth
-            label='시/구/군'
+            label="시/구/군"
           >
             {areaCode2[area1].map((area) => (
               <MenuItem key={area.num} value={area.num}>
@@ -202,17 +206,17 @@ function AreaRec(props) {
         </Button>
       </PlaceStyle>
       <div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           <TextStyle>
-            <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
-              <InputLabel id='demo-select-small-label'>활동 선택</InputLabel>
+            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+              <InputLabel id="demo-select-small-label">활동 선택</InputLabel>
               <Select
-                labelId='demo-select-small-label'
-                id='demo-select-small'
+                labelId="demo-select-small-label"
+                id="demo-select-small"
                 value={tag}
                 onChange={onChangeTag}
                 autoWidth
-                label='활동 선택'
+                label="활동 선택"
               >
                 {tags.map(
                   (tag) =>
@@ -220,7 +224,7 @@ function AreaRec(props) {
                       <MenuItem key={tag.num} value={tag.num}>
                         {tag.explanation}
                       </MenuItem>
-                    ),
+                    )
                 )}
               </Select>
             </FormControl>
@@ -245,32 +249,6 @@ function AreaRec(props) {
             </Button>
           </PlaceStyle>
         </div>
-
-        <div>
-          {poplist && poplist.length > 0 && (
-            <div
-              style={{
-                display: 'flex',
-              }}
-            >
-              {poplist.map((place, index) => (
-                <Place place={place} key={place.placeId} />
-              ))}
-            </div>
-          )}
-        </div>
-
-        {poplist && poplist.length > 0 && (
-          <div
-            style={{
-              display: 'flex',
-            }}
-          >
-            {poplist.map((place, index) => (
-              <Place place={place} key={place.placeId} />
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
@@ -280,7 +258,7 @@ function Home() {
   return (
     <div>
       <TopNav>장소</TopNav>
-      <div style={{ padding: '60px 12px 0px 12px' }}>
+      <div style={{ padding: "60px 12px 0px 12px" }}>
         <AreaRec />
         <UserRec />
       </div>
