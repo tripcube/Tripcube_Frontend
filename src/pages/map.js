@@ -12,7 +12,7 @@ const Map = () => {
     try {
       console.log('a');
       //eslint-disable-next-line
-      GetLocation.postMessage();
+      GetLocation.postMessage('');
       console.log('b');
     } catch (e) {}
   }
