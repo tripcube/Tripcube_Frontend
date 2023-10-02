@@ -39,6 +39,8 @@ const Login = () => {
       loginId: idValue,
       password: pwdValue,
     };
+    const { Tripcube } = new MessageChannel();
+
     try {
       console.log('data-login', data);
       const res = await serverapi.post(api, data);
@@ -51,6 +53,7 @@ const Login = () => {
 
         console.log('access: ', getAccessToken());
         console.log('refresh: ', await getRefreshToken());
+        Tripcube.postMessage(getAccessToken());
       }
     } catch (e) {
       if (e.response.status === 401) {
