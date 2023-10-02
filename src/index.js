@@ -7,6 +7,7 @@ function fromApptoWeb(gps) {
   try {
     console.log('c');
     document.querySelector('#flutterMessageTitle').InnerText = gps;
+    console.log('gps', gps);
     console.log('d');
   } catch {}
   return gps;
