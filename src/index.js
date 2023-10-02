@@ -3,10 +3,19 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+function fromApptoWeb(gps) {
+  try {
+    console.log('c');
+    document.querySelector('#flutterMessageTitle').InnerText = gps;
+    console.log('d');
+  } catch {}
+  return gps;
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <App fromApptoWeb={fromApptoWeb} />
   </React.StrictMode>,
 );
 

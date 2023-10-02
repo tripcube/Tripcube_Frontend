@@ -1,13 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-const Map = () => {
-  const [info, setInfo] = useState('');
-
-  function fromApptoWeb(msg) {
-    document.querySelector('#flutterMessageTitle').InnerText = msg;
-    setInfo(msg);
-  }
-
+const Map = (fromApptoWeb) => {
   function fromWebToApp() {
     try {
       console.log('a');
@@ -23,7 +16,7 @@ const Map = () => {
 
   return (
     <div>
-      <h1>{info}</h1>
+      <h1>{fromApptoWeb()}</h1>
       <div id='flutterMessageTitle' style={{ textAlign: 'center' }}></div>
       <br />
       <div style={{ textAlign: 'center' }}>
