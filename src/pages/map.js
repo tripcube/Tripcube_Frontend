@@ -1,13 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Map = () => {
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
+
   function fromWebToApp() {
     try {
       console.log('a');
       //eslint-disable-next-line
       GetLocation.postMessage('');
       console.log('b');
-    } catch (e) {}
+    } catch (e) {
+    } finally {
+      setTimeout(function () {
+        setX(localStorage.getItem('x', x));
+        setY(localStorage.getItem('y', y));
+      }, 3000);
+    }
   }
 
   useEffect(() => {
@@ -16,7 +25,9 @@ const Map = () => {
 
   return (
     <div>
-      <h1>{window.fromApptoWeb()}</h1>
+      <h1>
+        {x}, {y}
+      </h1>
       <div id='flutterMessageTitle' style={{ textAlign: 'center' }}></div>
       <br />
       <div style={{ textAlign: 'center' }}>
