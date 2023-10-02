@@ -64,7 +64,7 @@ const CommonRoute = () => {
   return <Outlet />;
 };
 
-function App(props) {
+function App() {
   return (
     <BrowserRouter>
       <ContainerWrapper>
@@ -74,10 +74,7 @@ function App(props) {
           <Routes>
             <Route element={<PrivateRoute />}>
               <Route path='/detail/:placeId' element={<Detail />} />
-              <Route
-                path='/map'
-                element={<Map fromApptoWeb={props.fromApptoWeb} />}
-              />
+              <Route path='/map' element={<Map />} />
               <Route path='/scrap' element={<Scrap />} />
               <Route path='/mypage' element={<MyPage />} />
               <Route path='/home' element={<Home />} />

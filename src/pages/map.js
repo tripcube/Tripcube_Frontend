@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const Map = (props) => {
+const Map = () => {
   function fromWebToApp() {
     try {
       console.log('a');
@@ -16,7 +16,7 @@ const Map = (props) => {
 
   return (
     <div>
-      <h1>{props.fromApptoWeb()}</h1>
+      <h1>{window.fromApptoWeb()}</h1>
       <div id='flutterMessageTitle' style={{ textAlign: 'center' }}></div>
       <br />
       <div style={{ textAlign: 'center' }}>

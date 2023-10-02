@@ -12,10 +12,12 @@ function fromApptoWeb(gps) {
   return gps;
 }
 
+window.fromApptoWeb = fromApptoWeb; // 전역 스코프에 등록
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App fromApptoWeb={fromApptoWeb} />
+    <App />
   </React.StrictMode>,
 );
 
