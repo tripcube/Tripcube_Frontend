@@ -53,7 +53,8 @@ const Login = () => {
 
         console.log('access: ', getAccessToken());
         console.log('refresh: ', await getRefreshToken());
-        Tripcube.postMessage(getAccessToken());
+        Tripcube.postMessage(res.data.accessToken);
+        console.log('res.data.accessToken: ', res.data.accessToken);
       }
     } catch (e) {
       if (e.response.status === 401) {

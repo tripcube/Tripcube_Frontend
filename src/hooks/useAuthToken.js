@@ -8,12 +8,12 @@ const accessToken = {
 
 const useAuthToken = () => {
   const getAccessToken = () => {
-    console.log(`getAccessToken: ${accessToken.current}`)
+    console.log(`getAccessToken: ${accessToken.current}`);
     return accessToken.current;
   };
 
   const setAccessToken = (token) => {
-    console.log(`setAccessToken: ${token}`)
+    console.log(`setAccessToken: ${token}`);
     accessToken.current = token;
   };
 
