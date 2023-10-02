@@ -39,7 +39,6 @@ const Login = () => {
       loginId: idValue,
       password: pwdValue,
     };
-    const { Tripcube } = new MessageChannel();
 
     try {
       console.log('data-login', data);
@@ -47,17 +46,16 @@ const Login = () => {
       console.log('res', res);
       if (res.status === 201) {
         navigate('/home');
-
         setAccessToken(res.data.accessToken);
         await setRefreshToken(res.data.refreshToken);
 
         console.log('access: ', getAccessToken());
         console.log('refresh: ', await getRefreshToken());
-        Tripcube.postMessage(res.data.accessToken);
-        console.log('res.data.accessToken: ', res.data.accessToken);
+        //eslint-disable-next-line
+        Tripcube.sendMessage(getAccessToken());
       }
     } catch (e) {
-      if (e.response.status === 401) {
+      if (e.response && e.response.status === 401) {
         setToastMessage('회원정보가 일치하지 않습니다.');
         setShowToast(true);
       }
