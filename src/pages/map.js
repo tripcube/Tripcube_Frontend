@@ -10,8 +10,10 @@ const Map = () => {
 
   function fromWebToApp() {
     try {
+      console.log('a');
       //eslint-disable-next-line
       GetLocation.postMessage();
+      console.log('b');
     } catch (e) {}
   }
 
@@ -25,7 +27,7 @@ const Map = () => {
       <div id='flutterMessageTitle' style={{ textAlign: 'center' }}></div>
       <br />
       <div style={{ textAlign: 'center' }}>
-        <button onclick={() => fromWebToApp()}>fromWebToApp</button>
+        <button onClick={fromWebToApp}>fromWebToApp</button>
       </div>
     </div>
   );
