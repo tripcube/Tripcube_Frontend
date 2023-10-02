@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Place from '../components/Place/Place';
 import styled from 'styled-components';
 import tags from '../constants/tags';
+import Toast, { ToastTheme } from '../components/Toast/Toast';
 
 function UserRec(props) {
   const [page, setPage] = useState(1);
@@ -302,9 +303,30 @@ function AreaRec(props) {
 function Home() {
   return (
     <div>
-      <h1>Home</h1>
+      <TopNav>장소</TopNav>
+      <div style={{ padding: '60px 12px 0px 12px' }}>
+        <AreaRec />
+        <UserRec />
+      </div>
     </div>
   );
 }
 
 export default Home;
+
+const TextStyle = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  padding: 20px 0px 10px 0px;
+  display: flex;
+  align-items: center;
+`;
+
+const PlaceStyle = styled.div`
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  overflow-x: auto;
+  height: auto;
+  align-items: center;
+`;

@@ -16,6 +16,7 @@ import NonLogin from './pages/NonLogin';
 import GlobalStyle from './styles/GlobalStyle';
 
 import BottomNav from './components/BottomNav/BottomNav';
+import Detail from './pages/Detail';
 import Home from './pages/Home';
 import Map from './pages/Map';
 import Scrap from './pages/Scrap';
