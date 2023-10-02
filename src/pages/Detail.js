@@ -1,27 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import Header from "../components/Header/Header";
-import serverapi from "../api/serverapi";
-import useAuthToken from "../hooks/useAuthToken";
-import styled from "styled-components";
-import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
-import BottomToast from "../components/BottomToast/BottomToast";
-import TagChip from "../components/TagChip/TagChip";
-import BottomSheet from "../components/BottomSheet/BottomSheet";
-import Input from "../components/Input/Input";
-import Todo from "../components/Todo/Todo";
-import Toast, { ToastTheme } from "../components/Toast/Toast";
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import Header from '../components/Header/Header';
+import serverapi from '../api/serverapi';
+import useAuthToken from '../hooks/useAuthToken';
+import styled from 'styled-components';
+import Button, { ButtonSize, ButtonTheme } from '../components/Button/Button';
+import TagChip, { ChipSize } from '../components/TagChip/TagChip';
+import BottomSheet from '../components/BottomSheet/BottomSheet';
+import Input from '../components/Input/Input';
+import Todo from '../components/Todo/Todo';
+import Toast, { ToastTheme } from '../components/Toast/Toast';
 
 function PlaceTodoList(props) {
   const placeId = props.placeId;
   const [page, setPage] = useState(1);
-  const [sort, setSort] = useState("LIKE_DESC");
+  const [sort, setSort] = useState('LIKE_DESC');
   const [limit, setLimit] = useState(5);
   const [todolist, setTodolist] = useState([]);
   const { getAccessToken } = useAuthToken();
 
   const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
+  const [toastMessage, setToastMessage] = useState('');
 
   useEffect(() => {
     if (showToast) {
@@ -41,11 +40,11 @@ function PlaceTodoList(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log("res.data.data", res.data.data);
+      console.log('res.data.data', res.data.data);
       if (res.status === 201) {
         if (res.data.data.length === 0 && todolist.length !== 0) {
-          console.log("res.data.data.length", res.data.data.length);
-          setToastMessage("더 이상 불러올 Todo가 없습니다");
+          console.log('res.data.data.length', res.data.data.length);
+          setToastMessage('더 이상 불러올 Todo가 없습니다');
           setShowToast(true);
         }
         const tmp = [...todolist, ...res.data.data];
@@ -53,7 +52,7 @@ function PlaceTodoList(props) {
         setPage(page + 1);
       }
     } catch (e) {
-      console.log("error", e);
+      console.log('error', e);
     }
   };
 
@@ -62,7 +61,7 @@ function PlaceTodoList(props) {
   }, []);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
       {todolist.map((todo, index) => (
         <Todo
           key={index}
@@ -73,7 +72,7 @@ function PlaceTodoList(props) {
           {todo.content}
         </Todo>
       ))}
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Button
           buttonSize={ButtonSize.NORMAL}
           ButtonTheme={ButtonTheme.BLACK}
@@ -94,7 +93,7 @@ function PlaceTodoList(props) {
 function PlaceTodo(props) {
   const placeId = props.placeId;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [todoValue, setTodoValue] = useState("");
+  const [todoValue, setTodoValue] = useState('');
   const [numTag, setNumTag] = useState(0);
   const { getAccessToken } = useAuthToken();
 
@@ -109,18 +108,18 @@ function PlaceTodo(props) {
     };
 
     try {
-      console.log("data-getTodo", data);
+      console.log('data-getTodo', data);
       const res = await serverapi.post(api, data, {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log("res.data.data", res.data.data);
+      console.log('res.data.data', res.data.data);
       if (res.status === 201) {
         setNumTag(res.data.data);
       }
     } catch (e) {
-      console.log("error", e);
+      console.log('error', e);
     }
   };
 
@@ -133,7 +132,7 @@ function PlaceTodo(props) {
     };
 
     try {
-      console.log("data-inform", data);
+      console.log('data-inform', data);
       const res = await serverapi.post(api, data, {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
@@ -144,7 +143,7 @@ function PlaceTodo(props) {
         setIsModalOpen(false);
       }
     } catch (e) {
-      console.log("error", e);
+      console.log('error', e);
     }
   };
 
@@ -152,12 +151,12 @@ function PlaceTodo(props) {
     <>
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
-        <Title>여기서 뭐할까?</Title>
+        <Title>여기서 뭐 할까?</Title>
         <Button
           buttonSize={ButtonSize.NORMAL}
           ButtonTheme={ButtonTheme.BLACK}
@@ -170,21 +169,21 @@ function PlaceTodo(props) {
       </div>
       {isModalOpen && (
         <BottomSheet closeModal={() => setIsModalOpen(false)}>
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <Input
-              label="Todo 입력"
+              label='Todo 입력'
               value={todoValue}
               onChangeHandler={onChangeTodo}
             />
             <div
               style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
               }}
             >
               <div
-                style={{ display: "flex", gap: "4px", alignItems: "center" }}
+                style={{ display: 'flex', gap: '4px', alignItems: 'center' }}
               >
                 <Button
                   buttonSize={ButtonSize.NORMAL}
@@ -220,21 +219,22 @@ function PlaceDetail(props) {
 
   return (
     <>
-      <Title>공간정보</Title>
-      <Content>{placeInfo.address}</Content>
+      <Title>공간 정보</Title>
+      <Content>- {placeInfo.address}</Content>
+
+      <Content>- 전화: {placeInfo.tel}</Content>
+      <Content>- 주차 {placeInfo.parking}</Content>
       <Content
         dangerouslySetInnerHTML={{ __html: placeInfo.website }}
       ></Content>
-      <Content>전화: {placeInfo.tel}</Content>
-      <Content>주차 {placeInfo.parking}</Content>
       {placeInfo.tags && placeInfo.tags.length > 0 && (
         <div
           style={{
-            display: "flex",
+            display: 'flex',
           }}
         >
           {placeInfo.tags.map((tag, index) => (
-            <TagChip key={tag} num={tag} />
+            <TagChip key={tag} num={tag} chipSize={ChipSize.NORMAL} />
           ))}
         </div>
       )}
@@ -260,12 +260,12 @@ function DetailHeader(props) {
             Authorization: `Bearer ${getAccessToken()}`,
           },
         });
-        console.log("res.data.data", res.data.data);
+        console.log('res.data.data', res.data.data);
         if (res.status === 201) {
           setPlaceInfo(res.data.data);
         }
       } catch (e) {
-        console.log("error", e);
+        console.log('error', e);
       }
     };
 
@@ -289,26 +289,26 @@ function Detail() {
   }, [placeInfo.image]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       <DetailHeader
         placeId={placeId}
         placeInfo={placeInfo}
         setPlaceInfo={setPlaceInfo}
         setLoading={setLoading}
       />
-      <div style={{ marginTop: "44px" }}>
+      <div style={{ marginTop: '44px' }}>
         <img
           src={placeInfo.image}
-          height="300px"
-          width="100%"
-          alt="placeImage"
+          height='300px'
+          width='100%'
+          alt='placeImage'
         />
         <div
           style={{
-            width: "auto",
-            flexDirection: "column",
-            marginLeft: "20px",
-            marginRight: "20px",
+            width: 'auto',
+            flexDirection: 'column',
+            marginLeft: '20px',
+            marginRight: '20px',
           }}
         >
           <PlaceDetail placeInfo={placeInfo} />
@@ -324,7 +324,7 @@ export default Detail;
 
 const Title = styled.div`
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 600;
   margin-top: 20px;
   margin-bottom: 20px;
 `;

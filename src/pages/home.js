@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Input from '../components/Input/Input';
 import Button, { ButtonSize, ButtonTheme } from '../components/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import serverapi from '../api/serverapi';
@@ -21,6 +20,9 @@ function UserRec(props) {
   const { getAccessToken } = useAuthToken();
   const navigate = useNavigate();
 
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
   const getList = async () => {
     const api = `places/recommend/like-place?page=${page}`;
 
@@ -30,11 +32,17 @@ function UserRec(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log('res.data.data', res.data.data);
+      console.log('getList-page', page);
       if (res.status === 201) {
+        if (res.data.data.length === 0 && list.length !== 0) {
+          console.log('res.data.data.length', res.data.data.length);
+          setToastMessage('더 이상 불러올 장소가 없습니다');
+          setShowToast(true);
+        }
         const tmp = [...list, ...res.data.data];
         setList(tmp);
         setPage(page + 1);
+        console.log('list', list);
       }
     } catch (e) {
       console.log('error', e);
@@ -47,7 +55,10 @@ function UserRec(props) {
 
   return (
     <>
-      <TextStyle>회원님이 좋아할 장소</TextStyle>
+      <TextStyle>
+        <img src='images/flag.svg' alt='Popular' />
+        회원님이 좋아할 장소
+      </TextStyle>
       <PlaceStyle>
         {list.map((place, index) => (
           <Place
@@ -56,7 +67,19 @@ function UserRec(props) {
             onClick={() => navigate(`/detail/${place.placeId}`)}
           />
         ))}
+        <Button
+          buttonSize={ButtonSize.NORMAL}
+          ButtonTheme={ButtonTheme.BLACK}
+          handler={() => {
+            getList();
+          }}
+        >
+          장소 더 보기
+        </Button>
       </PlaceStyle>
+      {showToast && (
+        <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>
+      )}
     </>
   );
 }
@@ -70,6 +93,10 @@ function AreaRec(props) {
   const [area2, setArea2] = useState(1);
   const [tag, setTag] = useState(1);
   const { getAccessToken } = useAuthToken();
+  const navigate = useNavigate();
+
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   const getPop = async () => {
     const api = `places/recommend/hot-place?areaCode1=${area1}&areaCode2=${area2}&page=${poppage}`;
@@ -80,11 +107,16 @@ function AreaRec(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log('res.data.data', res.data.data);
       if (res.status === 201) {
+        if (res.data.data.length === 0 && poplist.length !== 0) {
+          console.log('res.data.data.length', res.data.data.length);
+          setToastMessage('더 이상 불러올 장소가 없습니다');
+          setShowToast(true);
+        }
         const popTmp = [...poplist, ...res.data.data];
         setPoplist(popTmp);
         setPoppage(poppage + 1);
+        console.log('poplist', poplist);
       }
     } catch (e) {
       console.log('error', e);
@@ -100,37 +132,46 @@ function AreaRec(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log('res.data.data', res.data.data);
       if (res.status === 201) {
+        if (res.data.data.length === 0 && goodlist.length !== 0) {
+          console.log('res.data.data.length', res.data.data.length);
+          setToastMessage('더 이상 불러올 장소가 없습니다');
+          setShowToast(true);
+        }
         const goodTmp = [...goodlist, ...res.data.data];
         setGoodlist(goodTmp);
         setGoodpage(goodpage + 1);
+        console.log('goodlist', goodlist);
       }
     } catch (e) {
       console.log('error', e);
     }
   };
 
-  useEffect(() => {
+  const areaReset = () => {
+    setPoplist([]);
+    setPoppage(0);
+    setGoodlist([]);
+    setGoodpage(0);
     getPop();
     getGood();
-    console.log('area1', area1);
-  }, [area1, area2]);
-
-  useEffect(() => {
-    getGood();
-  }, [tag]);
+  };
 
   const onChangeArea1 = (event) => {
     setArea1(event.target.value);
+    areaReset();
   };
 
   const onChangeArea2 = (event) => {
     setArea2(event.target.value);
+    areaReset();
   };
 
   const onChangeTag = (event) => {
     setTag(event.target.value);
+    setGoodlist([]);
+    setGoodpage(0);
+    getGood();
   };
 
   return (
@@ -171,58 +212,89 @@ function AreaRec(props) {
           </Select>
         </FormControl>
       </>
-      <TextStyle>지난 24시간 인기 장소</TextStyle>
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
-            <InputLabel id='demo-select-small-label'>활동 선택</InputLabel>
-            <Select
-              labelId='demo-select-small-label'
-              id='demo-select-small'
-              value={tag}
-              onChange={onChangeTag}
-              autoWidth
-              label='활동 선택'
-            >
-              {tags.map(
-                (tag) =>
-                  tag.num !== 0 && (
-                    <MenuItem key={tag.num} value={tag.num}>
-                      {tag.explanation}
-                    </MenuItem>
-                  ),
-              )}
-            </Select>
-          </FormControl>
-          <TextStyle>좋은 장소</TextStyle>
-        </div>
-
-        <div>
-          {poplist && poplist.length > 0 && (
-            <div
-              style={{
-                display: 'flex',
+      <TextStyle>
+        <img src='images/flag.svg' alt='Popular' />
+        지난 24시간 인기 장소
+      </TextStyle>
+      <PlaceStyle>
+        {poplist.length !== 0 ? (
+          <>
+            {poplist.map((place, index) => (
+              <Place
+                key={place.placeId}
+                place={place}
+                onClick={() => navigate(`/detail/${place.placeId}`)}
+              />
+            ))}
+            <Button
+              buttonSize={ButtonSize.NORMAL}
+              ButtonTheme={ButtonTheme.BLACK}
+              handler={() => {
+                getPop();
               }}
             >
-              {poplist.map((place, index) => (
-                <Place place={place} key={place.placeId} />
-              ))}
-            </div>
-          )}
-        </div>
-
-        {poplist && poplist.length > 0 && (
-          <div
-            style={{
-              display: 'flex',
-            }}
-          >
-            {poplist.map((place, index) => (
-              <Place place={place} key={place.placeId} />
-            ))}
-          </div>
+              장소 더 보기
+            </Button>
+          </>
+        ) : (
+          <a>불러올 장소가 없습니다</a>
         )}
+      </PlaceStyle>
+      <div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <TextStyle>
+            <img src='images/flag.svg' alt='Popular' />
+            <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
+              <InputLabel id='demo-select-small-label'>활동 선택</InputLabel>
+              <Select
+                labelId='demo-select-small-label'
+                id='demo-select-small'
+                value={tag}
+                onChange={onChangeTag}
+                autoWidth
+                label='활동 선택'
+              >
+                {tags.map(
+                  (tag) =>
+                    tag.num !== 0 && (
+                      <MenuItem key={tag.num} value={tag.num}>
+                        {tag.explanation}
+                      </MenuItem>
+                    ),
+                )}
+              </Select>
+            </FormControl>
+            좋은 장소
+          </TextStyle>
+          <PlaceStyle>
+            {goodlist.length !== 0 ? (
+              <>
+                {goodlist.map((place, index) => (
+                  <Place
+                    key={place.placeId}
+                    place={place}
+                    onClick={() => navigate(`/detail/${place.placeId}`)}
+                  />
+                ))}
+                <Button
+                  buttonSize={ButtonSize.NORMAL}
+                  ButtonTheme={ButtonTheme.BLACK}
+                  handler={() => {
+                    getGood();
+                  }}
+                >
+                  장소 더 보기
+                </Button>
+              </>
+            ) : (
+              <a>불러올 장소가 없습니다</a>
+            )}
+          </PlaceStyle>
+        </div>
       </div>
+      {showToast && (
+        <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>
+      )}
     </div>
   );
 }
@@ -230,25 +302,9 @@ function AreaRec(props) {
 function Home() {
   return (
     <div>
-      <TopNav>장소</TopNav>
-      <div style={{ padding: '60px 12px 0px 12px' }}>
-        <AreaRec />
-        <UserRec />
-      </div>
+      <h1>Home</h1>
     </div>
   );
 }
 
 export default Home;
-
-const TextStyle = styled.div`
-  font-size: 20px;
-  font-weight: 600;
-`;
-
-const PlaceStyle = styled.div`
-  display: flex;
-  gap: 16px;
-  width: 100%;
-  overflow-x: auto;
-`;

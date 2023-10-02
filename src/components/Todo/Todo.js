@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import tags from "../../constants/tags";
-import serverapi from "../../api/serverapi";
-import useAuthToken from "../../hooks/useAuthToken";
+import styled from 'styled-components';
+import tags from '../../constants/tags';
+import serverapi from '../../api/serverapi';
+import useAuthToken from '../../hooks/useAuthToken';
 
 const Todo = ({ todoId, numTag, numLike, children, like }) => {
   const { getAccessToken } = useAuthToken();
@@ -19,7 +19,7 @@ const Todo = ({ todoId, numTag, numLike, children, like }) => {
         window.location.reload();
       }
     } catch (e) {
-      console.log("error", e);
+      console.log('error', e);
     }
   };
 
@@ -36,36 +36,38 @@ const Todo = ({ todoId, numTag, numLike, children, like }) => {
         window.location.reload();
       }
     } catch (e) {
-      console.log("error", e);
+      console.log('error', e);
     }
   };
 
   return (
     <div
       style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
       }}
     >
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <TagBox num={numTag} />
         <TodoTextStyle>{children}</TodoTextStyle>
       </div>
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <LikeTextStyle>{numLike}</LikeTextStyle>
 
         {like ? (
           <img
-            src="images/love_filled.svg"
-            alt="love_filled"
+            src={require('../../images/heartFilled.svg').default}
+            alt='heartFilled'
             onClick={() => hate()}
+            style={{ marginLeft: '4px' }}
           />
         ) : (
           <img
-            src="images/love_empty.svg"
-            alt="love_empty"
+            src={require('../../images/heartEmpty.svg').default}
+            alt='heartEmpty'
             onClick={() => love()}
+            style={{ marginLeft: '4px' }}
           />
         )}
       </div>
