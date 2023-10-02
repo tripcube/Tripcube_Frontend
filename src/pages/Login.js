@@ -52,7 +52,7 @@ const Login = () => {
         console.log('access: ', getAccessToken());
         console.log('refresh: ', await getRefreshToken());
         //eslint-disable-next-line
-        Tripcube.sendMessage(getAccessToken());
+        Tripcube.postMessage(getAccessToken());
       }
     } catch (e) {
       if (e.response && e.response.status === 401) {
