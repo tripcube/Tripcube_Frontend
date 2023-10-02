@@ -90,8 +90,8 @@ function AreaRec(props) {
   const [poplist, setPoplist] = useState([]);
   const [goodpage, setGoodpage] = useState(1);
   const [goodlist, setGoodlist] = useState([]);
-  const [area1, setArea1] = useState(1);
-  const [area2, setArea2] = useState(1);
+  const [area1, setArea1] = useState(0);
+  const [area2, setArea2] = useState(0);
   const [tag, setTag] = useState(1);
   const { getAccessToken } = useAuthToken();
   const navigate = useNavigate();
