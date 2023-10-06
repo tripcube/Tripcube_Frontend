@@ -15,13 +15,10 @@ const useRefresh = () => {
         },
       });
       console.log(`accessToken: ${res.data.accessToken}`);
-      setAccessToken(res.data.accessToken );
+      setAccessToken(res.data.accessToken);
     } catch (e) {
-      // 401 : refresh token 만료
-      if (e.status === 401) {
-        await setRefreshToken('');
-        window.location.href('/');
-      }
+      await setRefreshToken('');
+      window.location.href('/');
       return e;
     }
   };
