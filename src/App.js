@@ -16,10 +16,10 @@ import NonLogin from './pages/NonLogin';
 import GlobalStyle from './styles/GlobalStyle';
 
 import Detail from './pages/Detail';
-import Home from './pages/Home';
-import Map from './pages/Map';
-import Scrap from './pages/Scrap';
-import MyPage from './pages/MyPage';
+import Home from './pages/home';
+import Map from './pages/map';
+import Scrap from './pages/scrap';
+import MyPage from './pages/mypage';
 import useAuthorized from './hooks/useAuthorized';
 import Splash from './pages/Splash';
 

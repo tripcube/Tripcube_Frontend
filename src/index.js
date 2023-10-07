@@ -3,17 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-function fromApptoWeb(gps) {
-  try {
-    console.log('c');
-    document.querySelector('#flutterMessageTitle').InnerText = gps;
-    console.log('gps', gps);
-    console.log('d');
-  } catch {}
-  return gps;
-}
 
-window.fromApptoWeb = fromApptoWeb; // 전역 스코프에 등록
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
