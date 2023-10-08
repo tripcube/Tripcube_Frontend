@@ -3,6 +3,7 @@ import InputSearch from '../components/Input/InputSearch';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import useAuthToken from '../hooks/useAuthToken';
 import serverapi from '../api/serverapi';
+import BottomModalSheet from '../components/BottomModalSheet/BottomModalSheet';
 
 const Maps = () => {
   const [keywordValue, setKeywordValue] = useState('');
@@ -11,6 +12,7 @@ const Maps = () => {
   const [markerList, setMarkerList] = useState([]);
   const { getAccessToken } = useAuthToken();
   const mapRef = useRef();
+  const [isModalOpen, setModalOpen] = useState(false);
 
   function getLatitude(lat) {
     setLatitude(Number(lat));
@@ -61,6 +63,14 @@ const Maps = () => {
     setLongitude(map.getCenter().getLng());
   }
 
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   useEffect(() => {
     getLocation();
   }, []);
@@ -85,6 +95,7 @@ const Maps = () => {
 						size: { width: 24, height: 35 },
           }}
           title={marker.placeName}
+          onClick={openModal}
         />
       ))}
       <div style={{position:"absolute", zIndex:31, width:"80%", top:"30px", left:"10%"}}>
@@ -100,6 +111,10 @@ const Maps = () => {
             </div>
           </button>
         </div>
+      </div>
+      <div>
+        <BottomModalSheet isOpen={isModalOpen} onClose={closeModal}>
+        </BottomModalSheet>
       </div>
     </Map>
   );
