@@ -45,7 +45,7 @@ const Login = () => {
       const res = await serverapi.post(api, data);
       console.log('res', res);
       if (res.status === 201) {
-        navigate('/home');
+        navigate('/map');
         setAccessToken(res.data.accessToken);
         await setRefreshToken(res.data.refreshToken);
 

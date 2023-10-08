@@ -17,7 +17,7 @@ import GlobalStyle from './styles/GlobalStyle';
 
 import Detail from './pages/Detail';
 import Home from './pages/home';
-import Map from './pages/map';
+import Maps from './pages/map';
 import Scrap from './pages/scrap';
 import MyPage from './pages/mypage';
 import useAuthorized from './hooks/useAuthorized';
@@ -74,7 +74,7 @@ function App() {
           <Routes>
             <Route element={<PrivateRoute />}>
               <Route path='/detail/:placeId' element={<Detail />} />
-              <Route path='/map' element={<Map />} />
+              <Route path='/map' element={<Maps />} />
               <Route path='/scrap' element={<Scrap />} />
               <Route path='/mypage' element={<MyPage />} />
               <Route path='/home' element={<Home />} />
