@@ -6,23 +6,18 @@ export const WrapperStyle = styled.div`
   border: ${(props) => (props.isFocused ? '1.5px' : '1.5px')} solid
     ${(props) => (props.isError ? '#333333' : '#333333')};
   border-radius: 10px;
-  margin: ${(props) => (props.isFocused ? '0px' : '0px')};
+  margin-right: 5px;
 
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   background-color: white;
-
-  &:hover {
-    border: 2px solid ${(props) => (props.isError ? '#000000' : '#000000')};
-    margin: -1px;
-  }
 `;
 
 export const InputStyle = styled.input`
   width: 100%;
-  padding: 16.5px 14px;
+  padding: 12.5px 14px;
   border: none;
 
   background: transparent;

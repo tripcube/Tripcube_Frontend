@@ -6,12 +6,14 @@ import './style.css';
 import useAuthToken from '../../hooks/useAuthToken';
 import serverapi from '../../api/serverapi';
 import Todo from '../Todo/Todo';
+import { useNavigate } from 'react-router-dom';
 
 function BottomModalSheet({ onClose, location, getMarkerList }) {
 
   const [todolist, setTodolist] = useState([]);
   const { getAccessToken } = useAuthToken();
   const [isScrap, setScrap] = useState(false);
+  const navigate = useNavigate();
 
   const getTodoInfo = async () => {
 	if (location == null) {
@@ -97,7 +99,7 @@ function BottomModalSheet({ onClose, location, getMarkerList }) {
 						<img onClick={() => insertScrap()} src={require("../../images/save.svg").default} style={{width: "24px", height: "24px", marginRight: "15px"}} />
 					)}
 				</LeftButton>
-				<div>
+				<div onClick={() => {navigate(`/detail/${location.placeId}`)}}>
 					<Title>{location.placeName}</Title> <br/>
 					<Content>{location.address}</Content>
 				</div>

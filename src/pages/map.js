@@ -15,6 +15,7 @@ const Maps = () => {
   const mapRef = useRef();
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectIdx, setIdx] = useState(0);
+  const [isSearchOpen, setSearchOpen] = useState(false);
 
   function getLatitude(lat) {
     setLatitude(Number(lat));
@@ -33,8 +34,7 @@ const Maps = () => {
 
 
   const search = async () => {
-    //eslint-disable-next-line
-    GetImage.postMessage('');
+
   };
 
   function getLocation() {
@@ -106,13 +106,13 @@ const Maps = () => {
           }}
         />
       ))}
-      <div style={{position:"absolute", zIndex:31, width:"80%", top:"30px", left:"10%"}}>
-        <div id="search" style={{display:'flex', justifyContent: "space-between"}}>
+      <div style={{position:"absolute", zIndex:31, width:"90%", top:"30px", left:"5%"}}>
+        <div id="search" style={{display:'flex', justifyContent: "space-between", alignItems: "center"}}>
           <InputSearch placeholder='관광지 검색' value={keywordValue} onChangeHandler={onChangeKeyword} />
-          <button onClick={search} style={{width:"10%", backgroundImage:'../images/search.svg', border:"none", backgroundSize: "90% 90%", backgroundRepeat:"no-repeat"}}> </button>
+          <img src={require('../images/search.svg').default} style={{height: "50px", width: "50px", marginTop: "10px"}}></img>
         </div>
-        <div style={{display : 'flex', justifyContent: "center", marginTop: "10px"}}>
-          <button onClick={getPlaceButtonHandler} className="rounded-button" style={{borderRadius: "10px", padding: "5px 5px", fontSize: "12px", backgroundColor: "#fffffff", color: "#000000", border: "1px solid #000000", boxShadow: "2px 2px 4px rgba(0,0,0,0.5)"}}>
+        <div style={{display : 'flex', justifyContent: "center", marginTop: "5px"}}>
+          <button onClick={getPlaceButtonHandler} className="rounded-button" style={{borderRadius: "10px", padding: "5px 5px", fontSize: "12px", backgroundColor: "#ffffff", border: "1px solid #000000", boxShadow: "2px 2px 4px rgba(0,0,0,0.5)"}}>
             <div style={{display: "flex", alignItems: "center"}}>
               <img src = {require("../images/refresh.svg").default} height="20px" style={{marginRight: "5px"}}></img>
               <span>장소 불러오기</span>
