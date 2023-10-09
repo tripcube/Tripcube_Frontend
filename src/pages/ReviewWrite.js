@@ -4,7 +4,7 @@ import styled from "styled-components";
 import TodoReview from "../components/TodoDetail/TodoReview";
 import serverapi from "../api/serverapi";
 import { Delete } from "@mui/icons-material";
-const TodoDetail = () => {
+const ReviewWrite = () => {
   const { todoId } = useParams();
   const [todoReviews, setTodoReviews] = useState([]);
   const navigate = useNavigate(); // Use useNavigate instead of useHistory
@@ -85,4 +85,4 @@ const Content = styled.div`
   margin-bottom: 5px;
 `;
 
-export default TodoDetail;
+export default ReviewWrite;

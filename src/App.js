@@ -20,6 +20,7 @@ import Home from "./pages/Home";
 import Map from "./pages/Map";
 import Scrap from "./pages/Scrap";
 import MyPage from "./pages/MyPage";
+import TodoDetail from "./pages/TodoDetail";
 import useAuthorized from "./hooks/useAuthorized";
 import Splash from "./pages/Splash";
 
@@ -73,6 +74,7 @@ function App() {
           <Reset />
           <Routes>
             <Route path="/detail/:placeId" element={<Detail />} />
+            <Route path="/todo/:todoId" element={<TodoDetail />} />
             <Route path="/map" element={<Map />} />
             <Route path="/scrap" element={<Scrap />} />
             <Route path="/mypage" element={<MyPage />} />
