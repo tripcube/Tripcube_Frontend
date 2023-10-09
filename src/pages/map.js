@@ -4,6 +4,7 @@ import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import useAuthToken from '../hooks/useAuthToken';
 import serverapi from '../api/serverapi';
 import BottomModalSheet from '../components/BottomModalSheet/BottomModalSheet';
+import BottomNav from '../components/BottomNav/BottomNav';
 
 const Maps = () => {
   const [keywordValue, setKeywordValue] = useState('');
@@ -13,6 +14,7 @@ const Maps = () => {
   const { getAccessToken } = useAuthToken();
   const mapRef = useRef();
   const [isModalOpen, setModalOpen] = useState(false);
+  const [selectIdx, setIdx] = useState(0);
 
   function getLatitude(lat) {
     setLatitude(Number(lat));
@@ -81,8 +83,8 @@ const Maps = () => {
 
   return (
     <Map
-        center={{ lat: latitude, lng: longitude }}   // 지도의 중심 좌표
-        style={{ width: '100%', height: '100vh' }} // 지도 크기
+        center={{ lat: latitude, lng: longitude }}  // 지도의 중심 좌표
+        style={{ width: '100%', height: '100vh' }}  // 지도 크기
         level={5}                                   // 지도 확대 레벨
         ref={mapRef}
       >
@@ -95,7 +97,13 @@ const Maps = () => {
 						size: { width: 24, height: 35 },
           }}
           title={marker.placeName}
-          onClick={openModal}
+          onClick={() => {
+            if (isModalOpen) {
+              closeModal();
+            }
+            setIdx(idx);
+            openModal();
+          }}
         />
       ))}
       <div style={{position:"absolute", zIndex:31, width:"80%", top:"30px", left:"10%"}}>
@@ -113,11 +121,15 @@ const Maps = () => {
         </div>
       </div>
       <div>
-        <BottomModalSheet isOpen={isModalOpen} onClose={closeModal}>
-        </BottomModalSheet>
+        {isModalOpen && (
+          <BottomModalSheet onClose={closeModal} location={markerList[selectIdx]} getMarkerList={getMarkerList}>
+          </BottomModalSheet>
+        )}
       </div>
+      <BottomNav/>
     </Map>
   );
 };
 
 export default Maps;
+
