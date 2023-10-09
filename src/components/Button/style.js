@@ -4,18 +4,18 @@ import { ButtonSize, ButtonTheme } from './Button';
 export const BaseButtonStyle = styled.button`
   transition: all 0.2s ease-in-out;
   width: ${(props) =>
-    props.buttonSize == ButtonSize.NORMAL ? '55px' : '100%'};
-  height: ${(props) => (props.buttonSize == ButtonSize.NORMAL ? '33px' : '')};
+    props.buttonSize == ButtonSize.NORMAL ? 'auto' : '100%'};
+  height: ${(props) => (props.buttonSize == ButtonSize.NORMAL ? '28px' : '')};
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: ${(props) =>
-    props.buttonSize == ButtonSize.NORMAL ? '0px' : '20px 24px 20px 24px'};
+    props.buttonSize == ButtonSize.NORMAL ? '8px' : '20px 24px 20px 24px'};
   font-size: ${(props) =>
     props.buttonSize == ButtonSize.NORMAL ? '12px' : '16px'};
   border-radius: ${(props) =>
-    props.buttonSize == ButtonSize.NORMAL ? '4px' : '0px'};
+    props.buttonSize == ButtonSize.NORMAL ? '10px' : '0px'};
   background-color: ${(props) => {
     let backgroundColor;
     switch (props.buttonTheme) {
@@ -68,4 +68,5 @@ export const BaseButtonStyle = styled.button`
       props.disabled ? 'brightness(1)' : 'brightness(0.9)'};
     scale: ${(props) => (props.disabled ? '1' : '0.98')};
   }
+  white-space: nowrap;
 `;

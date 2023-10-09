@@ -1,5 +1,5 @@
-import './App.css';
-import { Reset } from 'styled-reset';
+import "./App.css";
+import { Reset } from "styled-reset";
 import {
   BrowserRouter,
   Routes,
@@ -7,21 +7,21 @@ import {
   Navigate,
   Outlet,
   useLocation,
-} from 'react-router-dom';
-import styled from 'styled-components';
-import NotFound from './pages/NotFound';
-import Signup from './pages/Signup';
-import Login from './pages/Login';
-import NonLogin from './pages/NonLogin';
-import GlobalStyle from './styles/GlobalStyle';
+} from "react-router-dom";
+import styled from "styled-components";
+import NotFound from "./pages/NotFound";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import NonLogin from "./pages/NonLogin";
+import GlobalStyle from "./styles/GlobalStyle";
 
-import BottomNav from './components/BottomNav/BottomNav';
-import Home from './pages/Home';
-import Map from './pages/Map';
-import Scrap from './pages/Scrap';
-import MyPage from './pages/MyPage';
-import useAuthorized from './hooks/useAuthorized';
-import Splash from './pages/Splash';
+import Detail from "./pages/Detail";
+import Home from "./pages/Home";
+import Map from "./pages/Map";
+import Scrap from "./pages/Scrap";
+import MyPage from "./pages/MyPage";
+import useAuthorized from "./hooks/useAuthorized";
+import Splash from "./pages/Splash";
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -33,12 +33,13 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 0px;
 `;
-
+/*
 const PrivateRoute = () => {
   const { isUnauthorized } = useAuthorized();
+
+  console.log('isUnauthorized', isUnauthorized());
 
   if (isUnauthorized()) {
     return <Navigate to='/login' replace />;
@@ -61,7 +62,7 @@ const CommonRoute = () => {
   }
 
   return <Outlet />;
-};
+};*/
 
 function App() {
   return (
@@ -71,22 +72,15 @@ function App() {
           <GlobalStyle />
           <Reset />
           <Routes>
-            <Route element={<CommonRoute />}>
-              <Route element={<PrivateRoute />}>
-                <Route element={<BottomNav />}>
-                  <Route path='/home' element={<Home />} />
-                  <Route path='/map' element={<Map />} />
-                  <Route path='/scrap' element={<Scrap />} />
-                  <Route path='/mypage' element={<MyPage />} />
-                </Route>
-              </Route>
-              <Route element={<Outlet />}>
-                <Route path='/nonlogin' index element={<NonLogin />}></Route>
-                <Route path='/login' index element={<Login />}></Route>
-                <Route path='/signup' element={<Signup />}></Route>
-                <Route path='*' element={<NotFound />}></Route>
-              </Route>
-            </Route>
+            <Route path="/detail/:placeId" element={<Detail />} />
+            <Route path="/map" element={<Map />} />
+            <Route path="/scrap" element={<Scrap />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/home" element={<Home />} />= =
+            <Route path="/nonlogin" index element={<NonLogin />} />
+            <Route path="/login" index element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Container>
       </ContainerWrapper>

@@ -39,21 +39,23 @@ const Login = () => {
       loginId: idValue,
       password: pwdValue,
     };
+
     try {
       console.log('data-login', data);
       const res = await serverapi.post(api, data);
       console.log('res', res);
       if (res.status === 201) {
         navigate('/home');
-
         setAccessToken(res.data.accessToken);
         await setRefreshToken(res.data.refreshToken);
 
         console.log('access: ', getAccessToken());
         console.log('refresh: ', await getRefreshToken());
+        //eslint-disable-next-line
+        Tripcube.postMessage(getAccessToken());
       }
     } catch (e) {
-      if (e.response.status === 401) {
+      if (e.response && e.response.status === 401) {
         setToastMessage('회원정보가 일치하지 않습니다.');
         setShowToast(true);
       }
