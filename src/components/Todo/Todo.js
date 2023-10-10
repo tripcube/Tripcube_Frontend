@@ -10,14 +10,12 @@ const Todo = ({ todoId, numTag, numLike, children, like }) => {
     const api = `todos/${todoId}/like`;
 
     try {
-      const res = await serverapi.post(api, {
+      console.log('love-api', api);
+      const res = await serverapi.post(api, null, {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      if (res.status === 201) {
-        window.location.reload();
-      }
     } catch (e) {
       console.log('error', e);
     }
@@ -32,9 +30,6 @@ const Todo = ({ todoId, numTag, numLike, children, like }) => {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      if (res.status === 201) {
-        window.location.reload();
-      }
     } catch (e) {
       console.log('error', e);
     }
@@ -46,6 +41,9 @@ const Todo = ({ todoId, numTag, numLike, children, like }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        backgroundColor: 'white',
+        padding: '4px 12px 4px 12px',
+        borderRadius: '5px',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center' }}>
