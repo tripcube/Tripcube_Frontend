@@ -19,6 +19,7 @@ const Maps = () => {
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [searchList, setSearchList] = useState([]);
   const [mapLevel, setMapLevel] = useState(5);
+  const [positionMarker, setPositionMarker] = useState([]);
 
   function getLatitude(lat) {
     setLatitude(Number(lat));
@@ -26,6 +27,11 @@ const Maps = () => {
 
   function getLongitude(lon) {
     setLongitude(Number(lon));
+    let marker = [{
+      mapX : longitude,
+      mapY : latitude,
+    }]
+    setPositionMarker(marker);
   }
 
   window.getLongitude = getLongitude; // 전역 스코프에 등록
@@ -128,6 +134,20 @@ const Maps = () => {
           }}
         />
       ))}
+
+      {positionMarker.map((marker) => (
+        <MapMarker
+          key="positionMarker"
+          position={{lat : marker.mapY, lng : marker.mapX}}
+          image={{
+            src: require('../images/location.svg').default,
+						size: { width: 20, height: 20},
+          }}
+          title="positionMarker"
+          zIndex={1}
+        />
+      ))}
+
       <div style={{position:"absolute", zIndex:31, width:"90%", top:"30px", left:"5%"}}>
         <div id="search" style={{display:'flex', justifyContent: "space-between", alignItems: "center"}}>
           <InputSearch placeholder='관광지 검색' value={keywordValue} onChangeHandler={onChangeKeyword} onFocusHandler={openSearchDiv}/>
@@ -144,6 +164,11 @@ const Maps = () => {
         </div>
         )}
       </div>
+
+      <div style={{position:"absolute", zIndex:1, bottom:"70px", right:"5%"}}>
+        <img onClick={() => {getLocation()}} src = {require("../images/aim.svg").default} height="50px" width="50px"></img>
+      </div>
+
       <div>
         {isModalOpen && (
           <BottomModalSheet onClose={closeModal} location={markerList[selectIdx]} getMarkerList={getMarkerList}>
