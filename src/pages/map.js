@@ -7,37 +7,35 @@ import BottomModalSheet from '../components/BottomModalSheet/BottomModalSheet';
 import BottomNav from '../components/BottomNav/BottomNav';
 import SearchDiv from '../components/Search/SearchDiv';
 import Toast, { ToastTheme } from '../components/Toast/Toast';
+import userMarkerImg from '../images/mapMarker.png';
 
 const Maps = () => {
   const [keywordValue, setKeywordValue] = useState('');
   const [latitude, setLatitude] = useState(37.583865);
   const [longitude, setLongitude] = useState(127.0587767);
+  const [user_latitude, setUserLatitude] = useState(37.583865);
+  const [user_longitude, setUserLongitude] = useState(127.0587767);
   const [markerList, setMarkerList] = useState([]);
   const { getAccessToken } = useAuthToken();
   const mapRef = useRef();
   const [isModalOpen, setModalOpen] = useState(false);
-  const [selectIdx, setIdx] = useState(0);
+  const [selectIdx, setIdx] = useState(-1);
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [searchList, setSearchList] = useState([]);
   const [mapLevel, setMapLevel] = useState(5);
-  const [positionMarker, setPositionMarker] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
   function getLatitude(lat) {
     setLatitude(Number(lat));
+    setUserLatitude(Number(lat));
   }
 
   function getLongitude(lon) {
     setLongitude(Number(lon));
-    setTimeout(function() {
-      let marker = [{
-        mapX : longitude,
-        mapY : latitude,
-      }]
-      setPositionMarker(marker);
-    }, 500);
+    setUserLongitude(Number(lon));
   }
 
   window.getLongitude = getLongitude; // 전역 스코프에 등록
@@ -51,6 +49,9 @@ const Maps = () => {
   const search = async () => {
     if (!isSearchOpen) {
       setSearchOpen(true);
+    }
+    if (!isLoading) {
+      setLoading(true);
     }
     setSearchList([]);
     const api = `places/keyword?keyword=${keywordValue}&page=1`;
@@ -69,6 +70,7 @@ const Maps = () => {
       setSearchList(tmp);
       console.log(tmp);
     }
+    setLoading(false);
   };
 
   const openSearchDiv = () => {
@@ -83,6 +85,9 @@ const Maps = () => {
   }
 
   const getMarkerList = async () => {
+    if (!isLoading) {
+      setLoading(true);
+    }
     const api = `places/location?mapX=${longitude}&mapY=${latitude}&page=1`;
 
     const res = await serverapi.get(api, {
@@ -99,6 +104,7 @@ const Maps = () => {
       setMarkerList(tmp);
       console.log(tmp);
     }
+    setLoading(false);
   }
 
   const getPlaceButtonHandler = () => {
@@ -113,6 +119,7 @@ const Maps = () => {
 
   const closeModal = () => {
     setModalOpen(false);
+    setIdx(-1);
   };
 
   useEffect(() => {
@@ -144,8 +151,8 @@ const Maps = () => {
           key={idx}
           position={{lat : marker.mapY, lng : marker.mapX}}
           image={{
-            src: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
-						size: { width: 24, height: 35 },
+            src: ((selectIdx === idx) ? userMarkerImg : 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png'),
+						size: (selectIdx === idx) ? { width: 45, height: 45 } : { width: 24, height: 35 },
           }}
           title={marker.placeName}
           onClick={() => {
@@ -157,19 +164,16 @@ const Maps = () => {
           }}
         />
       ))}
-
-      {positionMarker.map((marker) => (
         <MapMarker
-          key="positionMarker"
-          position={{lat : marker.mapY, lng : marker.mapX}}
+          key="UserMapker"
+          position={{lat : user_latitude, lng : user_longitude}}
           image={{
             src: require('../images/location.svg').default,
 						size: { width: 20, height: 20},
           }}
-          title="positionMarker"
+          title="UserMapker"
           zIndex={1}
         />
-      ))}
 
       <div style={{position:"absolute", zIndex:31, width:"90%", top:"30px", left:"5%"}}>
         <div id="search" style={{display:'flex', justifyContent: "space-between", alignItems: "center"}}>
@@ -204,6 +208,12 @@ const Maps = () => {
 
       {isSearchOpen && (
           <SearchDiv setSearchOpen={setSearchOpen} places={searchList} setLat={setLatitude} setLon={setLongitude} setLevel={setMapLevel}></SearchDiv>
+      )}
+
+      {isLoading && (
+        <div style={{position:"fixed", zIndex:1, top:"50%", left:"50%", transform: "translate(-50%, -50%)"}}>
+          <img src = {require("../images/loading.svg").default} height="80px" width="80px"></img>
+      </div>
       )}
       <BottomNav/>
     </Map>
