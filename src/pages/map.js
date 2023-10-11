@@ -5,6 +5,7 @@ import useAuthToken from '../hooks/useAuthToken';
 import serverapi from '../api/serverapi';
 import BottomModalSheet from '../components/BottomModalSheet/BottomModalSheet';
 import BottomNav from '../components/BottomNav/BottomNav';
+import SearchDiv from '../components/Search/SearchDiv';
 
 const Maps = () => {
   const [keywordValue, setKeywordValue] = useState('');
@@ -16,6 +17,8 @@ const Maps = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectIdx, setIdx] = useState(0);
   const [isSearchOpen, setSearchOpen] = useState(false);
+  const [searchList, setSearchList] = useState([]);
+  const [mapLevel, setMapLevel] = useState(5);
 
   function getLatitude(lat) {
     setLatitude(Number(lat));
@@ -34,8 +37,27 @@ const Maps = () => {
 
 
   const search = async () => {
+    if (!isSearchOpen) {
+      setSearchOpen(true);
+    }
+    setSearchList([]);
+    const api = `places/keyword?keyword=${keywordValue}&page=1`;
 
+    const res = await serverapi.get(api, {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`,
+      },
+    });
+    if (res.status === 201) {
+      let tmp = [...res.data.data.places];
+      setSearchList(tmp);
+      console.log(tmp);
+    }
   };
+
+  const openSearchDiv = () => {
+    setSearchOpen(true);
+  }
 
   function getLocation() {
     try {
@@ -85,7 +107,7 @@ const Maps = () => {
     <Map
         center={{ lat: latitude, lng: longitude }}  // 지도의 중심 좌표
         style={{ width: '100%', height: '100vh' }}  // 지도 크기
-        level={5}                                   // 지도 확대 레벨
+        level={mapLevel}                                   // 지도 확대 레벨
         ref={mapRef}
       >
       {markerList.map((marker, idx) => (
@@ -108,10 +130,11 @@ const Maps = () => {
       ))}
       <div style={{position:"absolute", zIndex:31, width:"90%", top:"30px", left:"5%"}}>
         <div id="search" style={{display:'flex', justifyContent: "space-between", alignItems: "center"}}>
-          <InputSearch placeholder='관광지 검색' value={keywordValue} onChangeHandler={onChangeKeyword} />
-          <img src={require('../images/search.svg').default} style={{height: "50px", width: "50px", marginTop: "10px"}}></img>
+          <InputSearch placeholder='관광지 검색' value={keywordValue} onChangeHandler={onChangeKeyword} onFocusHandler={openSearchDiv}/>
+          <img onClick={() => {search()}} src={require('../images/search.svg').default} style={{height: "50px", width: "50px", marginTop: "10px"}}></img>
         </div>
-        <div style={{display : 'flex', justifyContent: "center", marginTop: "5px"}}>
+        {!isSearchOpen && (
+          <div style={{display : 'flex', justifyContent: "center", marginTop: "5px"}}>
           <button onClick={getPlaceButtonHandler} className="rounded-button" style={{borderRadius: "10px", padding: "5px 5px", fontSize: "12px", backgroundColor: "#ffffff", border: "1px solid #000000", boxShadow: "2px 2px 4px rgba(0,0,0,0.5)"}}>
             <div style={{display: "flex", alignItems: "center"}}>
               <img src = {require("../images/refresh.svg").default} height="20px" style={{marginRight: "5px"}}></img>
@@ -119,6 +142,7 @@ const Maps = () => {
             </div>
           </button>
         </div>
+        )}
       </div>
       <div>
         {isModalOpen && (
@@ -126,6 +150,10 @@ const Maps = () => {
           </BottomModalSheet>
         )}
       </div>
+
+      {isSearchOpen && (
+          <SearchDiv setSearchOpen={setSearchOpen} places={searchList} setLat={setLatitude} setLon={setLongitude} setLevel={setMapLevel}></SearchDiv>
+      )}
       <BottomNav/>
     </Map>
   );
