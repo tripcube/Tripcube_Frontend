@@ -6,6 +6,7 @@ import serverapi from '../api/serverapi';
 import BottomModalSheet from '../components/BottomModalSheet/BottomModalSheet';
 import BottomNav from '../components/BottomNav/BottomNav';
 import SearchDiv from '../components/Search/SearchDiv';
+import Toast, { ToastTheme } from '../components/Toast/Toast';
 
 const Maps = () => {
   const [keywordValue, setKeywordValue] = useState('');
@@ -21,17 +22,22 @@ const Maps = () => {
   const [mapLevel, setMapLevel] = useState(5);
   const [positionMarker, setPositionMarker] = useState([]);
 
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
   function getLatitude(lat) {
     setLatitude(Number(lat));
   }
 
   function getLongitude(lon) {
     setLongitude(Number(lon));
-    let marker = [{
-      mapX : longitude,
-      mapY : latitude,
-    }]
-    setPositionMarker(marker);
+    setTimeout(function() {
+      let marker = [{
+        mapX : longitude,
+        mapY : latitude,
+      }]
+      setPositionMarker(marker);
+    }, 500);
   }
 
   window.getLongitude = getLongitude; // 전역 스코프에 등록
@@ -55,6 +61,10 @@ const Maps = () => {
       },
     });
     if (res.status === 201) {
+      if (Object.keys(res.data.data.places).length === 0) {
+        setToastMessage('불러올 장소가 없습니다.');
+        setShowToast(true);
+      }
       let tmp = [...res.data.data.places];
       setSearchList(tmp);
       console.log(tmp);
@@ -81,6 +91,10 @@ const Maps = () => {
       },
     });
     if (res.status === 201) {
+      if (Object.keys(res.data.data.places).length === 0) {
+        setToastMessage('불러올 장소가 없습니다.');
+        setShowToast(true);
+      }
       let tmp = [...res.data.data.places];
       setMarkerList(tmp);
       console.log(tmp);
@@ -108,6 +122,15 @@ const Maps = () => {
   useEffect(() => {
     getMarkerList();
   }, [latitude, longitude]);
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
 
   return (
     <Map
@@ -162,6 +185,9 @@ const Maps = () => {
             </div>
           </button>
         </div>
+        )}
+        {showToast && (
+          <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>
         )}
       </div>
 
