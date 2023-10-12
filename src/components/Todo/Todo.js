@@ -2,20 +2,27 @@ import styled from 'styled-components';
 import tags from '../../constants/tags';
 import serverapi from '../../api/serverapi';
 import useAuthToken from '../../hooks/useAuthToken';
+import { useState } from 'react';
 
 const Todo = ({ todoId, numTag, numLike, children, like }) => {
   const { getAccessToken } = useAuthToken();
+  const [Locallike, setLike] = useState(like);
+  const [LocalNumLike, setNumLike] = useState(numLike);
 
   const love = async () => {
+    console.log(todoId);
     const api = `todos/${todoId}/like`;
 
     try {
-      console.log('love-api', api);
       const res = await serverapi.post(api, null, {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
+      if (res.status === 201) {
+        setLike(true);
+        setNumLike(LocalNumLike + 1);
+      }
     } catch (e) {
       console.log('error', e);
     }
@@ -30,6 +37,10 @@ const Todo = ({ todoId, numTag, numLike, children, like }) => {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
+      if (res.status === 201) {
+        setLike(false);
+        setNumLike(LocalNumLike - 1);
+      }
     } catch (e) {
       console.log('error', e);
     }
@@ -51,9 +62,9 @@ const Todo = ({ todoId, numTag, numLike, children, like }) => {
         <TodoTextStyle>{children}</TodoTextStyle>
       </div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <LikeTextStyle>{numLike}</LikeTextStyle>
+        <LikeTextStyle>{LocalNumLike}</LikeTextStyle>
 
-        {like ? (
+        {Locallike ? (
           <img
             src={require('../../images/heartFilled.svg').default}
             alt='heartFilled'

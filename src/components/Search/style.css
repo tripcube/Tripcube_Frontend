@@ -1,0 +1,11 @@
+/* style.css */
+
+.container {
+	position: absolute;
+	bottom: 0px;
+	height: 100vh;
+	left: 0;
+	width: 100%;
+	background-color: #ffffff;
+	z-index: 1;
+  }

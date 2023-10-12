@@ -17,10 +17,10 @@ import NonLogin from './pages/NonLogin';
 import GlobalStyle from './styles/GlobalStyle';
 
 import Detail from './pages/Detail';
-import Home from './pages/Home';
-import Map from './pages/Map';
-import Scrap from './pages/Scrap';
-import MyPage from './pages/MyPage';
+import Home from './pages/home';
+import Maps from './pages/map';
+import Scrap from './pages/scrap';
+import MyPage from './pages/mypage';
 import useAuthorized from './hooks/useAuthorized';
 import Splash from './pages/Splash';
 
@@ -73,15 +73,21 @@ function App() {
           <GlobalStyle />
           <Reset />
           <Routes>
-            <Route path='/detail/:placeId' element={<Detail />} />
-            <Route path='/map' element={<Map />} />
-            <Route path='/scrap' element={<Scrap />} />
-            <Route path='/mypage' element={<MyPage />} />
-            <Route path='/home' element={<Home />} />= =
-            <Route path='/nonlogin' index element={<NonLogin />} />
-            <Route path='/login' index element={<Login />} />
-            <Route path='/signup' element={<Signup />} />
-            <Route path='*' element={<NotFound />} />
+            <Route element={<PrivateRoute />}>
+              <Route path='/detail/:placeId' element={<Detail />} />
+              <Route path='/map' element={<Maps />} />
+              <Route path='/scrap' element={<Scrap />} />
+              <Route path='/mypage' element={<MyPage />} />
+              <Route path='/home' element={<Home />} />
+            </Route>
+            <Route element={<CommonRoute />}>
+              <Route element={<Outlet />}>
+                <Route path='/nonlogin' index element={<NonLogin />}></Route>
+                <Route path='/login' index element={<Login />}></Route>
+                <Route path='/signup' element={<Signup />}></Route>
+                <Route path='*' element={<NotFound />}></Route>
+              </Route>
+            </Route>
           </Routes>
         </Container>
       </ContainerWrapper>
