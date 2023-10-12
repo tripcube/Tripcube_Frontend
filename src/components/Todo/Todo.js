@@ -52,6 +52,9 @@ const Todo = ({ todoId, numTag, numLike, children, like }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        backgroundColor: 'white',
+        padding: '4px 12px 4px 12px',
+        borderRadius: '5px',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center' }}>

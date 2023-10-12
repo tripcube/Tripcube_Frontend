@@ -1,3 +1,4 @@
+import logo from './logo.svg';
 import './App.css';
 import { Reset } from 'styled-reset';
 import {
@@ -35,7 +36,7 @@ const Container = styled.div`
   flex-direction: column;
   padding: 0px;
 `;
-
+/*
 const PrivateRoute = () => {
   const { isUnauthorized } = useAuthorized();
 
@@ -62,7 +63,7 @@ const CommonRoute = () => {
   }
 
   return <Outlet />;
-};
+};*/
 
 function App() {
   return (
