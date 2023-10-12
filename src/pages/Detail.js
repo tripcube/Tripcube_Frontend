@@ -6,7 +6,7 @@ import useAuthToken from '../hooks/useAuthToken';
 import styled from 'styled-components';
 import Button, { ButtonSize, ButtonTheme } from '../components/Button/Button';
 import TagChip, { ChipSize } from '../components/TagChip/TagChip';
-import BottomSheet from '../components/BottomSheet';
+import BottomSheet from '../components/BottomSheet/BottomSheet';
 import Input from '../components/Input/Input';
 import Todo from '../components/Todo/Todo';
 import Toast, { ToastTheme } from '../components/Toast/Toast';
