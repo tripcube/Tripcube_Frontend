@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Button, { ButtonSize, ButtonTheme } from '../components/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import serverapi from '../api/serverapi';
 import useAuthToken from '../hooks/useAuthToken';
@@ -8,13 +7,14 @@ import areaCode1 from '../constants/areaCode1';
 import areaCode2 from '../constants/areaCode2';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import { LinearProgress, Select } from '@mui/material';
+import { LinearProgress, CircularProgress, Select } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Place from '../components/Place/Place';
 import styled from 'styled-components';
 import tags from '../constants/tags';
 import Toast, { ToastTheme } from '../components/Toast/Toast';
 import BottomNav from '../components/BottomNav/BottomNav';
+import { Circle } from 'react-kakao-maps-sdk';
 
 const Home = () => {
   const [toastMessage, setToastMessage] = useState('');
@@ -24,7 +24,7 @@ const Home = () => {
   return (
     <div>
       <TopNav>장소</TopNav>
-      <div style={{ padding: '60px 12px 0px 12px' }}>
+      <div style={{ padding: '60px 12px 70px 12px' }}>
         <AreaRec // 지역 기반 추천
           setToastMessage={setToastMessage}
           setShowToast={setShowToast}
@@ -133,12 +133,13 @@ const LastPopPlace = (props) => {
   const navigate = props.navigate;
   const getAccessToken = props.getAccessToken;
 
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [moreLoading, setMoreLoading] = useState(false);
+  const [page, setPage] = useState(2);
   const [list, setList] = useState([]);
 
-  const getList = async (page) => {
-    const api = `places/recommend/hot-place?areaCode1=${area1}&areaCode2=${area2}&page=${page}`;
+  const getFirstList = async () => {
+    const api = `places/recommend/hot-place?areaCode1=${area1}&areaCode2=${area2}&page=1`;
 
     try {
       setLoading(true);
@@ -149,17 +150,35 @@ const LastPopPlace = (props) => {
       });
       console.log('getList-api-LastPopPlace', api);
       if (res.status === 201) {
-        if (res.data.data.length === 0 && list.length !== 0) {
-          console.log(
-            'res.data.data.length-LastPopPlace',
-            res.data.data.length,
-          );
+        setList(res.data.data);
+      }
+    } catch (e) {
+      console.error('오류가 발생했습니다:', e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getList = async (page) => {
+    const api = `places/recommend/hot-place?areaCode1=${area1}&areaCode2=${area2}&page=${page}`;
+
+    try {
+      setMoreLoading(true);
+      const res = await serverapi.get(api, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      });
+      console.log('getList-api-LastPopPlace', api);
+      if (res.status === 201) {
+        if (res.data.data.length === 0) {
           setToastMessage('더 이상 불러올 장소가 없습니다');
           setShowToast(true);
+        } else {
+          const tmp = [...list, ...res.data.data];
+          setList(tmp);
+          setPage((prevPage) => prevPage + 1);
         }
-        const tmp = [...list, ...res.data.data];
-        setList(tmp);
-        setPage((prevPage) => prevPage + 1);
       }
     } catch (e) {
       if (e.response.status === 401) {
@@ -171,13 +190,12 @@ const LastPopPlace = (props) => {
         console.error('오류가 발생했습니다:', e);
       }
     } finally {
-      setLoading(false);
+      setMoreLoading(false);
     }
   };
 
   useEffect(() => {
-    getList(1);
-    setPage(1);
+    getFirstList();
   }, []);
 
   return (
@@ -199,15 +217,21 @@ const LastPopPlace = (props) => {
                   onClick={() => navigate(`/detail/${place.placeId}`)}
                 />
               ))}
-              <Button
-                buttonSize={ButtonSize.NORMAL}
-                ButtonTheme={ButtonTheme.BLACK}
-                handler={() => {
-                  getList(page);
-                }}
-              >
-                장소 더 보기
-              </Button>
+              {moreLoading ? (
+                <CircularProgress />
+              ) : (
+                <>
+                  <img
+                    src={require('../images/more_place.svg').default}
+                    alt='image_more'
+                    width='112px'
+                    height='164px'
+                    onClick={() => {
+                      getList(page);
+                    }}
+                  />
+                </>
+              )}
             </>
           ) : (
             <a>불러올 장소가 없습니다</a>
@@ -226,13 +250,14 @@ const ActivityPlace = (props) => {
   const navigate = props.navigate;
   const getAccessToken = props.getAccessToken;
 
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [moreLoading, setMoreLoading] = useState(false);
+  const [page, setPage] = useState(2);
   const [list, setList] = useState([]);
   const [tag, setTag] = useState(1);
 
-  const getList = async (page) => {
-    const api = `places/recommend/todo-place?areaCode1=${area1}&areaCode2=${area2}&page=${page}&tag=${tag}`;
+  const getFirstList = async () => {
+    const api = `places/recommend/todo-place?areaCode1=${area1}&areaCode2=${area2}&page=1&tag=${tag}`;
 
     try {
       setLoading(true);
@@ -243,17 +268,7 @@ const ActivityPlace = (props) => {
       });
       console.log('getList-api-ActivityPlace', api);
       if (res.status === 201) {
-        if (res.data.data.length === 0 && list.length !== 0) {
-          console.log(
-            'res.data.data.length-ActivityPlace',
-            res.data.data.length,
-          );
-          setToastMessage('더 이상 불러올 장소가 없습니다');
-          setShowToast(true);
-        }
-        const tmp = [...list, ...res.data.data];
-        setList(tmp);
-        setPage((prevPage) => prevPage + 1);
+        setList(res.data.data);
       }
     } catch (e) {
       if (e.response.status === 401) {
@@ -269,17 +284,49 @@ const ActivityPlace = (props) => {
     }
   };
 
-  const onChangeTag = (event) => {
-    setTag(event.target.value);
-    setList([]);
-    setPage(1);
-    getList();
+  const getList = async (page) => {
+    const api = `places/recommend/todo-place?areaCode1=${area1}&areaCode2=${area2}&page=${page}&tag=${tag}`;
+
+    try {
+      setMoreLoading(true);
+      const res = await serverapi.get(api, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      });
+      console.log('getList-api-ActivityPlace', api);
+      if (res.status === 201) {
+        if (res.data.data.length === 0) {
+          setToastMessage('더 이상 불러올 장소가 없습니다');
+          setShowToast(true);
+        } else {
+          const tmp = [...list, ...res.data.data];
+          setList(tmp);
+          setPage((prevPage) => prevPage + 1);
+        }
+      }
+    } catch (e) {
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
+    } finally {
+      setMoreLoading(false);
+    }
   };
 
   useEffect(() => {
-    getList(1);
-    setPage(1);
+    getFirstList();
   }, []);
+
+  const onChangeTag = (event) => {
+    setTag(event.target.value);
+    getFirstList();
+  };
 
   return (
     <>
@@ -321,15 +368,21 @@ const ActivityPlace = (props) => {
                     onClick={() => navigate(`/detail/${place.placeId}`)}
                   />
                 ))}
-                <Button
-                  buttonSize={ButtonSize.NORMAL}
-                  ButtonTheme={ButtonTheme.BLACK}
-                  handler={() => {
-                    getList(page);
-                  }}
-                >
-                  장소 더 보기
-                </Button>
+                {moreLoading ? (
+                  <CircularProgress />
+                ) : (
+                  <>
+                    <img
+                      src={require('../images/more_place.svg').default}
+                      alt='image_more'
+                      width='112px'
+                      height='164px'
+                      onClick={() => {
+                        getList(page);
+                      }}
+                    />
+                  </>
+                )}
               </>
             ) : (
               <a>불러올 장소가 없습니다</a>
@@ -348,11 +401,12 @@ const UserRec = (props) => {
 
   const [page, setPage] = useState(1);
   const [list, setList] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [moreLoading, setMoreLoading] = useState(false);
 
   const { getAccessToken } = useAuthToken();
 
-  const getList = async (page) => {
+  const getFirstList = async (page) => {
     const api = `places/recommend/like-place?page=${page}`;
 
     try {
@@ -364,14 +418,37 @@ const UserRec = (props) => {
       });
       console.log('getList-api-UserRec', api);
       if (res.status === 201) {
-        if (res.data.data.length === 0 && list.length !== 0) {
+        setList(res.data.data);
+        console.log('res.data.data', res.data.data);
+      }
+    } catch (e) {
+      console.error('오류가 발생했습니다:', e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getList = async (page) => {
+    const api = `places/recommend/like-place?page=${page}`;
+
+    try {
+      setMoreLoading(true);
+      const res = await serverapi.get(api, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      });
+      console.log('getList-api-UserRec', api);
+      if (res.status === 201) {
+        if (res.data.data.length === 0) {
           console.log('res.data.data.length-UserRec', res.data.data.length);
           setToastMessage('더 이상 불러올 장소가 없습니다');
           setShowToast(true);
+        } else {
+          const tmp = [...list, ...res.data.data];
+          setList(tmp);
+          setPage((prevPage) => prevPage + 1);
         }
-        const tmp = [...list, ...res.data.data];
-        setList(tmp);
-        setPage((prevPage) => prevPage + 1);
       }
     } catch (e) {
       if (e.response.status === 401) {
@@ -383,15 +460,12 @@ const UserRec = (props) => {
         console.error('오류가 발생했습니다:', e);
       }
     } finally {
-      setLoading(false);
+      setMoreLoading(false);
     }
   };
 
   useEffect(() => {
-    if (!loading) {
-      getList(1);
-      setPage(1);
-    }
+    getFirstList(1);
   }, []);
 
   return (
@@ -403,26 +477,36 @@ const UserRec = (props) => {
       {loading ? (
         <LinearProgress />
       ) : (
-        <div style={{ padding: '20px 20px 70px 20px' }}>
-          <PlaceStyle>
-            {list.map((place, index) => (
-              <Place
-                key={place.placeId}
-                place={place}
-                onClick={() => navigate(`/detail/${place.placeId}`)}
-              />
-            ))}
-            <Button
-              buttonSize={ButtonSize.NORMAL}
-              ButtonTheme={ButtonTheme.BLACK}
-              handler={() => {
-                getList(page);
-              }}
-            >
-              장소 더 보기
-            </Button>
-          </PlaceStyle>
-        </div>
+        <PlaceStyle>
+          {list.length !== 0 ? (
+            <>
+              {list.map((place, index) => (
+                <Place
+                  key={place.placeId}
+                  place={place}
+                  onClick={() => navigate(`/detail/${place.placeId}`)}
+                />
+              ))}
+              {moreLoading ? (
+                <CircularProgress />
+              ) : (
+                <>
+                  <img
+                    src={require('../images/more_place.svg').default}
+                    alt='image_more'
+                    width='112px'
+                    height='164px'
+                    onClick={() => {
+                      getList(page);
+                    }}
+                  />
+                </>
+              )}
+            </>
+          ) : (
+            <a>불러올 장소가 없습니다</a>
+          )}
+        </PlaceStyle>
       )}
     </>
   );
@@ -440,9 +524,9 @@ const TextStyle = styled.div`
 
 const PlaceStyle = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 12px;
   width: 100%;
   overflow-x: auto;
   height: auto;
-  align-items: center;
+  align-items: flex-start;
 `;

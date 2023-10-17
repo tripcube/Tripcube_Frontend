@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Button, { ButtonSize, ButtonTheme } from '../components/Button/Button';
+import CustomButton, {
+  ButtonSize,
+  ButtonTheme,
+} from '../components/CustomButton/CustomButton';
 import Toast, { ToastTheme } from '../components/Toast/Toast';
 import Input from '../components/Input/Input';
 import serverapi from '../api/serverapi';
@@ -235,7 +238,7 @@ const Signup = () => {
           padding: '20px 27px',
         }}
       >
-        <Button
+        <CustomButton
           disabled={!isAllValid}
           buttonSize={ButtonSize.LARGE}
           buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
@@ -244,7 +247,7 @@ const Signup = () => {
           }}
         >
           회원가입
-        </Button>
+        </CustomButton>
       </div>
       {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
       {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}

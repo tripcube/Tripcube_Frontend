@@ -13,7 +13,7 @@ function BottomSheet({ title, closeModal, children }) {
           />
           <div>{title}</div>
         </StyledBottomSheetHeader>
-        <div style={{ padding: '15px' }}>{children}</div>
+        <div style={{ padding: '4px 15px 15px 15px' }}>{children}</div>
       </StyledBottomSheet>
     </>
   );
@@ -67,4 +67,6 @@ const StyledBottomSheetHeader = styled.div`
     left: 50%;
     transform: translateX(-50%);
   }
+  flex-direction: row-reverse;
+  padding-right: 8px;
 `;

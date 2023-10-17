@@ -15,7 +15,13 @@ export const ButtonTheme = {
 Object.freeze(ButtonSize);
 Object.freeze(ButtonTheme);
 
-const Button = ({ buttonSize, buttonTheme, disabled, handler, children }) => {
+const CustomButton = ({
+  buttonSize,
+  buttonTheme,
+  disabled,
+  handler,
+  children,
+}) => {
   if (!buttonSize) {
     buttonSize = ButtonSize.NORMAL;
   }
@@ -35,4 +41,4 @@ const Button = ({ buttonSize, buttonTheme, disabled, handler, children }) => {
   );
 };
 
-export default Button;
+export default CustomButton;

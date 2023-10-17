@@ -3,15 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import serverapi from '../api/serverapi';
 import Input from '../components/Input/Input';
-import Button, { ButtonSize, ButtonTheme } from '../components/Button/Button';
+import CustomButton, {
+  ButtonSize,
+  ButtonTheme,
+} from '../components/CustomButton/CustomButton';
 import Toast, { ToastTheme } from '../components/Toast/Toast';
 import useAuthToken from '../hooks/useAuthToken';
+import useAuthorized from '../hooks/useAuthorized';
 
 const Login = () => {
   const [idValue, setIdValue] = useState('');
   const [pwdValue, setPwdValue] = useState('');
   const { setAccessToken, setRefreshToken, getAccessToken, getRefreshToken } =
     useAuthToken();
+  const { setAutorized } = useAuthorized();
 
   const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
@@ -51,6 +56,7 @@ const Login = () => {
 
         console.log('access: ', getAccessToken());
         console.log('refresh: ', await getRefreshToken());
+        setAutorized();
         //eslint-disable-next-line
         Tripcube.postMessage(getAccessToken());
       }
@@ -103,16 +109,16 @@ const Login = () => {
         <SubLink href='/findAccount'>
           아이디 또는 비밀번호를 잊으셨나요?
         </SubLink>
-        <Button
+        <CustomButton
           buttonSize={ButtonSize.LARGE}
-          ButtonTheme={ButtonTheme.BLACK}
+          buttonTheme={ButtonTheme.BLACK}
           disabled={idValue.length > 0 && pwdValue.length > 0 ? false : true}
           handler={() => {
             login();
           }}
         >
           로그인
-        </Button>
+        </CustomButton>
       </div>
       {showToast && <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>}
     </InfoWrapper>

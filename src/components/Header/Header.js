@@ -26,7 +26,7 @@ export const HeaderStyle = styled.div`
   height: 44px;
   display: flex;
   align-items: center;
-  padding-left: 18px;
+  padding-right: 16px;
   font-size: 15px;
   font-weight: 600;
   box-sizing: border-box;
@@ -35,4 +35,5 @@ export const HeaderStyle = styled.div`
   top: 0;
   z-index: 1;
   background-color: var(--color-white);
+  flex-direction: row-reverse;
 `;

@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Button, { ButtonSize, ButtonTheme } from '../components/Button/Button';
+import CustomButton, {
+  ButtonSize,
+  ButtonTheme,
+} from '../components/CustomButton/CustomButton';
 
 const Login = () => {
   return (
@@ -19,20 +22,20 @@ const Login = () => {
           }}
         >
           <Link to='/login' style={{ textDecoration: 'none' }}>
-            <Button
+            <CustomButton
               buttonSize={ButtonSize.LARGE}
               buttonTheme={ButtonTheme.BLACK}
             >
               로그인 하기
-            </Button>
+            </CustomButton>
           </Link>
           <Link to='/signup' style={{ textDecoration: 'none' }}>
-            <Button
+            <CustomButton
               buttonSize={ButtonSize.LARGE}
               buttonTheme={ButtonTheme.BLACK}
             >
               회원가입 하기
-            </Button>
+            </CustomButton>
           </Link>
         </div>
       </BottomBtnWrapper>

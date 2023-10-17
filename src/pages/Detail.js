@@ -4,13 +4,17 @@ import Header from '../components/Header/Header';
 import serverapi from '../api/serverapi';
 import useAuthToken from '../hooks/useAuthToken';
 import styled from 'styled-components';
-import Button, { ButtonSize, ButtonTheme } from '../components/Button/Button';
+import CustomButton, {
+  ButtonSize,
+  ButtonTheme,
+} from '../components/CustomButton/CustomButton';
 import TagChip, { ChipSize } from '../components/TagChip/TagChip';
 import BottomSheet from '../components/BottomSheet/BottomSheet';
 import Input from '../components/Input/Input';
 import Todo from '../components/Todo/Todo';
 import Toast, { ToastTheme } from '../components/Toast/Toast';
 import BottomNav from '../components/BottomNav/BottomNav';
+import { LinearProgress } from '@mui/material';
 
 function Detail() {
   const { placeId } = useParams();
@@ -33,26 +37,31 @@ function Detail() {
         setLoading={setLoading}
       />
       <div style={{ marginTop: '44px' }}>
-        <img
-          src={placeInfo.image}
-          height='300px'
-          width='100%'
-          alt='placeImage'
-        />
-        <div
-          style={{
-            width: 'auto',
-            flexDirection: 'column',
-            marginLeft: '20px',
-            marginRight: '20px',
-          }}
-        >
-          <PlaceDetail placeInfo={placeInfo} />
-          <PlaceTodo placeId={placeId} />
-          <PlaceTodoList placeId={placeId} />
-        </div>
+        {loading ? (
+          <LinearProgress />
+        ) : (
+          <>
+            <img
+              src={placeInfo.image}
+              height='300px'
+              width='100%'
+              alt='placeImage'
+            />
+            <div
+              style={{
+                width: 'auto',
+                flexDirection: 'column',
+                marginLeft: '16px',
+                marginRight: '16px',
+              }}
+            >
+              <PlaceDetail placeInfo={placeInfo} />
+              <PlaceTodo placeId={placeId} />
+              <PlaceTodoList placeId={placeId} />
+            </div>
+          </>
+        )}
       </div>
-      <BottomNav />
     </div>
   );
 }
@@ -88,7 +97,7 @@ function DetailHeader(props) {
     setLoading(false);
   }, []);
 
-  return <Header>{placeInfo.placeName}</Header>;
+  return <Header />;
 }
 
 function PlaceDetail(props) {
@@ -132,39 +141,73 @@ function PlaceDetail(props) {
           fontSize: '20px',
           fontWeight: '600',
           marginTop: '20px',
-          marginBottom: '20px',
+          marginBottom: '18px',
         }}
       >
-        <div>
-          <img src='images/detail_map.svg' />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img
+            src={require('../images/detail_map.svg').default}
+            style={{ marginRight: '12px' }}
+          />
           {placeInfo.placeName}
         </div>
         <div>
           {placeInfo.scrap ? (
             <img
-              src='images/detail_scrap_filled.svg'
+              src={require('../images/detail_scrap_filled.svg').default}
               alt='filled'
               onClick={() => unscrap()}
             />
           ) : (
-            <img src='images/detail_scrap.svg' onClick={() => scrap()} />
+            <img
+              src={require('../images/detail_scrap.svg').default}
+              onClick={() => scrap()}
+            />
           )}
         </div>
       </div>
       <Title>공간 정보</Title>
-      <Content>- {placeInfo.address}</Content>
-
-      <Content>- 전화: {placeInfo.tel}</Content>
-      <Content>- 주차 {placeInfo.parking}</Content>
-      <Content
-        dangerouslySetInnerHTML={{ __html: placeInfo.website }}
-      ></Content>
+      <Content>
+        <img
+          src={require('../images/detail_location.svg').default}
+          style={{ marginRight: '4px' }}
+        />
+        {placeInfo.address}
+      </Content>
+      <Content>
+        <img
+          src={require('../images/detail_phone.svg').default}
+          style={{ marginRight: '4px' }}
+        />
+        {placeInfo.tel}
+      </Content>
+      <Content>
+        <img
+          src={require('../images/detail_parking.svg').default}
+          style={{ marginRight: '4px' }}
+        />
+        {placeInfo.parking}
+      </Content>
+      <Content>
+        <img
+          src={require('../images/detail_link.svg').default}
+          style={{ marginRight: '4px' }}
+        />
+        <Content
+          dangerouslySetInnerHTML={{ __html: placeInfo.website }}
+        ></Content>
+      </Content>
       {placeInfo.tags && placeInfo.tags.length > 0 && (
         <div
           style={{
             display: 'flex',
+            gap: '2px',
           }}
         >
+          <img
+            src={require('../images/detail_tag.svg').default}
+            style={{ marginRight: '4px' }}
+          />
           {placeInfo.tags.map((tag, index) => (
             <TagChip key={tag} num={tag} chipSize={ChipSize.NORMAL} />
           ))}
@@ -240,7 +283,7 @@ function PlaceTodo(props) {
         }}
       >
         <Title>여기서 뭐 할까?</Title>
-        <Button
+        <CustomButton
           buttonSize={ButtonSize.NORMAL}
           ButtonTheme={ButtonTheme.BLACK}
           handler={() => {
@@ -248,11 +291,13 @@ function PlaceTodo(props) {
           }}
         >
           나도 알려주기
-        </Button>
+        </CustomButton>
       </div>
       {isModalOpen && (
         <BottomSheet closeModal={() => setIsModalOpen(false)}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div
+            style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
+          >
             <Input
               label='Todo 입력'
               value={todoValue}
@@ -268,7 +313,7 @@ function PlaceTodo(props) {
               <div
                 style={{ display: 'flex', gap: '4px', alignItems: 'center' }}
               >
-                <Button
+                <CustomButton
                   buttonSize={ButtonSize.NORMAL}
                   ButtonTheme={ButtonTheme.BLACK}
                   handler={() => {
@@ -276,10 +321,10 @@ function PlaceTodo(props) {
                   }}
                 >
                   태그 요청하기
-                </Button>
+                </CustomButton>
                 {numTag !== 0 && <TagChip num={numTag} />}
               </div>
-              <Button
+              <CustomButton
                 buttonSize={ButtonSize.NORMAL}
                 ButtonTheme={ButtonTheme.BLACK}
                 disabled={todoValue.length > 0 && numTag > 0 ? false : true}
@@ -288,7 +333,7 @@ function PlaceTodo(props) {
                 }}
               >
                 알려주기
-              </Button>
+              </CustomButton>
             </div>
           </div>
         </BottomSheet>
@@ -360,7 +405,7 @@ function PlaceTodoList(props) {
         </Todo>
       ))}
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Button
+        <CustomButton
           buttonSize={ButtonSize.NORMAL}
           ButtonTheme={ButtonTheme.BLACK}
           handler={() => {
@@ -368,7 +413,7 @@ function PlaceTodoList(props) {
           }}
         >
           더 보기
-        </Button>
+        </CustomButton>
       </div>
       {showToast && (
         <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>
@@ -383,7 +428,7 @@ const Title = styled.div`
   font-size: 20px;
   font-weight: 600;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 `;
 
 const Content = styled.div`
@@ -391,4 +436,6 @@ const Content = styled.div`
   font-weight: 400;
   margin-top: 5px;
   margin-bottom: 5px;
+  display: flex;
+  align-items: center;
 `;

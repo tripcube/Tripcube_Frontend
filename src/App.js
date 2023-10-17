@@ -1,6 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-import { Reset } from 'styled-reset';
 import {
   BrowserRouter,
   Routes,
@@ -71,7 +70,6 @@ function App() {
       <ContainerWrapper>
         <Container>
           <GlobalStyle />
-          <Reset />
           <Routes>
             <Route element={<PrivateRoute />}>
               <Route path='/detail/:placeId' element={<Detail />} />

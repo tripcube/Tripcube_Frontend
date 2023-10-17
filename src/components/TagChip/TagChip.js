@@ -23,7 +23,7 @@ const TagChipStyle = styled.div`
   height: ${(props) => (props.chipSize === ChipSize.NORMAL ? '24px' : '12px')};
   padding: 2px 4px 4px 2px;
   font-size: ${(props) =>
-    props.chipSize === ChipSize.NORMAL ? '10px' : '6px'};
+    props.chipSize === ChipSize.NORMAL ? '10px' : '8px'};
   font-weight: ${(props) =>
     props.chipSize === ChipSize.NORMAL ? '600' : '400'};
   display: flex;

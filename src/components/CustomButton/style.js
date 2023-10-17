@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ButtonSize, ButtonTheme } from './Button';
+import { ButtonSize, ButtonTheme } from './CustomButton';
 
 export const BaseButtonStyle = styled.button`
   transition: all 0.2s ease-in-out;

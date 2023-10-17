@@ -6,7 +6,10 @@ import useAuthToken from '../hooks/useAuthToken';
 import { LinearProgress } from '@mui/material';
 import Place from '../components/Place/Place';
 import { useNavigate } from 'react-router-dom';
-import Button, { ButtonSize, ButtonTheme } from '../components/Button/Button';
+import CustomButton, {
+  ButtonSize,
+  ButtonTheme,
+} from '../components/CustomButton/CustomButton';
 import styled from 'styled-components';
 
 const Scrap = () => {
@@ -121,7 +124,7 @@ const AllScrap = (props) => {
             onClick={() => navigate(`/detail/${place.placeId}`)}
           />
         ))}
-        <Button
+        <CustomButton
           buttonSize={ButtonSize.NORMAL}
           ButtonTheme={ButtonTheme.BLACK}
           handler={() => {
@@ -129,7 +132,7 @@ const AllScrap = (props) => {
           }}
         >
           장소 더 보기
-        </Button>
+        </CustomButton>
       </PlaceStyle>
     </>
   );
