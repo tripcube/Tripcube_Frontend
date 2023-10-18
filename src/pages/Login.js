@@ -57,6 +57,7 @@ const Login = () => {
         console.log('access: ', getAccessToken());
         console.log('refresh: ', await getRefreshToken());
         setAutorized();
+        window.location.href('/home');
         //eslint-disable-next-line
         Tripcube.postMessage(getAccessToken());
       }
