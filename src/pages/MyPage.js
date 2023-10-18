@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import serverapi from '../api/serverapi';
 import useAuthToken from '../hooks/useAuthToken';
-import { Button, LinearProgress } from '@mui/material';
+import { LinearProgress } from '@mui/material';
 import Todo from '../components/Todo/Todo';
 import BottomNav from '../components/BottomNav/BottomNav';
 import FormattedDate from '../components/FormattedDate';
@@ -101,12 +101,16 @@ const ProfileImage = (props) => {
   window.getImage = getImage; // 전역 스코프에 등록
 
   function getImage(text) {
+    alert('3');
     setImage(text);
+    alert('4');
   }
 
   function setProfileImage() {
+    alert('1');
     if (editmode) {
       try {
+        alert('2');
         //eslint-disable-next-line
         GetImage.postMessage('');
       } catch (e) {}
@@ -119,6 +123,7 @@ const ProfileImage = (props) => {
       ImageURL: image,
     };
     try {
+      alert('7');
       console.log('data-sendImage', data);
       const res = await serverapi.put(api, data);
       if (res.status === 200) {
@@ -127,12 +132,16 @@ const ProfileImage = (props) => {
     } catch (e) {
       console.log(e.response);
     } finally {
+      alert('8');
       window.getImage('');
+      alert('9');
     }
   }
 
   useEffect(() => {
+    alert('5');
     if (image !== '') {
+      alert('6');
       sendImage(); // sendImage 함수를 호출합니다.
     }
   }, [image]);
