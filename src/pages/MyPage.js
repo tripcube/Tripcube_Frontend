@@ -131,12 +131,12 @@ const ProfileImage = (props) => {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      if (res.status === 200) {
+      if (res.status === 201) {
         window.location.href = '/mypage'; // 페이지를 이동시킵니다.
         alert('8', image);
       }
     } catch (e) {
-      alert(e.response);
+      alert(e.status);
     } finally {
       window.getImage('');
       alert('9', image);
