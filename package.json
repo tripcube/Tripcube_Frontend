@@ -15,11 +15,15 @@
     "react-dom": "^18.2.0",
     "react-kakao-maps-sdk": "^1.1.21",
     "react-query": "^3.39.3",
+<<<<<<< HEAD
     "react-router-dom": "^6.16.0",
     "react-scripts": "^5.0.1",
     "styled": "^1.0.0",
     "styled-components": "^6.0.8",
     "styled-reset": "^4.5.1",
+=======
+    "react-scripts": "^5.0.1",
+>>>>>>> a60ab5a97d987578dd251c828c8c03d61c418269
     "web-vitals": "^2.1.4"
   },
   "scripts": {

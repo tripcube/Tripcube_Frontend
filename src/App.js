@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import "./App.css";
 import { Reset } from "styled-reset";
+=======
+import logo from './logo.svg';
+import './App.css';
+import { Reset } from 'styled-reset';
+>>>>>>> a60ab5a97d987578dd251c828c8c03d61c418269
 import {
   BrowserRouter,
   Routes,
@@ -15,6 +21,7 @@ import Login from "./pages/Login";
 import NonLogin from "./pages/NonLogin";
 import GlobalStyle from "./styles/GlobalStyle";
 
+<<<<<<< HEAD
 import Detail from "./pages/Detail";
 import Home from "./pages/Home";
 import Map from "./pages/Map";
@@ -23,6 +30,15 @@ import MyPage from "./pages/MyPage";
 import TodoDetail from "./pages/TodoDetail";
 import useAuthorized from "./hooks/useAuthorized";
 import Splash from "./pages/Splash";
+=======
+import Detail from './pages/Detail';
+import Home from './pages/Home';
+import Maps from './pages/Map';
+import Scrap from './pages/Scrap';
+import MyPage from './pages/MyPage';
+import useAuthorized from './hooks/useAuthorized';
+import Splash from './pages/Splash';
+>>>>>>> a60ab5a97d987578dd251c828c8c03d61c418269
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -36,7 +52,7 @@ const Container = styled.div`
   flex-direction: column;
   padding: 0px;
 `;
-/*
+
 const PrivateRoute = () => {
   const { isUnauthorized } = useAuthorized();
 
@@ -63,7 +79,7 @@ const CommonRoute = () => {
   }
 
   return <Outlet />;
-};*/
+};
 
 function App() {
   return (
@@ -73,6 +89,7 @@ function App() {
           <GlobalStyle />
           <Reset />
           <Routes>
+<<<<<<< HEAD
             <Route path="/detail/:placeId" element={<Detail />} />
             <Route path="/todo/:todoId" element={<TodoDetail />} />
             <Route path="/map" element={<Map />} />
@@ -83,6 +100,23 @@ function App() {
             <Route path="/login" index element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="*" element={<NotFound />} />
+=======
+            <Route element={<PrivateRoute />}>
+              <Route path='/detail/:placeId' element={<Detail />} />
+              <Route path='/map' element={<Maps />} />
+              <Route path='/scrap' element={<Scrap />} />
+              <Route path='/mypage' element={<MyPage />} />
+              <Route path='/home' element={<Home />} />
+            </Route>
+            <Route element={<CommonRoute />}>
+              <Route element={<Outlet />}>
+                <Route path='/nonlogin' index element={<NonLogin />}></Route>
+                <Route path='/login' index element={<Login />}></Route>
+                <Route path='/signup' element={<Signup />}></Route>
+                <Route path='*' element={<NotFound />}></Route>
+              </Route>
+            </Route>
+>>>>>>> a60ab5a97d987578dd251c828c8c03d61c418269
           </Routes>
         </Container>
       </ContainerWrapper>

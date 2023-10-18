@@ -43,9 +43,21 @@ const Todo = ({ todoId, numTag, numLike, children, like }) => {
   };
 
   return (
+<<<<<<< HEAD
     <Link
       to={`/todo/${todoId}`}
       style={{ textDecoration: "none", color: "inherit" }}
+=======
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: 'white',
+        padding: '4px 12px 4px 12px',
+        borderRadius: '5px',
+      }}
+>>>>>>> a60ab5a97d987578dd251c828c8c03d61c418269
     >
       <div
         style={{
