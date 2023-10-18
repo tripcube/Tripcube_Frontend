@@ -97,6 +97,7 @@ const ProfileImage = (props) => {
   const editmode = props.editmode;
 
   const [image, setImage] = useState('');
+  const { getAccessToken } = useAuthToken();
 
   window.getImage = getImage; // 전역 스코프에 등록
 
@@ -125,16 +126,20 @@ const ProfileImage = (props) => {
     try {
       alert('7');
       console.log('data-sendImage', data);
-      const res = await serverapi.put(api, data);
+      const res = await serverapi.put(api, data, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      });
       if (res.status === 200) {
         window.location.href = '/mypage'; // 페이지를 이동시킵니다.
+        alert('8', image);
       }
     } catch (e) {
-      console.log(e.response);
+      alert(e.response);
     } finally {
-      alert('8');
       window.getImage('');
-      alert('9');
+      alert('9', image);
     }
   }
 
