@@ -81,6 +81,7 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/todo/:todoId" element={<TodoDetail />} />
               <Route path="/write" element={<ReviewWrite />} />
+              {/* <Route path='todoDetail' element={<TodoDetail />} /> */}
             </Route>
             <Route element={<CommonRoute />}>
               <Route element={<Outlet />}>

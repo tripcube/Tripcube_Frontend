@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import serverapi from "../api/serverapi";
 import { useNavigate } from "react-router-dom";
+import Comment from "../components/Comment/Comment";
+
 import useAuthToken from "../hooks/useAuthToken";
 
 // 커스텀 후크 생성
@@ -83,6 +85,48 @@ function TodoDetail({ placeId }) {
           나도 더 알려주기
         </ReviewWrite>
       </WriteBox>
+      <Comment
+        commentId={3}
+        like={false}
+        numLike={0}
+        userName={"TRIPCUBE"}
+        date={"2023년 10월 1일 등록"}
+        content={"노을지는 오후 8시 이후에 가면 좋아요"}
+        profileImage={
+          "https://cdn.pixabay.com/photo/2020/05/17/20/21/cat-5183427_1280.jpg"
+        }
+        image={
+          "https://korean.visitseoul.net/comm/getImage?srvcId=MEDIA&parentSn=24651&fileTy=MEDIA&fileNo=1"
+        }
+      ></Comment>
+      <Comment
+        commentId={3}
+        like={false}
+        numLike={0}
+        userName={"TRIPCUBE"}
+        date={"2023년 10월 1일 등록"}
+        content={"노을지는 오후 8시 이후에 가면 좋아요"}
+        profileImage={
+          "https://cdn.pixabay.com/photo/2020/05/17/20/21/cat-5183427_1280.jpg"
+        }
+        image={
+          "https://korean.visitseoul.net/comm/getImage?srvcId=MEDIA&parentSn=24651&fileTy=MEDIA&fileNo=1"
+        }
+      ></Comment>
+      <Comment
+        commentId={3}
+        like={false}
+        numLike={0}
+        userName={"TRIPCUBE"}
+        date={"2023년 10월 1일 등록"}
+        content={"노을지는 오후 8시 이후에 가면 좋아요"}
+        profileImage={
+          "https://cdn.pixabay.com/photo/2020/05/17/20/21/cat-5183427_1280.jpg"
+        }
+        image={
+          "https://korean.visitseoul.net/comm/getImage?srvcId=MEDIA&parentSn=24651&fileTy=MEDIA&fileNo=1"
+        }
+      ></Comment>
     </div>
   );
 }

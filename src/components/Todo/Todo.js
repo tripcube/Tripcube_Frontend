@@ -1,13 +1,18 @@
-import styled from 'styled-components';
-import tags from '../../constants/tags';
-import serverapi from '../../api/serverapi';
-import useAuthToken from '../../hooks/useAuthToken';
-import { useState } from 'react';
+import styled from "styled-components";
+import tags from "../../constants/tags";
+import serverapi from "../../api/serverapi";
+import useAuthToken from "../../hooks/useAuthToken";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Todo = ({ todoId, numTag, numLike, children, like }) => {
   const { getAccessToken } = useAuthToken();
   const [Locallike, setLike] = useState(like);
+  const navigate = useNavigate();
   const [LocalNumLike, setNumLike] = useState(numLike);
+  const navigateToTodoPage = () => {
+    navigate(`/todo/${todoId}`);
+  };
 
   const love = async () => {
     console.log(todoId);
@@ -24,7 +29,7 @@ const Todo = ({ todoId, numTag, numLike, children, like }) => {
         setNumLike(LocalNumLike + 1);
       }
     } catch (e) {
-      console.log('error', e);
+      console.log("error", e);
     }
   };
 
@@ -42,41 +47,42 @@ const Todo = ({ todoId, numTag, numLike, children, like }) => {
         setNumLike(LocalNumLike - 1);
       }
     } catch (e) {
-      console.log('error', e);
+      console.log("error", e);
     }
   };
 
   return (
     <div
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        backgroundColor: 'white',
-        padding: '4px 12px 4px 12px',
-        borderRadius: '5px',
+        onClick: { navigateToTodoPage },
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        backgroundColor: "white",
+        padding: "4px 12px 4px 12px",
+        borderRadius: "5px",
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
         <TagBox num={numTag} />
-        <TodoTextStyle>{children}</TodoTextStyle>
+        <TodoTextStyle onClick={navigateToTodoPage}>{children}</TodoTextStyle>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
         <LikeTextStyle>{LocalNumLike}</LikeTextStyle>
 
         {Locallike ? (
           <img
-            src={require('../../images/heartFilled.svg').default}
-            alt='heartFilled'
+            src={require("../../images/heartFilled.svg").default}
+            alt="heartFilled"
             onClick={() => hate()}
-            style={{ marginLeft: '4px' }}
+            style={{ marginLeft: "4px" }}
           />
         ) : (
           <img
-            src={require('../../images/heartEmpty.svg').default}
-            alt='heartEmpty'
+            src={require("../../images/heartEmpty.svg").default}
+            alt="heartEmpty"
             onClick={() => love()}
-            style={{ marginLeft: '4px' }}
+            style={{ marginLeft: "4px" }}
           />
         )}
       </div>
