@@ -121,7 +121,7 @@ const ProfileImage = (props) => {
   async function sendImage() {
     const api = `users/profileImage`;
     const data = {
-      ImageURL: image,
+      imageURL: image,
     };
     try {
       alert('7');
@@ -133,7 +133,7 @@ const ProfileImage = (props) => {
       });
       if (res.status === 201) {
         window.location.href = '/mypage'; // 페이지를 이동시킵니다.
-        alert('8', image);
+        alert(image);
       }
     } catch (e) {
       alert(e.status);
