@@ -1,39 +1,48 @@
-import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { TopNavStyle } from "../TopNav/style";
+import React, { useState } from "react";
 import { Outlet } from "react-router";
 import styled from "styled-components";
 import serverapi from "../../api/serverapi";
+import useAuthToken from "../../hooks/useAuthToken";
 
-const WriteTop = ({ children, reviewText, setReviewText }) => {
-  const [selectedPhoto, setSelectedPhoto] = useState(null); // selectedPhoto 상태 추가
+const WriteTop = ({ reviewText, setReviewText, todo }) => {
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const { getAccessToken } = useAuthToken();
+  const [loading, setLoading] = useState(true);
+  const [todoId, setTodoId] = useState(null);
+
   const handleReviewChange = (e) => {
-    setReviewText(e.target.value); // reviewText를 업데이트합니다.
+    setReviewText(e.target.value);
   };
 
-  const handleUploadReview = () => {
+  const accessToken = getAccessToken();
+
+  const handleUploadReview = async () => {
     if (reviewText) {
-      // 후기 업로드 POST 요청을 보냅니다.
-      serverapi
-        .post("/comments", {
-          content: reviewText,
-          todoId: 9, // 예시로 1234로 설정, 실제로 사용하는 값으로 대체해야 합니다.
-        })
-        .then((response) => {
-          // 요청이 성공하면 response를 처리합니다.
-          console.log("후기 업로드 성공:", response.data);
-          // 다른 후속 동작을 수행할 수 있습니다.
-        })
-        .catch((error) => {
-          console.error("후기 업로드 실패:", error);
-          // 에러 처리 로직을 추가합니다.
-        });
-    } else {
-      alert("후기를 입력하세요.");
+      try {
+        setLoading(true);
+        const res = await serverapi.post(
+          "comments",
+          {
+            content: reviewText,
+            todoId: 9,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        console.log("리뷰 업로드 성공:", res.data);
+        // 요청이 성공한 경우의 후속 작업을 수행하세요.
+      } catch (e) {
+        console.error("오류가 발생했습니다:", e);
+        // 에러 처리 로직을 추가하세요.
+      } finally {
+        setLoading(false);
+      }
     }
   };
-
-  //사진관련
 
   const handleFileSelect = () => {
     const fileInput = document.getElementById("fileInput");
@@ -126,7 +135,7 @@ const PictureButton = styled.button`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  .button:hover {
+  &:hover {
     cursor: pointer; /* hover 시 포인터 스타일 추가 */
   }
 `;
@@ -146,7 +155,7 @@ const RegisterButton = styled.button`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  .button:hover {
+  &:hover {
     cursor: pointer; /* hover 시 포인터 스타일 추가 */
   }
 `;

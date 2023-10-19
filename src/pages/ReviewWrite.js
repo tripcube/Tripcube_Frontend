@@ -3,7 +3,7 @@ import styled from "styled-components";
 import WriteTop from "../components/WritePage/WriteTop";
 import serverapi from "../api/serverapi";
 
-const ReviewWrite = () => {
+function ReviewWrite() {
   const [reviewText, setReviewText] = useState("");
 
   const handleReviewChange = (e) => {
@@ -21,7 +21,7 @@ const ReviewWrite = () => {
       />
     </div>
   );
-};
+}
 
 export default ReviewWrite;
 

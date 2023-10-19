@@ -23,6 +23,7 @@ import MyPage from "./pages/MyPage";
 import useAuthorized from "./hooks/useAuthorized";
 import Splash from "./pages/Splash";
 import ReviewWrite from "./pages/ReviewWrite";
+import TodoDetail from "./pages/TodoDetail";
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -78,6 +79,7 @@ function App() {
               <Route path="/scrap" element={<Scrap />} />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/home" element={<Home />} />
+              <Route path="/todo/:todoId" element={<TodoDetail />} />
               <Route path="/write" element={<ReviewWrite />} />
             </Route>
             <Route element={<CommonRoute />}>
