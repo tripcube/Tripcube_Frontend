@@ -45,21 +45,44 @@ function TodoDetail({ placeId }) {
     return <div>Loading...</div>;
   }
 
-  if (!todoInfo) {
-    return <div>Place information not found.</div>;
-  }
+  //   if (!todoInfo) {
+  //     return <div>Place information not found.</div>;
+  //   }
 
   const navigateToWritePage = () => {
     navigate("/write");
+  };
+  const navigateBack = () => {
+    window.history.back(); // 브라우저의 뒤로 가기 기능을 사용하여 이전 페이지로 이동
   };
 
   return (
     <div>
       <BackSpace>
-        <PlaceTitle>배봉산</PlaceTitle>
+        <PlaceTitle onClick={navigateBack}>배봉산</PlaceTitle>
       </BackSpace>
-      <TodoTitle>노을이 지는 곳에서 사진 찍기</TodoTitle>
-      <ReviewWrite onClick={navigateToWritePage}>나도 더 알려주기</ReviewWrite>
+      <TitleBox>
+        <TodoTitle>노을이 지는 곳에서 사진 찍기</TodoTitle>
+        <Like>
+          {true ? (
+            <img
+              src={require("../images/heartFilled.svg").default}
+              alt="filled"
+              //   onClick={() => unscrap()}
+            />
+          ) : (
+            <img
+              src={require("../images/heartEmpty.svg").default}
+              //   onClick={() => scrap()}
+            />
+          )}
+        </Like>
+      </TitleBox>
+      <WriteBox>
+        <ReviewWrite onClick={navigateToWritePage}>
+          나도 더 알려주기
+        </ReviewWrite>
+      </WriteBox>
     </div>
   );
 }
@@ -85,21 +108,42 @@ const PlaceTitle = styled.button`
   padding: 10px 20px;
 `;
 
-const TodoTitle = styled.div`
+const TitleBox = styled.div`
   width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+`;
+const TodoTitle = styled.div`
+  width: 80%;
   height: 50px;
   margin-left: 10px;
   color: #000;
   font-family: Inter;
   font-size: 20px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   line-height: normal;
+`;
+
+const Like = styled.div`
+  width: 20%;
+  float: right;
+  align-items: center;
+`;
+
+const WriteBox = styled.div`
+  height: 50px;
+  width: 100%;
 `;
 
 const ReviewWrite = styled.button`
   width: 30%;
   height: 30px;
   background-color: black;
+  float: right;
+  margin-right: 10px;
   color: white;
+  border-color: transparent;
+  border-radius: 5px;
 `;
