@@ -1,10 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
 
 // ErrorInterceptor
 const onErrorResponse = async (error) => {
   if (axios.isAxiosError(error)) {
     const { status } = error.response;
-    console.log('Error code', status);
+    console.log("Error code", status);
   } else {
   }
   return Promise.reject(error);
@@ -18,7 +18,8 @@ const setupInterceptors = (instance) => {
   return instance;
 };
 
-const baseURL = process.env.REACT_APP_BaseURL;
+// const baseURL = process.env.REACT_APP_BaseURL;
+const baseURL = "http://sw.uos.ac.kr:8080";
 const instance = axios.create();
 
 instance.defaults.baseURL = baseURL;
