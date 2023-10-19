@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import serverapi from "../api/serverapi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Comment from "../components/Comment/Comment";
 
 import useAuthToken from "../hooks/useAuthToken";
@@ -10,7 +10,6 @@ import useAuthToken from "../hooks/useAuthToken";
 function useTodoInfo(todoId, getAccessToken) {
   const [todoInfo, setTodoInfo] = useState(null);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const getTodoInfo = async () => {
       try {
@@ -36,20 +35,16 @@ function useTodoInfo(todoId, getAccessToken) {
   return { todoInfo, loading };
 }
 
-function TodoDetail({ placeId }) {
+function TodoDetail() {
   const navigate = useNavigate();
   const { getAccessToken } = useAuthToken();
+  const { todoId } = useParams(); // URL 파라미터에서 todoId를 추출
 
-  // 커스텀 후크 사용
-  const { todoInfo, loading } = useTodoInfo(9, getAccessToken);
+  const { todoInfo, loading } = useTodoInfo(todoId, getAccessToken);
 
   if (loading) {
     return <div>Loading...</div>;
   }
-
-  //   if (!todoInfo) {
-  //     return <div>Place information not found.</div>;
-  //   }
 
   const navigateToWritePage = () => {
     navigate("/write");
@@ -61,10 +56,10 @@ function TodoDetail({ placeId }) {
   return (
     <div>
       <BackSpace>
-        <PlaceTitle onClick={navigateBack}>배봉산</PlaceTitle>
+        <PlaceTitle onClick={navigateBack}>{todoInfo.placeName}</PlaceTitle>
       </BackSpace>
       <TitleBox>
-        <TodoTitle>노을이 지는 곳에서 사진 찍기</TodoTitle>
+        <TodoTitle>{todoInfo.content}</TodoTitle>
         <Like>
           {true ? (
             <img
