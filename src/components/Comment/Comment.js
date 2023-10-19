@@ -46,7 +46,6 @@ const Comment = ({ commentId, numLike, like, userName, date, content, profileIma
   };
 
   return (
-    <div>
       <div
         style={{
           display: 'flex',
@@ -93,10 +92,7 @@ const Comment = ({ commentId, numLike, like, userName, date, content, profileIma
         <div>
           <img src={image} width="80px" height="80px" style={{borderRadius: "10%", boxShadow: "2px 2px 5px rgba(0,0,0,0.3)"}}></img>
         </div>
-
       </div>
-      <DottedLine />
-    </div>
   );
 };
 
