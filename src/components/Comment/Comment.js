@@ -4,7 +4,6 @@ import useAuthToken from '../../hooks/useAuthToken';
 import { useState, useEffect } from 'react';
 import Toast, { ToastTheme } from '../Toast/Toast';
 import { useNavigate } from 'react-router-dom';
-import { width } from '@mui/system';
 
 const Comment = ({
   commentId,
@@ -122,7 +121,7 @@ const Comment = ({
               flexDirection: 'column',
             }}
           >
-            <NameTextStyle>랄랄</NameTextStyle>
+            <NameTextStyle>{userName}</NameTextStyle>
             <DateTextStyle>{date}</DateTextStyle>
           </div>
         </div>
