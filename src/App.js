@@ -37,34 +37,6 @@ const Container = styled.div`
   padding: 0px;
 `;
 
-const PrivateRoute = () => {
-  const { isUnauthorized } = useAuthorized();
-
-  console.log('isUnauthorized', isUnauthorized());
-
-  if (isUnauthorized()) {
-    return <Navigate to='/login' replace />;
-  }
-  return <Outlet />;
-};
-
-const CommonRoute = () => {
-  const { isUndefined } = useAuthorized();
-
-  const location = useLocation();
-  const fullPath = location.pathname + location.search + location.hash;
-
-  if (isUndefined()) {
-    return (
-      <Routes>
-        <Route path='*' element={<Splash url={fullPath} />} />
-      </Routes>
-    );
-  }
-
-  return <Outlet />;
-};
-
 function App() {
   return (
     <BrowserRouter>
@@ -72,22 +44,17 @@ function App() {
         <Container>
           <GlobalStyle />
           <Routes>
-            <Route element={<PrivateRoute />}>
-              <Route path='/detail/:placeId' element={<Detail />} />
-              <Route path='/map' element={<Maps />} />
-              <Route path='/scrap' element={<Scrap />} />
-              <Route path='/mypage' element={<MyPage />} />
-              <Route path='/home' element={<Home />} />
-              <Route path='todoDetail' element={<TodoDetail />} />
-            </Route>
-            <Route element={<CommonRoute />}>
-              <Route element={<Outlet />}>
-                <Route path='/nonlogin' index element={<NonLogin />}></Route>
-                <Route path='/login' index element={<Login />}></Route>
-                <Route path='/signup' element={<Signup />}></Route>
-                <Route path='*' element={<NotFound />}></Route>
-              </Route>
-            </Route>
+            <Route path='/detail/:placeId' element={<Detail />} />
+            <Route path='/map' element={<Maps />} />
+            <Route path='/scrap' element={<Scrap />} />
+            <Route path='/mypage' element={<MyPage />} />
+            <Route path='/home' element={<Home />} />
+            <Route path='todoDetail' element={<TodoDetail />} />
+
+            <Route path='/nonlogin' index element={<NonLogin />}></Route>
+            <Route path='/login' index element={<Login />}></Route>
+            <Route path='/signup' element={<Signup />}></Route>
+            <Route path='*' element={<NotFound />}></Route>
           </Routes>
         </Container>
       </ContainerWrapper>

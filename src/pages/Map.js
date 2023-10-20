@@ -45,7 +45,6 @@ const Maps = () => {
     setKeywordValue(event.target.value);
   };
 
-
   const search = async () => {
     if (!isSearchOpen) {
       setSearchOpen(true);
@@ -75,13 +74,15 @@ const Maps = () => {
 
   const openSearchDiv = () => {
     setSearchOpen(true);
-  }
+  };
 
   function getLocation() {
     try {
       //eslint-disable-next-line
       GetLocation.postMessage('');
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   const getMarkerList = async () => {
@@ -105,13 +106,13 @@ const Maps = () => {
       console.log(tmp);
     }
     setLoading(false);
-  }
+  };
 
   const getPlaceButtonHandler = () => {
     const map = mapRef.current;
     setLatitude(map.getCenter().getLat());
     setLongitude(map.getCenter().getLng());
-  }
+  };
 
   const openModal = () => {
     setModalOpen(true);
@@ -141,18 +142,24 @@ const Maps = () => {
 
   return (
     <Map
-        center={{ lat: latitude, lng: longitude }}  // 지도의 중심 좌표
-        style={{ width: '100%', height: '100vh' }}  // 지도 크기
-        level={mapLevel}                                   // 지도 확대 레벨
-        ref={mapRef}
-      >
+      center={{ lat: latitude, lng: longitude }} // 지도의 중심 좌표
+      style={{ width: '100%', height: '100vh' }} // 지도 크기
+      level={mapLevel} // 지도 확대 레벨
+      ref={mapRef}
+    >
       {markerList.map((marker, idx) => (
         <MapMarker
           key={idx}
-          position={{lat : marker.mapY, lng : marker.mapX}}
+          position={{ lat: marker.mapY, lng: marker.mapX }}
           image={{
-            src: ((selectIdx === idx) ? userMarkerImg : 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png'),
-						size: (selectIdx === idx) ? { width: 45, height: 45 } : { width: 24, height: 35 },
+            src:
+              selectIdx === idx
+                ? userMarkerImg
+                : 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
+            size:
+              selectIdx === idx
+                ? { width: 45, height: 45 }
+                : { width: 24, height: 35 },
           }}
           title={marker.placeName}
           onClick={() => {
@@ -164,61 +171,137 @@ const Maps = () => {
           }}
         />
       ))}
-        <MapMarker
-          key="UserMapker"
-          position={{lat : user_latitude, lng : user_longitude}}
-          image={{
-            src: require('../images/location.svg').default,
-						size: { width: 20, height: 20},
-          }}
-          title="UserMapker"
-          zIndex={1}
-        />
+      <MapMarker
+        key='UserMapker'
+        position={{ lat: user_latitude, lng: user_longitude }}
+        image={{
+          src: require('../images/location.svg').default,
+          size: { width: 20, height: 20 },
+        }}
+        title='UserMapker'
+        zIndex={1}
+      />
 
-      <div style={{position:"absolute", zIndex:31, width:"90%", top:"30px", left:"5%"}}>
-        <div id="search" style={{display:'flex', justifyContent: "space-between", alignItems: "center"}}>
-          <InputSearch placeholder='관광지 검색' value={keywordValue} onChangeHandler={onChangeKeyword} onFocusHandler={openSearchDiv}/>
-          <img onClick={() => {search()}} src={require('../images/search.svg').default} style={{height: "50px", width: "50px", marginTop: "10px"}}></img>
+      <div
+        style={{
+          position: 'absolute',
+          zIndex: 31,
+          width: '90%',
+          top: '30px',
+          left: '5%',
+        }}
+      >
+        <div
+          id='search'
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <InputSearch
+            placeholder='관광지 검색'
+            value={keywordValue}
+            onChangeHandler={onChangeKeyword}
+            onFocusHandler={openSearchDiv}
+          />
+          <img
+            onClick={() => {
+              search();
+            }}
+            src={require('../images/search.svg').default}
+            style={{ height: '50px', width: '50px', marginTop: '10px' }}
+          ></img>
         </div>
         {!isSearchOpen && (
-          <div style={{display : 'flex', justifyContent: "center", marginTop: "5px"}}>
-          <button onClick={getPlaceButtonHandler} className="rounded-button" style={{borderRadius: "10px", padding: "5px 5px", fontSize: "12px", backgroundColor: "#ffffff", border: "1px solid #000000", boxShadow: "2px 2px 4px rgba(0,0,0,0.5)"}}>
-            <div style={{display: "flex", alignItems: "center"}}>
-              <img src = {require("../images/refresh.svg").default} height="20px" style={{marginRight: "5px"}}></img>
-              <span>장소 불러오기</span>
-            </div>
-          </button>
-        </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: '5px',
+            }}
+          >
+            <button
+              onClick={getPlaceButtonHandler}
+              className='rounded-button'
+              style={{
+                borderRadius: '10px',
+                padding: '5px 5px',
+                fontSize: '12px',
+                backgroundColor: '#ffffff',
+                border: '1px solid #000000',
+                boxShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img
+                  src={require('../images/refresh.svg').default}
+                  height='20px'
+                  style={{ marginRight: '5px' }}
+                ></img>
+                <span>장소 불러오기</span>
+              </div>
+            </button>
+          </div>
         )}
         {showToast && (
           <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>
         )}
       </div>
 
-      <div style={{position:"absolute", zIndex:1, bottom:"70px", right:"5%"}}>
-        <img onClick={() => {getLocation()}} src = {require("../images/aim.svg").default} height="50px" width="50px"></img>
+      <div
+        style={{ position: 'absolute', zIndex: 1, bottom: '70px', right: '5%' }}
+      >
+        <img
+          onClick={() => {
+            getLocation();
+          }}
+          src={require('../images/aim.svg').default}
+          height='50px'
+          width='50px'
+        ></img>
       </div>
 
       <div>
         {isModalOpen && (
-          <BottomModalSheet onClose={closeModal} location={markerList[selectIdx]} getMarkerList={getMarkerList}>
-          </BottomModalSheet>
+          <BottomModalSheet
+            onClose={closeModal}
+            location={markerList[selectIdx]}
+            getMarkerList={getMarkerList}
+          ></BottomModalSheet>
         )}
       </div>
 
       {isSearchOpen && (
-          <SearchDiv setSearchOpen={setSearchOpen} places={searchList} setLat={setLatitude} setLon={setLongitude} setLevel={setMapLevel}></SearchDiv>
+        <SearchDiv
+          setSearchOpen={setSearchOpen}
+          places={searchList}
+          setLat={setLatitude}
+          setLon={setLongitude}
+          setLevel={setMapLevel}
+        ></SearchDiv>
       )}
 
       {isLoading && (
-        <div style={{position:"fixed", zIndex:1, top:"50%", left:"50%", transform: "translate(-50%, -50%)"}}>
-          <img src = {require("../images/loading.svg").default} height="80px" width="80px"></img>
-      </div>
+        <div
+          style={{
+            position: 'fixed',
+            zIndex: 1,
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          <img
+            src={require('../images/loading.svg').default}
+            height='80px'
+            width='80px'
+          ></img>
+        </div>
       )}
-      <BottomNav/>
+      <BottomNav />
     </Map>
   );
 };
 
 export default Maps;
-

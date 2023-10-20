@@ -41,7 +41,14 @@ const MyPage = () => {
         console.log('res.data.data', res.data.data);
       }
     } catch (e) {
-      console.log('error', e);
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
     } finally {
       setLoading(false);
     }
@@ -139,7 +146,18 @@ const BackGroundImage = (props) => {
       try {
         //eslint-disable-next-line
         GetImage.postMessage('');
-      } catch (e) {}
+      } catch (e) {
+        if (e.response.status === 401) {
+          // 401 Unauthorized 오류가 발생한 경우
+          console.log(
+            'Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.',
+          );
+          window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+        } else {
+          // 다른 오류가 발생한 경우
+          console.error('오류가 발생했습니다:', e);
+        }
+      }
     }
   }
 
@@ -159,7 +177,14 @@ const BackGroundImage = (props) => {
         setEditmode(false);
       }
     } catch (e) {
-      console.log('error', e);
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
     } finally {
       window.getImage('');
     }
@@ -222,7 +247,18 @@ const ProfileImage = (props) => {
       try {
         //eslint-disable-next-line
         GetImage.postMessage('');
-      } catch (e) {}
+      } catch (e) {
+        if (e.response.status === 401) {
+          // 401 Unauthorized 오류가 발생한 경우
+          console.log(
+            'Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.',
+          );
+          window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+        } else {
+          // 다른 오류가 발생한 경우
+          console.error('오류가 발생했습니다:', e);
+        }
+      }
     }
   }
 
@@ -242,7 +278,14 @@ const ProfileImage = (props) => {
         setEditmode(false);
       }
     } catch (e) {
-      console.log('error', e);
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
     } finally {
       window.getImage('');
     }
@@ -380,7 +423,14 @@ const Edit = (props) => {
         setShowToast(true);
       }
     } catch (e) {
-      console.log('error', e);
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
     }
   }
 
@@ -480,7 +530,14 @@ const CheckPwd = (props) => {
         }
       }
     } catch (e) {
-      console.log('error', e);
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
     }
   }
 
@@ -609,7 +666,14 @@ const ChangePwd = (props) => {
         setShowToast(true);
       }
     } catch (e) {
-      console.log('error', e);
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
     }
   }
 
@@ -716,7 +780,14 @@ const Content = () => {
         console.log('res.data.data', res.data.data);
       }
     } catch (e) {
-      console.log('error', e);
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
     } finally {
       setLoading(false);
     }
@@ -740,7 +811,14 @@ const Content = () => {
         console.log('res.data', res.data);
       }
     } catch (e) {
-      console.log('error', e);
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
     } finally {
       setLoading(false);
       console.log('2');

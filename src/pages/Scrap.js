@@ -35,14 +35,21 @@ const Scrap = () => {
         console.log('res.data.data', res.data.data);
       }
     } catch (e) {
-      console.log('error', e);
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
     } finally {
       setLoading1(false);
     }
   };
 
   const getFolderlist = async () => {
-    const api = `places/folders`;
+    const api = `folders`;
 
     try {
       setLoading2(true);
@@ -57,7 +64,14 @@ const Scrap = () => {
         console.log('res.data.data', res.data.data);
       }
     } catch (e) {
-      console.log('error', e);
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
     } finally {
       setLoading2(false);
     }

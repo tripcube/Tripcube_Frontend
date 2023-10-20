@@ -153,7 +153,14 @@ const LastPopPlace = (props) => {
         setList(res.data.data);
       }
     } catch (e) {
-      console.error('오류가 발생했습니다:', e);
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
     } finally {
       setLoading(false);
     }
@@ -422,7 +429,14 @@ const UserRec = (props) => {
         console.log('res.data.data', res.data.data);
       }
     } catch (e) {
-      console.error('오류가 발생했습니다:', e);
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
     } finally {
       setLoading(false);
     }

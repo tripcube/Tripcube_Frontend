@@ -9,24 +9,23 @@ import Todo from '../Todo/Todo';
 import { useNavigate } from 'react-router-dom';
 
 function BottomModalSheet({ onClose, location, getMarkerList }) {
-
   const [todolist, setTodolist] = useState([]);
   const { getAccessToken } = useAuthToken();
   const [isScrap, setScrap] = useState(false);
   const navigate = useNavigate();
 
   const getTodoInfo = async () => {
-	if (location == null) {
-		return ;
-	}
-	setScrap(location.scrap);
+    if (location == null) {
+      return;
+    }
+    setScrap(location.scrap);
     const api = `todos/place?placeId=${location.placeId}&sort=LIKE_DESC&page=1&limit=3`;
 
     try {
       const res = await serverapi.get(api, {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
-        }
+        },
       });
       console.log('res.data.data', res.data.data);
       if (res.status === 201) {
@@ -34,13 +33,20 @@ function BottomModalSheet({ onClose, location, getMarkerList }) {
         setTodolist(tmp);
       }
     } catch (e) {
-      console.log('error', e);
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
     }
   };
 
   const insertScrap = async () => {
     const api = `places/${location.placeId}/scrap`;
-	setScrap(true);
+    setScrap(true);
 
     try {
       const res = await serverapi.post(api, null, {
@@ -49,17 +55,24 @@ function BottomModalSheet({ onClose, location, getMarkerList }) {
         },
       });
       if (res.status === 201) {
-		getMarkerList();
+        getMarkerList();
       }
     } catch (e) {
-      console.log('error', e);
-	  setScrap(false);
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
+      setScrap(false);
     }
   };
 
   const deleteScrap = async () => {
     const api = `places/${location.placeId}/scrap`;
-	setScrap(false);
+    setScrap(false);
 
     try {
       const res = await serverapi.delete(api, {
@@ -68,60 +81,93 @@ function BottomModalSheet({ onClose, location, getMarkerList }) {
         },
       });
       if (res.status === 201) {
-		getMarkerList();
+        getMarkerList();
       }
     } catch (e) {
-      console.log('error', e);
-	  setScrap(true);
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
+      setScrap(true);
     }
   };
 
   useEffect(() => {
-	getTodoInfo();
+    getTodoInfo();
   }, [location]);
 
   if (location == null) {
-	return;
+    return;
   }
 
   return (
-    <div className="modal-sheet">
-      <div className="modal-content">
-        <button className="close-button" onClick={onClose}>
+    <div className='modal-sheet'>
+      <div className='modal-content'>
+        <button className='close-button' onClick={onClose}>
           닫기
         </button>
-		<div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px"}}>
-			<div style={{display: "flex", justifyContent: "start"}}>
-				<LeftButton>
-					{isScrap ? (
-						<img onClick={() => deleteScrap()} src={require("../../images/save_full.svg").default} style={{width: "24px", height: "24px", marginRight: "15px"}} />
-					) : (
-						<img onClick={() => insertScrap()} src={require("../../images/save.svg").default} style={{width: "24px", height: "24px", marginRight: "15px"}} />
-					)}
-				</LeftButton>
-				<div onClick={() => {navigate(`/detail/${location.placeId}`)}}>
-					<Title>{location.placeName}</Title> <br/>
-					<Content>{location.address}</Content>
-				</div>
-			</div>
-			<div>
-				<img src={location.image} width="60px" height="60px" style={{borderRadius: "10%", boxShadow: "2px 2px 5px rgba(0,0,0,0.3)"}}></img>
-			</div>
-		</div>
-		<div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-			{todolist.map((todo, index) => (
-			<Todo
-				key={index}
-				todoId={todo.todoId}
-				numTag={todo.tag}
-				numLike={todo.likes}
-				like={todo.like}
-			>
-				{todo.content}
-			</Todo>
-			))}
-		</div>
-
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '10px',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'start' }}>
+            <LeftButton>
+              {isScrap ? (
+                <img
+                  onClick={() => deleteScrap()}
+                  src={require('../../images/save_full.svg').default}
+                  style={{ width: '24px', height: '24px', marginRight: '15px' }}
+                />
+              ) : (
+                <img
+                  onClick={() => insertScrap()}
+                  src={require('../../images/save.svg').default}
+                  style={{ width: '24px', height: '24px', marginRight: '15px' }}
+                />
+              )}
+            </LeftButton>
+            <div
+              onClick={() => {
+                navigate(`/detail/${location.placeId}`);
+              }}
+            >
+              <Title>{location.placeName}</Title> <br />
+              <Content>{location.address}</Content>
+            </div>
+          </div>
+          <div>
+            <img
+              src={location.image}
+              width='60px'
+              height='60px'
+              style={{
+                borderRadius: '10%',
+                boxShadow: '2px 2px 5px rgba(0,0,0,0.3)',
+              }}
+            ></img>
+          </div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {todolist.map((todo, index) => (
+            <Todo
+              key={index}
+              todoId={todo.todoId}
+              numTag={todo.tag}
+              numLike={todo.likes}
+              like={todo.like}
+            >
+              {todo.content}
+            </Todo>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -130,19 +176,19 @@ function BottomModalSheet({ onClose, location, getMarkerList }) {
 export default BottomModalSheet;
 
 const LeftButton = styled.button`
-	background: none;
-	border: none;
-	padding: 0;
-	cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 `;
 
 const Title = styled.span`
-	font-size: 20px;
-	font-weight: 500;
+  font-size: 20px;
+  font-weight: 500;
 `;
 
 const Content = styled.span`
-	font-size: 11px;
-	font-weight: 300;
-	margin-top: 5px;
+  font-size: 11px;
+  font-weight: 300;
+  margin-top: 5px;
 `;
