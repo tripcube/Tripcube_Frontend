@@ -74,7 +74,7 @@ const MainContainer = (props) => {
 
   return (
     <>
-      <ScrapStyle style={{ minHeight: '270px' }}>
+      <ScrapStyle style={{ minHeight: '100vh' }}>
         {loading1 ? (
           <LinearProgress />
         ) : (
