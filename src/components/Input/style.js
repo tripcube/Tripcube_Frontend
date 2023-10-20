@@ -36,21 +36,22 @@ export const LabelStyle = styled.span`
 
 export const InputStyle = styled.input`
   width: 100%;
-  padding: 16.5px 14px;
+  padding: 14px 12px;
   border: none;
 
   background: transparent;
   &:focus {
     outline: none;
   }
-  font-size: 16px;
+  font-size: 12px;
+  font-weight: 600;
   color: ${(props) => (props.isError ? '#FF6B6B' : '#555555')};
 `;
 
 export const DescriptionStyle = styled.div`
   position: absolute;
   right: 12px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   white-space: nowrap;
   color: ${(props) => (props.isError ? '#FF6B6B' : '#000000')};

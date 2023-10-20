@@ -11,9 +11,9 @@ export const BaseButtonStyle = styled.button`
   justify-content: center;
   align-items: center;
   padding: ${(props) =>
-    props.buttonSize == ButtonSize.NORMAL ? '8px' : '20px 24px 20px 24px'};
+    props.buttonSize == ButtonSize.NORMAL ? '8px' : '14px 24px 14px 24px'};
   font-size: ${(props) =>
-    props.buttonSize == ButtonSize.NORMAL ? '12px' : '16px'};
+    props.buttonSize == ButtonSize.NORMAL ? '10px' : '16px'};
   border-radius: ${(props) =>
     props.buttonSize == ButtonSize.NORMAL ? '10px' : '0px'};
   background-color: ${(props) => {
@@ -34,7 +34,8 @@ export const BaseButtonStyle = styled.button`
     }
     return backgroundColor;
   }};
-
+  font-family: 'NanumSquareR';
+  letter-spacing: -0.5px;
   border: ${(props) =>
     props.buttonTheme == ButtonTheme.WHITE ? '1px solid #7BAB6E' : 'none'};
   color: ${(props) => {

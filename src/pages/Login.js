@@ -21,6 +21,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const [toastTheme, setToastTheme] = useState(ToastTheme.SUCCESS);
 
   const onChangeId = (event) => {
     setIdValue(event.target.value);
@@ -64,6 +65,7 @@ const Login = () => {
     } catch (e) {
       if (e.response && e.response.status === 401) {
         setToastMessage('회원정보가 일치하지 않습니다.');
+        setToastTheme(ToastTheme.ERROR);
         setShowToast(true);
       }
     }
