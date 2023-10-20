@@ -8,6 +8,7 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const { getAccessToken } = useAuthToken();
   const [loading, setLoading] = useState(true);
+  const [image, setImage] = useState('');
 
   const handleReviewChange = (e) => {
     setReviewText(e.target.value);
@@ -24,6 +25,7 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
           {
             content: reviewText,
             todoId: todoId,
+            imageURL: image
           },
           {
             headers: {
@@ -44,9 +46,28 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
     }
   };
 
+  window.getCImage = getCImage; // 전역 스코프에 등록
+
+  function getCImage(text) {
+    setImage(text);
+  }
+
   const handleFileSelect = () => {
-    const fileInput = document.getElementById("fileInput");
-    fileInput.click();
+    try {
+      //eslint-disable-next-line
+      GetCImage.postMessage('');
+    } catch (e) {
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log(
+          'Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.',
+        );
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
+    }
   };
 
   const handleFileChange = (e) => {
@@ -54,17 +75,6 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
 
     if (selectedFile) {
       setSelectedPhoto(URL.createObjectURL(selectedFile)); // 선택한 파일 저장
-    }
-  };
-
-  const handleViewSelectedPhoto = () => {
-    if (selectedPhoto) {
-      const newWindow = window.open("", "_blank");
-      newWindow.document.write(
-        `<img src="${selectedPhoto}" alt="Selected Photo" />`
-      );
-    } else {
-      alert("선택한 사진이 없습니다.");
     }
   };
 
@@ -78,18 +88,10 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
       <Outlet />
       <ViewSelectedPhotoButton
         selectedPhoto={selectedPhoto}
-        onClick={handleViewSelectedPhoto}
+        onClick={() => {}}
       >
         선택한 사진 보기
       </ViewSelectedPhotoButton>
-
-      <input
-        type="file"
-        id="fileInput"
-        accept="image/*"
-        style={{ display: "none" }}
-        onChange={(e) => handleFileChange(e)}
-      />
     </>
   );
 };
@@ -161,7 +163,7 @@ const RegisterButton = styled.button`
 `;
 
 const ViewSelectedPhotoButton = styled.button`
-  width: 90%;
+  width: 93%;
   margin-top: 10px;
   margin-left: 10px;
   margin-right: 10px;
