@@ -385,7 +385,7 @@ const ActivityPlace = (props) => {
                       style={{
                         fontSize: '9px',
                         backgroundColor: '#ffdb4b',
-                        margin: '2px 0px',
+                        margin: '5px 0px 0px 0px',
                       }}
                     >
                       "{place.content}"
