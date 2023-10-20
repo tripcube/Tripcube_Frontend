@@ -153,7 +153,7 @@ const LastPopPlace = (props) => {
         setList(res.data.data);
       }
     } catch (e) {
-      if (e.response.status === 401) {
+      if (e.response && e.response.status === 401) {
         // 401 Unauthorized 오류가 발생한 경우
         console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
         window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
@@ -188,7 +188,7 @@ const LastPopPlace = (props) => {
         }
       }
     } catch (e) {
-      if (e.response.status === 401) {
+      if (e.response && e.response.status === 401) {
         // 401 Unauthorized 오류가 발생한 경우
         console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
         window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
@@ -281,7 +281,7 @@ const ActivityPlace = (props) => {
         setList(res.data.data);
       }
     } catch (e) {
-      if (e.response.status === 401) {
+      if (e.response && e.response.status === 401) {
         // 401 Unauthorized 오류가 발생한 경우
         console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
         window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
@@ -316,7 +316,7 @@ const ActivityPlace = (props) => {
         }
       }
     } catch (e) {
-      if (e.response.status === 401) {
+      if (e.response && e.response.status === 401) {
         // 401 Unauthorized 오류가 발생한 경우
         console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
         window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
@@ -375,11 +375,22 @@ const ActivityPlace = (props) => {
             {list.length !== 0 ? (
               <>
                 {list.map((place, index) => (
-                  <Place
-                    key={place.placeId}
-                    place={place}
-                    onClick={() => navigate(`/detail/${place.placeId}`)}
-                  />
+                  <div>
+                    <Place
+                      key={place.placeId}
+                      place={place}
+                      onClick={() => navigate(`/detail/${place.placeId}`)}
+                    />
+                    <div
+                      style={{
+                        fontSize: '9px',
+                        backgroundColor: '#ffdb4b',
+                        margin: '2px 0px',
+                      }}
+                    >
+                      "{place.content}"
+                    </div>
+                  </div>
                 ))}
                 {moreLoading ? (
                   <CircularProgress />
@@ -435,7 +446,7 @@ const UserRec = (props) => {
         console.log('res.data.data', res.data.data);
       }
     } catch (e) {
-      if (e.response.status === 401) {
+      if (e.response && e.response.status === 401) {
         // 401 Unauthorized 오류가 발생한 경우
         console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
         window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
@@ -471,7 +482,7 @@ const UserRec = (props) => {
         }
       }
     } catch (e) {
-      if (e.response.status === 401) {
+      if (e.response && e.response.status === 401) {
         // 401 Unauthorized 오류가 발생한 경우
         console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
         window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
