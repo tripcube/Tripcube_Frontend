@@ -94,7 +94,7 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
       setShowToast(true);
       return ;
     }
-    if (image === "11") {
+    if (image === "") {
       setToastMessage('이미지를 선택하지 않았습니다.');
       setToastTheme(ToastTheme.ERROR);
       setShowToast(true);
@@ -136,7 +136,7 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
       {showToast && <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>}
       {isModal &&
         <ImageOverlay onClick={() => {setModal(false)}}>
-          <Image src={"https://ojsfile.ohmynews.com/STD_IMG_FILE/2023/0210/IE003111451_STD.jpg"}></Image>
+          <Image src={image}></Image>
         </ImageOverlay>
       }
     </>
