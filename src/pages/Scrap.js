@@ -131,6 +131,7 @@ const PlaceStyle = styled.div`
   flex-wrap: wrap;
   min-height: 576px;
   align-content: flex-start;
+  justify-content: space-around;
 `;
 
 const FolderStyle = styled.div`
