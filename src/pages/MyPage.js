@@ -811,7 +811,7 @@ const Content = (props) => {
   const { getAccessToken } = useAuthToken();
 
   const getTodolist = async () => {
-    const api = `todos/mypage?userId=${userId}&sort=DATE_ASC&page=1`;
+    const api = `todos/mypage?userId=${userId}&sort=DATE_DESC&page=1`;
 
     try {
       setLoading(true);
@@ -842,7 +842,7 @@ const Content = (props) => {
   };
 
   const getCommentlist = async () => {
-    const api = `comments/mypage?userId=${userId}&sort=DATE_ASC&page=1`;
+    const api = `comments/mypage?userId=${userId}&sort=DATE_DESC&page=1`;
 
     try {
       setLoading(true);
@@ -997,7 +997,7 @@ const MypageComment = (props) => {
           }}
         >
           <img src={require('../images/comment-arrow.svg').default} />
-          <div>
+          <div style={{width: '100%'}}>
             <Comment
               commentId={comment.commentId}
               numLike={comment.comment_likes}

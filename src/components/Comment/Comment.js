@@ -99,7 +99,6 @@ const Comment = ({
         justifyContent: 'space-between',
         backgroundColor: 'white',
         borderRadius: '5px',
-        width: '320px',
         alignItems: 'center',
         padding: '8px',
       }}
