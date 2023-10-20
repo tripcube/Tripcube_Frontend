@@ -110,7 +110,7 @@ const Comment = ({
           }}
         >
           <CircleImage>
-            <img src={profileImage} alt='Profile' />
+            <img src={profileImage} />
           </CircleImage>
           <div
             style={{
