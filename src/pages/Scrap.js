@@ -6,13 +6,7 @@ import useAuthToken from '../hooks/useAuthToken';
 import { LinearProgress } from '@mui/material';
 import Place from '../components/Place/Place';
 import { useNavigate } from 'react-router-dom';
-import CustomButton, {
-  ButtonSize,
-  ButtonTheme,
-} from '../components/CustomButton/CustomButton';
 import styled from 'styled-components';
-import BottomSheet from '../components/BottomSheet/BottomSheet';
-import Input from '../components/Input/Input';
 
 const Scrap = () => {
   const [scraplist, setScraplist] = useState([]);

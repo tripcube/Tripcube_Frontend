@@ -306,7 +306,7 @@ function PlaceTodo(props) {
         },
       });
       if (res.status === 201) {
-        setTodoValue("");
+        setTodoValue('');
 
         setIsModalOpen(false);
       }
@@ -343,7 +343,13 @@ function PlaceTodo(props) {
         </CustomButton>
       </div>
       {isModalOpen && (
-        <BottomSheet closeModal={() => setIsModalOpen(false)}>
+        <BottomSheet
+          closeModal={() => {
+            setIsModalOpen(false);
+            setTodoValue('');
+            setNumTag(0);
+          }}
+        >
           <div
             style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
           >
