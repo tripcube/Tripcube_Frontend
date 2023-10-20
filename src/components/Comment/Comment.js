@@ -149,18 +149,20 @@ const Comment = ({
       </div>
 
       <div>
-        <img
-          onClick={() => {
-            setModal(true);
-          }}
-          src={image}
-          width='80px'
-          height='80px'
-          style={{
-            borderRadius: '10%',
-            boxShadow: '2px 2px 5px rgba(0,0,0,0.3)',
-          }}
-        ></img>
+        {(image != null ) && (
+           <img
+           onClick={() => {
+             setModal(true);
+           }}
+           src={image}
+           width='80px'
+           height='80px'
+           style={{
+             borderRadius: '10%',
+             boxShadow: '2px 2px 5px rgba(0,0,0,0.3)',
+           }}
+         ></img>
+        )}
       </div>
       {isModal && (
         <ImageOverlay
