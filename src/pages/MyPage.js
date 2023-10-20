@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 import serverapi from '../api/serverapi';
 import useAuthToken from '../hooks/useAuthToken';
 import { LinearProgress } from '@mui/material';
@@ -13,6 +13,7 @@ import CustomButton, {
 import Comment from '../components/Comment/Comment';
 import Input from '../components/Input/Input';
 import Toast, { ToastTheme } from '../components/Toast/Toast';
+import useAuthorized from '../hooks/useAuthorized';
 
 // 전체 페이지()
 const MyPage = () => {
@@ -341,10 +342,44 @@ const EditFollow = (props) => {
   const setPrivatemode = props.setPrivatemode;
   const userId = props.userId;
 
+  const { getAccessToken, setAccessToken, setRefreshToken } = useAuthToken();
+  const { setUnAuthorized } = useAuthorized();
+
   function editButtonHandler() {
     if (editmode) {
       setPrivatemode(true);
     } else setEditmode(true);
+  }
+
+  async function logout() {
+    const api = `auth/logout`;
+    const data = {
+      userId: userId,
+    };
+    try {
+      console.log('data-logout', data);
+      const res = await serverapi.post(api, data, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      });
+      console.log('res', res);
+      if (res.status === 201) {
+        setAccessToken();
+        setRefreshToken();
+        setUnAuthorized();
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      }
+    } catch (e) {
+      if (e.response && e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
+    }
   }
 
   return (
@@ -366,7 +401,7 @@ const EditFollow = (props) => {
         }}
       >
         {' '}
-        {(!privatemode && userId == 0) && (
+        {!privatemode && userId == 0 && (
           <CustomButton
             buttonSize={ButtonSize.NORMAL}
             ButtonTheme={ButtonTheme.BLACK}
@@ -376,7 +411,13 @@ const EditFollow = (props) => {
           </CustomButton>
         )}
         {
-          //<div style={{ fontSize: '10px' }}>팔로잉 팔로워</div>
+          <CustomButton
+            buttonSize={ButtonSize.NORMAL}
+            ButtonTheme={ButtonTheme.BLACK}
+            handler={() => logout()}
+          >
+            로그아웃
+          </CustomButton>
         }
       </div>
     </div>
