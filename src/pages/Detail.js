@@ -18,6 +18,7 @@ import { LinearProgress } from '@mui/material';
 
 function Detail() {
   const { placeId } = useParams();
+  const { getAccessToken } = useAuthToken();
 
   const [placeInfo, setPlaceInfo] = useState({});
   const [loading, setLoading] = useState(true);
@@ -27,6 +28,37 @@ function Detail() {
       setLoading(false); // 이미지가 로드되면 로딩을 false로 설정
     }
   }, [placeInfo.image]);
+
+  const getPlaceInfo = async () => {
+    setLoading(true);
+    const api = `places/${placeId}`;
+
+    try {
+      const res = await serverapi.get(api, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      });
+      console.log('res.data.data', res.data.data);
+      if (res.status === 201) {
+        setPlaceInfo(res.data.data);
+      }
+    } catch (e) {
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getPlaceInfo();
+  }, []);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -55,7 +87,7 @@ function Detail() {
                 marginRight: '16px',
               }}
             >
-              <PlaceDetail placeInfo={placeInfo} />
+              <PlaceDetail placeInfo={placeInfo} getPlaceInfo={getPlaceInfo} />
               <PlaceTodo placeId={placeId} />
               <PlaceTodoList placeId={placeId} />
             </div>
@@ -73,44 +105,12 @@ function DetailHeader(props) {
   const setLoading = props.setLoading;
   const { getAccessToken } = useAuthToken();
 
-  useEffect(() => {
-    const getPlaceInfo = async () => {
-      setLoading(true);
-      const api = `places/${placeId}`;
-
-      try {
-        const res = await serverapi.get(api, {
-          headers: {
-            Authorization: `Bearer ${getAccessToken()}`,
-          },
-        });
-        console.log('res.data.data', res.data.data);
-        if (res.status === 201) {
-          setPlaceInfo(res.data.data);
-        }
-      } catch (e) {
-        if (e.response.status === 401) {
-          // 401 Unauthorized 오류가 발생한 경우
-          console.log(
-            'Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.',
-          );
-          window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
-        } else {
-          // 다른 오류가 발생한 경우
-          console.error('오류가 발생했습니다:', e);
-        }
-      }
-    };
-
-    getPlaceInfo();
-    setLoading(false);
-  }, []);
-
   return <Header />;
 }
 
 function PlaceDetail(props) {
   const placeInfo = props.placeInfo;
+  const getPlaceInfo = props.getPlaceInfo;
   const { getAccessToken } = useAuthToken();
 
   const scrap = async () => {
@@ -122,8 +122,11 @@ function PlaceDetail(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
+      if (res.status === 201) {
+        getPlaceInfo();
+      }
     } catch (e) {
-      if (e.response.status === 401) {
+      if (e.status === 401) {
         // 401 Unauthorized 오류가 발생한 경우
         console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
         window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
@@ -143,8 +146,12 @@ function PlaceDetail(props) {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
+      console.log('res', res);
+      if (res.status === 201) {
+        getPlaceInfo();
+      }
     } catch (e) {
-      if (e.response.status === 401) {
+      if (e.status === 401) {
         // 401 Unauthorized 오류가 발생한 경우
         console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
         window.location.href = '/nonlogin'; // 홈페이지로 리디렉션

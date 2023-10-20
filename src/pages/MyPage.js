@@ -661,7 +661,7 @@ const ChangePwd = (props) => {
         setShowToast(true);
         setPrivatemode(false);
       } else if (res.status === 202) {
-        setToastMessage(res.data.response.data.message);
+        setToastMessage(res.data.message);
         setToastTheme(ToastTheme.ERROR);
         setShowToast(true);
       }

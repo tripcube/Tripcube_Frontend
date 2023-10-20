@@ -40,7 +40,7 @@ const StyledBottomSheet = styled.div`
   height: fit-content;
   max-height: 90%;
   overflow-y: scroll;
-  bottom: 0; /* 화면 바닥에 위치 */
+  bottom: 44px; /* 화면 바닥에 위치 */
   left: 50%; /* 화면 가로 중앙에 위치 */
   transform: translateX(-50%); /* 화면 가운데로 이동 */
   border-radius: 1rem 1rem 0 0;
