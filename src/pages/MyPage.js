@@ -892,7 +892,7 @@ const Content = (props) => {
       <div
         style={{
           backgroundColor: '#ededed',
-          padding: '5px 20px 70px 20px',
+          padding: '5px 16px 70px 16px',
           minHeight: '550px',
         }}
       >
