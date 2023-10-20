@@ -76,7 +76,7 @@ function App() {
             <Route path='/detail/:placeId' element={<Detail />} />
             <Route path='/map' element={<Maps />} />
             <Route path='/scrap' element={<Scrap />} />
-            <Route path='/mypage' element={<MyPage />} />
+            <Route path='/mypage/:userId' element={<MyPage />} />
             <Route path='/home' element={<Home />} />
             <Route path='/todo/:todoId' element={<TodoDetail />} />
             <Route path='/write/:todoId' element={<ReviewWrite />} />

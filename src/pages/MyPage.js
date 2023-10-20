@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
 import serverapi from '../api/serverapi';
 import useAuthToken from '../hooks/useAuthToken';
 import { LinearProgress } from '@mui/material';
@@ -22,11 +23,12 @@ const MyPage = () => {
   const [toastTheme, setToastTheme] = useState(ToastTheme.SUCCESS);
   const [toastMessage, setToastMessage] = useState('');
   const [showToast, setShowToast] = useState(false);
+  const { userId } = useParams(); // URL 파라미터에서 userId를 추출
 
   const { getAccessToken } = useAuthToken();
 
   const getInfo = async () => {
-    const api = `users/0`;
+    const api = `users/${userId}`;
 
     try {
       setLoading(true);
@@ -86,6 +88,7 @@ const MyPage = () => {
       ) : (
         <>
           <BackGroundImage
+            userId={userId}
             info={info}
             editmode={editmode}
             setEditmode={setEditmode}
@@ -112,12 +115,12 @@ const MyPage = () => {
           ) : (
             <>
               <Profile info={info} />
-              <Content />
+              <Content userId={userId} />
             </>
           )}
         </>
       )}
-      <BottomNav />
+      {userId == 0 ? <BottomNav /> : <></>}
       {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
     </>
   );
@@ -130,6 +133,7 @@ const BackGroundImage = (props) => {
   const setEditmode = props.setEditmode;
   const privatemode = props.privatemode;
   const setPrivatemode = props.setPrivatemode;
+  const userId = props.userId;
 
   const [image, setImage] = useState('');
   const { getAccessToken } = useAuthToken();
@@ -222,6 +226,7 @@ const BackGroundImage = (props) => {
         setEditmode={setEditmode}
         privatemode={privatemode}
         setPrivatemode={setPrivatemode}
+        userId={userId}
       />
     </div>
   );
@@ -334,6 +339,7 @@ const EditFollow = (props) => {
   const setEditmode = props.setEditmode;
   const privatemode = props.privatemode;
   const setPrivatemode = props.setPrivatemode;
+  const userId = props.userId;
 
   function editButtonHandler() {
     if (editmode) {
@@ -360,7 +366,7 @@ const EditFollow = (props) => {
         }}
       >
         {' '}
-        {!privatemode && (
+        {(!privatemode && userId == 0) && (
           <CustomButton
             buttonSize={ButtonSize.NORMAL}
             ButtonTheme={ButtonTheme.BLACK}
@@ -754,16 +760,17 @@ const Profile = (props) => {
   );
 };
 
-const Content = () => {
+const Content = (props) => {
   const [page, setPage] = useState(true); // true는 todopage, false는 commentPage
   const [todolist, setTodolist] = useState([]);
   const [commentlist, setCommentlist] = useState([]);
   const [loading, setLoading] = useState(true);
+  const userId = props.userId;
 
   const { getAccessToken } = useAuthToken();
 
   const getTodolist = async () => {
-    const api = `todos/mypage?userId=0&sort=DATE_ASC&page=1`;
+    const api = `todos/mypage?userId=${userId}&sort=DATE_ASC&page=1`;
 
     try {
       setLoading(true);
@@ -794,7 +801,7 @@ const Content = () => {
   };
 
   const getCommentlist = async () => {
-    const api = `comments/mypage?userId=0&sort=DATE_ASC&page=1`;
+    const api = `comments/mypage?userId=${userId}&sort=DATE_ASC&page=1`;
 
     try {
       setLoading(true);
@@ -958,6 +965,7 @@ const MypageComment = (props) => {
             userName={comment.userName}
             date={comment.date}
             content={comment.comment_content}
+            userId={comment.userId}
           />
         </div>
       </>

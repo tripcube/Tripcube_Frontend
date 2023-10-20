@@ -179,7 +179,7 @@ function TodoDetail() {
         </Like>
       </TitleBox>
       <WriteBox>
-        <StartText>{"첫시작 : " + todoInfo.userName}</StartText>
+        <StartText onClick={() => {navigate(`/mypage/${todoInfo.userId}`);}}>{"첫시작 : " + todoInfo.userName}</StartText>
         <ReviewWrite onClick={navigateToWritePage}>
           나도 더 알려주기
         </ReviewWrite>
@@ -195,6 +195,7 @@ function TodoDetail() {
             numLike={commentInfo.comment_likes}
             profileImage={commentInfo.profileImage}
             userName={commentInfo.userName}
+            userId={commentInfo.userId}
             key={idx}
           ></Comment>
            <DottedLine />
