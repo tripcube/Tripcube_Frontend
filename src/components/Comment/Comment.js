@@ -4,6 +4,7 @@ import useAuthToken from '../../hooks/useAuthToken';
 import { useState, useEffect } from 'react';
 import Toast, { ToastTheme } from '../Toast/Toast';
 import { useNavigate } from 'react-router-dom';
+import { width } from '@mui/system';
 
 const Comment = ({
   commentId,
@@ -14,7 +15,7 @@ const Comment = ({
   content,
   profileImage,
   image,
-  userId
+  userId,
 }) => {
   const { getAccessToken } = useAuthToken();
   const [Locallike, setLike] = useState(like);
@@ -98,19 +99,35 @@ const Comment = ({
         justifyContent: 'space-between',
         backgroundColor: 'white',
         borderRadius: '5px',
+        width: '320px',
+        alignItems: 'center',
+        padding: '8px',
       }}
     >
       <div>
-        <div style={{ display: 'flex', alignItems: 'center' }} onClick={() => {navigate(`/mypage/${userId}`);}}>
-          <CircleImage style={{ marginRight: '15px' }}>
-            <img src={profileImage}/>
+        <div
+          style={{ display: 'flex', alignItems: 'center' }}
+          onClick={() => {
+            navigate(`/mypage/${userId}`);
+          }}
+        >
+          <CircleImage>
+            <img src={profileImage} alt='Profile' />
           </CircleImage>
-          <div style={{ lineHeight: '1', justifyContent: 'center' }}>
-            <NameTextStyle>{userName}</NameTextStyle>
+          <div
+            style={{
+              lineHeight: '1',
+              justifyContent: 'center',
+              display: 'flex',
+              marginLeft: '12px',
+              flexDirection: 'column',
+            }}
+          >
+            <NameTextStyle>랄랄</NameTextStyle>
             <DateTextStyle>{date}</DateTextStyle>
           </div>
         </div>
-        <div style={{ marginTop: '10px' }}>
+        <div style={{ marginTop: '6px' }}>
           <ContentTextStyle>{content}</ContentTextStyle>
         </div>
         <div
@@ -132,9 +149,12 @@ const Comment = ({
           <LikeTextStyle>{LocalNumLike}</LikeTextStyle>
         </div>
       </div>
+
       <div>
         <img
-          onClick={() => {setModal(true)}}
+          onClick={() => {
+            setModal(true);
+          }}
           src={image}
           width='80px'
           height='80px'
@@ -144,12 +164,18 @@ const Comment = ({
           }}
         ></img>
       </div>
-      {isModal &&
-        <ImageOverlay onClick={() => {setModal(false)}}>
+      {isModal && (
+        <ImageOverlay
+          onClick={() => {
+            setModal(false);
+          }}
+        >
           <Image src={image}></Image>
         </ImageOverlay>
-      }
-      {showToast && <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>}
+      )}
+      {showToast && (
+        <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>
+      )}
     </div>
   );
 };
@@ -216,4 +242,3 @@ const Image = styled.img`
   max-width: 100%;
   height: auto;
 `;
-

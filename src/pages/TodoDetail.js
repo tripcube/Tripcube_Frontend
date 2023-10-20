@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import serverapi from "../api/serverapi"
-import { useAsyncError, useNavigate, useParams } from "react-router-dom";
-import Comment from "../components/Comment/Comment";
-import tags from '../constants/tags'
-import Toast, { ToastTheme } from '../components/Toast/Toast'
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import serverapi from '../api/serverapi';
+import { useAsyncError, useNavigate, useParams } from 'react-router-dom';
+import Comment from '../components/Comment/Comment';
+import tags from '../constants/tags';
+import Toast, { ToastTheme } from '../components/Toast/Toast';
 
-import useAuthToken from "../hooks/useAuthToken";
+import useAuthToken from '../hooks/useAuthToken';
 
 // 커스텀 후크 생성
 function useTodoInfo(todoId, getAccessToken) {
@@ -25,7 +25,7 @@ function useTodoInfo(todoId, getAccessToken) {
           setTodoInfo(res.data.data);
         }
       } catch (error) {
-        console.error("Error fetching place info:", error);
+        console.error('Error fetching place info:', error);
       } finally {
         setLoading(false);
       }
@@ -61,9 +61,8 @@ function TodoDetail() {
   useEffect(() => {
     try {
       setLocalLike(todoInfo.like);
-    } catch (e) {
-    }
-  }, [todoInfo])
+    } catch (e) {}
+  }, [todoInfo]);
 
   useEffect(() => {
     const getCommentsInfo = async () => {
@@ -79,7 +78,7 @@ function TodoDetail() {
           setCommentList(res.data.data);
         }
       } catch (error) {
-        console.error("Error fetching place info:", error);
+        console.error('Error fetching place info:', error);
       }
     };
 
@@ -95,7 +94,7 @@ function TodoDetail() {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      console.log("------");
+      console.log('------');
       console.log(res.data);
       if (res.status === 201) {
         setLocalLike(true);
@@ -145,7 +144,6 @@ function TodoDetail() {
     return <div>Loading...</div>;
   }
 
-
   const navigateToWritePage = () => {
     navigate(`/write/${todoId}`);
   };
@@ -154,9 +152,11 @@ function TodoDetail() {
   };
 
   return (
-    <div style={{padding: "10px 10px 10px 10px"}}>
+    <div style={{ padding: '10px 10px 10px 10px' }}>
       <BackSpace>
-        <PlaceTitle onClick={navigateBack}>{"< " + todoInfo.placeName}</PlaceTitle>
+        <PlaceTitle onClick={navigateBack}>
+          {'< ' + todoInfo.placeName}
+        </PlaceTitle>
       </BackSpace>
       <TitleBox>
         <TagBox num={todoInfo.tag} />
@@ -164,48 +164,70 @@ function TodoDetail() {
         <Like>
           {localLike ? (
             <img
-              src={require("../images/heartFilled.svg").default}
-              alt="filled"
-              width="25px"
+              src={require('../images/heartFilled.svg').default}
+              alt='filled'
+              width='25px'
               onClick={() => hate()}
             />
           ) : (
             <img
-              src={require("../images/heartEmpty.svg").default}
-              width="25px"
+              src={require('../images/heartEmpty.svg').default}
+              width='25px'
               onClick={() => love()}
             />
           )}
         </Like>
       </TitleBox>
       <WriteBox>
-        <StartText onClick={() => {navigate(`/mypage/${todoInfo.userId}`);}}>{"첫시작 : " + todoInfo.userName}</StartText>
+        <StartText
+          onClick={() => {
+            navigate(`/mypage/${todoInfo.userId}`);
+          }}
+        >
+          {'첫시작 : ' + todoInfo.userName}
+        </StartText>
         <ReviewWrite onClick={navigateToWritePage}>
           나도 더 알려주기
         </ReviewWrite>
       </WriteBox>
-      {commentsList.length !== 0 ? (commentsList.map((commentInfo, idx) => (
-        <div>
-          <Comment
-            commentId={commentInfo.commentId}
-            content={commentInfo.comment_content}
-            date={commentInfo.date}
-            image={commentInfo.image}
-            like={commentInfo.comment_islike}
-            numLike={commentInfo.comment_likes}
-            profileImage={commentInfo.profileImage}
-            userName={commentInfo.userName}
-            userId={commentInfo.userId}
-            key={idx}
-          ></Comment>
-           <DottedLine />
-        </div>
-      ))) : (
-        <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-            <h1 style={{fontSize: "15px"}}>불러올 댓글이 없습니다.</h1>
+      {commentsList.length !== 0 ? (
+        commentsList.map((commentInfo, idx) => (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignContent: 'center',
+            }}
+          >
+            <Comment
+              commentId={commentInfo.commentId}
+              content={commentInfo.comment_content}
+              date={commentInfo.date}
+              image={commentInfo.image}
+              like={commentInfo.comment_islike}
+              numLike={commentInfo.comment_likes}
+              profileImage={commentInfo.profileImage}
+              userName={commentInfo.userName}
+              userId={commentInfo.userId}
+              key={idx}
+            ></Comment>
+            <DottedLine />
+          </div>
+        ))
+      ) : (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <h1 style={{ fontSize: '15px' }}>불러올 댓글이 없습니다.</h1>
         </div>
       )}
-      {showToast && <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>}
+      {showToast && (
+        <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>
+      )}
     </div>
   );
 }
@@ -280,9 +302,9 @@ export const StartText = styled.div`
 `;
 
 const DottedLine = styled.div`
-  margin-top: 5%;
-  margin-bottom: 5%;
+  margin-top: 4px;
+  margin-bottom: 4px;
   width: 100%;
-  border-top: 2px dotted #BEBEBE; /* 점선 스타일과 색상 설정 */
+  border-top: 2px dotted #bebebe; /* 점선 스타일과 색상 설정 */
   height: 0; /* 높이를 0으로 설정하여 선만 표시 */
 `;

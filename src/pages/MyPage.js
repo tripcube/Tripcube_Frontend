@@ -855,8 +855,8 @@ const Content = (props) => {
       });
       console.log('getInfo-api', api);
       if (res.status === 201) {
-        setCommentlist(res.data);
-        console.log('res.data', res.data);
+        setCommentlist(res.data.data);
+        console.log('res.data.data', res.data.data);
       }
     } catch (e) {
       if (e.response.status === 401) {
@@ -990,24 +990,24 @@ const MypageComment = (props) => {
         <div
           style={{
             display: 'flex',
-            padding: '12px 8px 4px 12px',
-            justifyContent: 'space-between',
-            fontSize: '10px',
+            alignItems: 'flex-start',
+            marginTop: '8px',
           }}
         >
-          {cDate.year}년 {cDate.month}월 {cDate.day}일 등록
-        </div>
-        <div>
           <img src={require('../images/comment-arrow.svg').default} />
-          <Comment
-            commentId={comment.commentId}
-            numLike={comment.comment_likes}
-            like={comment.comment_islike}
-            userName={comment.userName}
-            date={comment.date}
-            content={comment.comment_content}
-            userId={comment.userId}
-          />
+          <div>
+            <Comment
+              commentId={comment.commentId}
+              numLike={comment.comment_likes}
+              like={comment.comment_islike}
+              userName={comment.userName}
+              date={comment.date}
+              content={comment.comment_content}
+              userId={comment.userId}
+              profileImage={comment.profileImage}
+              image={comment.image}
+            />
+          </div>
         </div>
       </>
     </>
