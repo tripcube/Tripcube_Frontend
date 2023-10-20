@@ -410,7 +410,7 @@ const EditFollow = (props) => {
             {editmode ? '비밀번호 수정' : '프로필 편집'}
           </CustomButton>
         )}
-        {
+        {userId == 0 && (
           <CustomButton
             buttonSize={ButtonSize.NORMAL}
             ButtonTheme={ButtonTheme.BLACK}
@@ -418,7 +418,7 @@ const EditFollow = (props) => {
           >
             로그아웃
           </CustomButton>
-        }
+        )}
       </div>
     </div>
   );
