@@ -90,8 +90,8 @@ function Detail() {
               <PlaceDetail placeInfo={placeInfo} getPlaceInfo={getPlaceInfo} />
               <PlaceTodo placeId={placeId} />
               <PlaceTodoList placeId={placeId} />
-              <BottomNav />
             </div>
+            <BottomNav />
           </>
         )}
       </div>
