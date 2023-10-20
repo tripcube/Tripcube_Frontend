@@ -20,7 +20,7 @@ const BottomNav = () => {
       case '/scrap':
         setActiveNav(3);
         break;
-      case '/mypage':
+      case '/mypage/0':
         setActiveNav(4);
         break;
       default:
@@ -52,7 +52,7 @@ const BottomNav = () => {
             <img src='images/nav_scrap.svg' alt='scrap_icon' />
           )}
         </Link>
-        <Link to='/mypage' onClick={() => setActiveNav(4)}>
+        <Link to='/mypage/0' onClick={() => setActiveNav(4)}>
           {activeNav === 4 ? (
             <img src='images/nav_mypage_filled.svg' alt='filled_mypage_icon' />
           ) : (
