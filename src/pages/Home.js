@@ -182,8 +182,20 @@ const LastPopPlace = (props) => {
           setToastMessage('더 이상 불러올 장소가 없습니다');
           setShowToast(true);
         } else {
-          const tmp = [...list, ...res.data.data];
-          setList(tmp);
+          // 중복을 제외하고 새로운 데이터 추가
+          const newData = res.data.data;
+          const newList = [...list];
+          for (const item of newData) {
+            // 중복 검사 (예: item.id를 기준으로 중복 확인)
+            if (
+              !newList.some(
+                (existingItem) => existingItem.placeId === item.placeId,
+              )
+            ) {
+              newList.push(item);
+            }
+          }
+          setList(newList);
           setPage((prevPage) => prevPage + 1);
         }
       }
@@ -307,8 +319,20 @@ const ActivityPlace = (props) => {
           setToastMessage('더 이상 불러올 장소가 없습니다');
           setShowToast(true);
         } else {
-          const tmp = [...list, ...res.data.data];
-          setList(tmp);
+          // 중복을 제외하고 새로운 데이터 추가
+          const newData = res.data.data;
+          const newList = [...list];
+          for (const item of newData) {
+            // 중복 검사 (예: item.id를 기준으로 중복 확인)
+            if (
+              !newList.some(
+                (existingItem) => existingItem.placeId === item.placeId,
+              )
+            ) {
+              newList.push(item);
+            }
+          }
+          setList(newList);
           setPage((prevPage) => prevPage + 1);
         }
       }
@@ -455,12 +479,23 @@ const UserRec = (props) => {
       console.log('getList-api-UserRec', api);
       if (res.status === 201) {
         if (res.data.data.length === 0) {
-          console.log('res.data.data.length-UserRec', res.data.data.length);
           setToastMessage('더 이상 불러올 장소가 없습니다');
           setShowToast(true);
         } else {
-          const tmp = [...list, ...res.data.data];
-          setList(tmp);
+          // 중복을 제외하고 새로운 데이터 추가
+          const newData = res.data.data;
+          const newList = [...list];
+          for (const item of newData) {
+            // 중복 검사 (예: item.id를 기준으로 중복 확인)
+            if (
+              !newList.some(
+                (existingItem) => existingItem.placeId === item.placeId,
+              )
+            ) {
+              newList.push(item);
+            }
+          }
+          setList(newList);
           setPage((prevPage) => prevPage + 1);
         }
       }
