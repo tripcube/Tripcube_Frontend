@@ -182,20 +182,8 @@ const LastPopPlace = (props) => {
           setToastMessage('더 이상 불러올 장소가 없습니다');
           setShowToast(true);
         } else {
-          // 중복을 제외하고 새로운 데이터 추가
-          const newData = res.data.data;
-          const newList = [...list];
-          for (const item of newData) {
-            // 중복 검사 (예: item.id를 기준으로 중복 확인)
-            if (
-              !newList.some(
-                (existingItem) => existingItem.placeId === item.placeId,
-              )
-            ) {
-              newList.push(item);
-            }
-          }
-          setList(newList);
+          const tmp = [...list, ...res.data.data];
+          setList(tmp);
           setPage((prevPage) => prevPage + 1);
         }
       }
@@ -220,7 +208,10 @@ const LastPopPlace = (props) => {
   return (
     <>
       <TextStyle>
-        <img src='images/flag.svg' alt='Popular' />
+        <img
+          src={require('../images/main_pop.svg').default}
+          style={{ width: '20px', height: '20px', margin: '4px' }}
+        />
         지난 24시간 인기 장소
       </TextStyle>
       {loading ? (
@@ -319,20 +310,8 @@ const ActivityPlace = (props) => {
           setToastMessage('더 이상 불러올 장소가 없습니다');
           setShowToast(true);
         } else {
-          // 중복을 제외하고 새로운 데이터 추가
-          const newData = res.data.data;
-          const newList = [...list];
-          for (const item of newData) {
-            // 중복 검사 (예: item.id를 기준으로 중복 확인)
-            if (
-              !newList.some(
-                (existingItem) => existingItem.placeId === item.placeId,
-              )
-            ) {
-              newList.push(item);
-            }
-          }
-          setList(newList);
+          const tmp = [...list, ...res.data.data];
+          setList(tmp);
           setPage((prevPage) => prevPage + 1);
         }
       }
@@ -363,7 +342,10 @@ const ActivityPlace = (props) => {
     <>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <TextStyle>
-          <img src='images/flag.svg' alt='Popular' />
+          <img
+            src={require('../images/main_act.svg').default}
+            style={{ width: '20px', height: '20px', margin: '4px' }}
+          />
           <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
             <InputLabel id='demo-select-small-label'>활동 선택</InputLabel>
             <Select
@@ -479,23 +461,12 @@ const UserRec = (props) => {
       console.log('getList-api-UserRec', api);
       if (res.status === 201) {
         if (res.data.data.length === 0) {
+          console.log('res.data.data.length-UserRec', res.data.data.length);
           setToastMessage('더 이상 불러올 장소가 없습니다');
           setShowToast(true);
         } else {
-          // 중복을 제외하고 새로운 데이터 추가
-          const newData = res.data.data;
-          const newList = [...list];
-          for (const item of newData) {
-            // 중복 검사 (예: item.id를 기준으로 중복 확인)
-            if (
-              !newList.some(
-                (existingItem) => existingItem.placeId === item.placeId,
-              )
-            ) {
-              newList.push(item);
-            }
-          }
-          setList(newList);
+          const tmp = [...list, ...res.data.data];
+          setList(tmp);
           setPage((prevPage) => prevPage + 1);
         }
       }
@@ -520,7 +491,10 @@ const UserRec = (props) => {
   return (
     <>
       <TextStyle>
-        <img src='images/flag.svg' alt='Popular' />
+        <img
+          src={require('../images/main_rec.svg').default}
+          style={{ width: '20px', height: '20px', margin: '4px' }}
+        />
         회원님이 좋아할 장소
       </TextStyle>
       {loading ? (
