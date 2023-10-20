@@ -134,9 +134,9 @@ const BackGroundImage = (props) => {
   const [image, setImage] = useState('');
   const { getAccessToken } = useAuthToken();
 
-  window.getImage = getImage; // 전역 스코프에 등록
+  window.getBImage = getBImage; // 전역 스코프에 등록
 
-  function getImage(text) {
+  function getBImage(text) {
     setImage(text);
   }
 
@@ -186,7 +186,7 @@ const BackGroundImage = (props) => {
         console.error('오류가 발생했습니다:', e);
       }
     } finally {
-      window.getImage('');
+      window.getBImage('');
     }
   }
 
@@ -246,7 +246,7 @@ const ProfileImage = (props) => {
     if (editmode) {
       try {
         //eslint-disable-next-line
-        GetImage.postMessage('');
+        GetBImage.postMessage('');
       } catch (e) {
         if (e.response.status === 401) {
           // 401 Unauthorized 오류가 발생한 경우
