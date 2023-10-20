@@ -79,7 +79,7 @@ function App() {
             <Route path='/mypage' element={<MyPage />} />
             <Route path='/home' element={<Home />} />
             <Route path='/todo/:todoId' element={<TodoDetail />} />
-            <Route path='/write' element={<ReviewWrite />} />
+            <Route path='/write/:todoId' element={<ReviewWrite />} />
 
             <Route path='/nonlogin' index element={<NonLogin />}></Route>
             <Route path='/login' index element={<Login />}></Route>

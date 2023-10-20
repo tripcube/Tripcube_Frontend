@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import serverapi from "../api/serverapi";
+import serverapi from "../api/serverapi"
 import { useAsyncError, useNavigate, useParams } from "react-router-dom";
 import Comment from "../components/Comment/Comment";
 import tags from '../constants/tags'
+import Toast, { ToastTheme } from '../components/Toast/Toast'
 
 import useAuthToken from "../hooks/useAuthToken";
 
@@ -43,6 +44,26 @@ function TodoDetail() {
 
   const { todoInfo, loading } = useTodoInfo(todoId, getAccessToken);
   const [commentsList, setCommentList] = useState([]);
+  const [localLike, setLocalLike] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastTheme, setToastTheme] = useState(ToastTheme.SUCCESS);
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
+
+  useEffect(() => {
+    try {
+      setLocalLike(todoInfo.like);
+    } catch (e) {
+    }
+  }, [todoInfo])
 
   useEffect(() => {
     const getCommentsInfo = async () => {
@@ -65,13 +86,68 @@ function TodoDetail() {
     getCommentsInfo();
   }, []);
 
+  const love = async () => {
+    const api = `todos/${todoId}/like`;
+
+    try {
+      const res = await serverapi.post(api, null, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      });
+      console.log("------");
+      console.log(res.data);
+      if (res.status === 201) {
+        setLocalLike(true);
+      }
+      if (res.status === 202) {
+        setToastMessage('내 TODO에는 좋아요를 누를 수 없습니다.');
+        setToastTheme(ToastTheme.SUCCESS);
+        setShowToast(true);
+      }
+    } catch (e) {
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
+    }
+  };
+
+  const hate = async () => {
+    const api = `todos/${todoId}/like`;
+
+    try {
+      const res = await serverapi.delete(api, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      });
+      if (res.status === 201) {
+        setLocalLike(false);
+      }
+    } catch (e) {
+      if (e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
 
   const navigateToWritePage = () => {
-    navigate("/write");
+    navigate(`/write/${todoId}`);
   };
   const navigateBack = () => {
     window.history.back(); // 브라우저의 뒤로 가기 기능을 사용하여 이전 페이지로 이동
@@ -86,18 +162,18 @@ function TodoDetail() {
         <TagBox num={todoInfo.tag} />
         <TodoTitle>{todoInfo.content}</TodoTitle>
         <Like>
-          {todoInfo.like ? (
+          {localLike ? (
             <img
               src={require("../images/heartFilled.svg").default}
               alt="filled"
               width="25px"
-              //   onClick={() => unscrap()}
+              onClick={() => hate()}
             />
           ) : (
             <img
               src={require("../images/heartEmpty.svg").default}
               width="25px"
-              //   onClick={() => scrap()}
+              onClick={() => love()}
             />
           )}
         </Like>
@@ -108,7 +184,7 @@ function TodoDetail() {
           나도 더 알려주기
         </ReviewWrite>
       </WriteBox>
-      {commentsList && commentsList.map((commentInfo, idx) => (
+      {commentsList.length !== 0 ? (commentsList.map((commentInfo, idx) => (
         <div>
           <Comment
             commentId={commentInfo.commentId}
@@ -123,8 +199,12 @@ function TodoDetail() {
           ></Comment>
            <DottedLine />
         </div>
-      ))}
-
+      ))) : (
+        <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+            <h1 style={{fontSize: "15px"}}>불러올 댓글이 없습니다.</h1>
+        </div>
+      )}
+      {showToast && <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>}
     </div>
   );
 }

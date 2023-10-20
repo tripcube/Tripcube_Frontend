@@ -4,11 +4,10 @@ import styled from "styled-components";
 import serverapi from "../../api/serverapi";
 import useAuthToken from "../../hooks/useAuthToken";
 
-const WriteTop = ({ reviewText, setReviewText, todo }) => {
+const WriteTop = ({ reviewText, setReviewText, todoId }) => {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const { getAccessToken } = useAuthToken();
   const [loading, setLoading] = useState(true);
-  const [todoId, setTodoId] = useState(null);
 
   const handleReviewChange = (e) => {
     setReviewText(e.target.value);
@@ -24,7 +23,7 @@ const WriteTop = ({ reviewText, setReviewText, todo }) => {
           "comments",
           {
             content: reviewText,
-            todoId: 9,
+            todoId: todoId,
           },
           {
             headers: {
@@ -34,6 +33,7 @@ const WriteTop = ({ reviewText, setReviewText, todo }) => {
         );
 
         console.log("리뷰 업로드 성공:", res.data);
+        window.history.back();
         // 요청이 성공한 경우의 후속 작업을 수행하세요.
       } catch (e) {
         console.error("오류가 발생했습니다:", e);
