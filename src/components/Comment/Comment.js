@@ -75,14 +75,13 @@ const Comment = ({
         alignItems: 'start',
         justifyContent: 'space-between',
         backgroundColor: 'white',
-        padding: '4px 12px 4px 12px',
         borderRadius: '5px',
       }}
     >
       <div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <CircleImage style={{ marginRight: '15px' }}>
-            <img src={profileImage} alt='원형 이미지' />
+            <img src={profileImage}/>
           </CircleImage>
           <div style={{ lineHeight: '1', justifyContent: 'center' }}>
             <NameTextStyle>{userName}</NameTextStyle>

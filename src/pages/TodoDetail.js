@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import serverapi from "../api/serverapi";
-import { useNavigate, useParams } from "react-router-dom";
+import { useAsyncError, useNavigate, useParams } from "react-router-dom";
 import Comment from "../components/Comment/Comment";
+import tags from '../constants/tags'
 
 import useAuthToken from "../hooks/useAuthToken";
 
@@ -30,7 +31,7 @@ function useTodoInfo(todoId, getAccessToken) {
     };
 
     getTodoInfo();
-  }, [todoId, getAccessToken]);
+  }, []);
 
   return { todoInfo, loading };
 }
@@ -41,10 +42,33 @@ function TodoDetail() {
   const { todoId } = useParams(); // URL 파라미터에서 todoId를 추출
 
   const { todoInfo, loading } = useTodoInfo(todoId, getAccessToken);
+  const [commentsList, setCommentList] = useState([]);
+
+  useEffect(() => {
+    const getCommentsInfo = async () => {
+      const api = `comments/todo?page=1&sort=DATE_DESC&todoId=${todoId}`;
+      try {
+        const res = await serverapi.get(api, {
+          headers: {
+            Authorization: `Bearer ${getAccessToken()}`,
+          },
+        });
+
+        if (res.status === 201) {
+          setCommentList(res.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching place info:", error);
+      }
+    };
+
+    getCommentsInfo();
+  }, []);
 
   if (loading) {
     return <div>Loading...</div>;
   }
+
 
   const navigateToWritePage = () => {
     navigate("/write");
@@ -54,74 +78,53 @@ function TodoDetail() {
   };
 
   return (
-    <div>
+    <div style={{padding: "10px 10px 10px 10px"}}>
       <BackSpace>
-        <PlaceTitle onClick={navigateBack}>{todoInfo.placeName}</PlaceTitle>
+        <PlaceTitle onClick={navigateBack}>{"< " + todoInfo.placeName}</PlaceTitle>
       </BackSpace>
       <TitleBox>
+        <TagBox num={todoInfo.tag} />
         <TodoTitle>{todoInfo.content}</TodoTitle>
         <Like>
-          {true ? (
+          {todoInfo.like ? (
             <img
               src={require("../images/heartFilled.svg").default}
               alt="filled"
+              width="25px"
               //   onClick={() => unscrap()}
             />
           ) : (
             <img
               src={require("../images/heartEmpty.svg").default}
+              width="25px"
               //   onClick={() => scrap()}
             />
           )}
         </Like>
       </TitleBox>
       <WriteBox>
+        <StartText>{"첫시작 : " + todoInfo.userName}</StartText>
         <ReviewWrite onClick={navigateToWritePage}>
           나도 더 알려주기
         </ReviewWrite>
       </WriteBox>
-      <Comment
-        commentId={3}
-        like={false}
-        numLike={0}
-        userName={"TRIPCUBE"}
-        date={"2023년 10월 1일 등록"}
-        content={"노을지는 오후 8시 이후에 가면 좋아요"}
-        profileImage={
-          "https://cdn.pixabay.com/photo/2020/05/17/20/21/cat-5183427_1280.jpg"
-        }
-        image={
-          "https://korean.visitseoul.net/comm/getImage?srvcId=MEDIA&parentSn=24651&fileTy=MEDIA&fileNo=1"
-        }
-      ></Comment>
-      <Comment
-        commentId={3}
-        like={false}
-        numLike={0}
-        userName={"TRIPCUBE"}
-        date={"2023년 10월 1일 등록"}
-        content={"노을지는 오후 8시 이후에 가면 좋아요"}
-        profileImage={
-          "https://cdn.pixabay.com/photo/2020/05/17/20/21/cat-5183427_1280.jpg"
-        }
-        image={
-          "https://korean.visitseoul.net/comm/getImage?srvcId=MEDIA&parentSn=24651&fileTy=MEDIA&fileNo=1"
-        }
-      ></Comment>
-      <Comment
-        commentId={3}
-        like={false}
-        numLike={0}
-        userName={"TRIPCUBE"}
-        date={"2023년 10월 1일 등록"}
-        content={"노을지는 오후 8시 이후에 가면 좋아요"}
-        profileImage={
-          "https://cdn.pixabay.com/photo/2020/05/17/20/21/cat-5183427_1280.jpg"
-        }
-        image={
-          "https://korean.visitseoul.net/comm/getImage?srvcId=MEDIA&parentSn=24651&fileTy=MEDIA&fileNo=1"
-        }
-      ></Comment>
+      {commentsList && commentsList.map((commentInfo, idx) => (
+        <div>
+          <Comment
+            commentId={commentInfo.commentId}
+            content={commentInfo.comment_content}
+            date={commentInfo.date}
+            image={commentInfo.image}
+            like={commentInfo.comment_islike}
+            numLike={commentInfo.comment_likes}
+            profileImage={commentInfo.profileImage}
+            userName={commentInfo.userName}
+            key={idx}
+          ></Comment>
+           <DottedLine />
+        </div>
+      ))}
+
     </div>
   );
 }
@@ -130,12 +133,11 @@ export default TodoDetail;
 
 const BackSpace = styled.div`
   width: 100%;
-  height: 50px;
+  margin-bottom: 10px;
 `;
 
 const PlaceTitle = styled.button`
   background-color: transparent;
-  margin-left: 10px;
   color: #000;
   font-family: Inter;
   font-size: 15px;
@@ -144,45 +146,62 @@ const PlaceTitle = styled.button`
   line-height: normal;
   letter-spacing: -0.375px;
   border: transparent;
-  padding: 10px 20px;
 `;
 
 const TitleBox = styled.div`
   width: 100%;
-  height: 50px;
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
 `;
 const TodoTitle = styled.div`
-  width: 80%;
-  height: 50px;
-  margin-left: 10px;
+  width: 100%;
   color: #000;
   font-family: Inter;
-  font-size: 20px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
 `;
 
 const Like = styled.div`
-  width: 20%;
   float: right;
   align-items: center;
 `;
 
 const WriteBox = styled.div`
-  height: 50px;
-  width: 100%;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  margin-bottom: 20px;
 `;
 
 const ReviewWrite = styled.button`
-  width: 30%;
-  height: 30px;
+  padding: 5px 10px 5px 10px;
   background-color: black;
   float: right;
-  margin-right: 10px;
   color: white;
   border-color: transparent;
-  border-radius: 5px;
+  border-radius: 7px;
+`;
+
+export const TagBox = styled.div`
+  width: 8px;
+  height: 28px;
+  background-color: ${(props) => tags[props.num].color};
+  margin-right: 12px;
+`;
+
+export const StartText = styled.div`
+  font-size: 10px;
+  font-weight: 500;
+  font-color: #000000;
+`;
+
+const DottedLine = styled.div`
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 100%;
+  border-top: 2px dotted #BEBEBE; /* 점선 스타일과 색상 설정 */
+  height: 0; /* 높이를 0으로 설정하여 선만 표시 */
 `;
