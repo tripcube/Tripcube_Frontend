@@ -145,7 +145,7 @@ const BackGroundImage = (props) => {
     if (editmode) {
       try {
         //eslint-disable-next-line
-        GetImage.postMessage('');
+        GetBImage.postMessage('');
       } catch (e) {
         if (e.response.status === 401) {
           // 401 Unauthorized 오류가 발생한 경우

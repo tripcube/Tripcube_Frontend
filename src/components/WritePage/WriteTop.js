@@ -70,14 +70,6 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
     }
   };
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-
-    if (selectedFile) {
-      setSelectedPhoto(URL.createObjectURL(selectedFile)); // 선택한 파일 저장
-    }
-  };
-
   return (
     <>
       <TopBox>
