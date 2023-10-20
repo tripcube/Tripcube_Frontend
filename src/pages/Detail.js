@@ -252,6 +252,8 @@ function PlaceTodo(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [todoValue, setTodoValue] = useState('');
   const [numTag, setNumTag] = useState(0);
+  const updateTodo = props.updateTodo;
+  const setUpdateTodo = props.setUpdateTodo;
   const { getAccessToken } = useAuthToken();
 
   const onChangeTodo = (event) => {
@@ -303,6 +305,8 @@ function PlaceTodo(props) {
         },
       });
       if (res.status === 201) {
+        setTodoValue("");
+
         setIsModalOpen(false);
       }
     } catch (e) {
@@ -388,6 +392,7 @@ function PlaceTodo(props) {
 
 function PlaceTodoList(props) {
   const placeId = props.placeId;
+  const updateTodo = props.updateTodo;
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState('LIKE_DESC');
   const [limit, setLimit] = useState(5);
@@ -451,6 +456,7 @@ function PlaceTodoList(props) {
           numTag={todo.tag}
           numLike={todo.likes}
           like={todo.like}
+          placeId={todo.placeId}
         >
           {todo.content}
         </Todo>

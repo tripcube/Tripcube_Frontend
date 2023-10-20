@@ -2,14 +2,28 @@ import styled from 'styled-components';
 import tags from '../../constants/tags';
 import serverapi from '../../api/serverapi';
 import useAuthToken from '../../hooks/useAuthToken';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Toast, { ToastTheme } from '../../components/Toast/Toast';
 
-const Todo = ({ todoId, numTag, numLike, children, like }) => {
+const Todo = ({ todoId, numTag, numLike, children, like, placeId }) => {
   const { getAccessToken } = useAuthToken();
   const [Locallike, setLike] = useState(like);
   const navigate = useNavigate();
   const [LocalNumLike, setNumLike] = useState(numLike);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastTheme, setToastTheme] = useState(ToastTheme.SUCCESS);
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
+
   const navigateToTodoPage = () => {
     navigate(`/todo/${todoId}`);
   };
@@ -27,6 +41,11 @@ const Todo = ({ todoId, numTag, numLike, children, like }) => {
       if (res.status === 201) {
         setLike(true);
         setNumLike(LocalNumLike + 1);
+      }
+      if (res.status === 202) {
+        setToastMessage('내 TODO에는 좋아요를 누를 수 없습니다.');
+        setToastTheme(ToastTheme.SUCCESS);
+        setShowToast(true);
       }
     } catch (e) {
       if (e.response.status === 401) {
@@ -93,6 +112,7 @@ const Todo = ({ todoId, numTag, numLike, children, like }) => {
           />
         )}
       </div>
+      {showToast && <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>}
     </div>
   );
 };

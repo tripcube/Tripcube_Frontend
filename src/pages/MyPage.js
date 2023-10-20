@@ -952,6 +952,7 @@ const MypageTodo = (props) => {
         numTag={todo.tag}
         numLike={todo.likes}
         like={todo.like}
+        placeId={todo.placeId}
       >
         {todo.content}
       </Todo>
@@ -984,6 +985,7 @@ const MypageComment = (props) => {
           numTag={comment.tag}
           numLike={comment.todo_likes}
           like={comment.todo_islike}
+          placeId={comment.placeId}
         >
           {comment.todo_content}
         </Todo>
