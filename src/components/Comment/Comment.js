@@ -4,7 +4,6 @@ import useAuthToken from '../../hooks/useAuthToken';
 import { useState, useEffect } from 'react';
 import Toast, { ToastTheme } from '../Toast/Toast';
 import { useNavigate } from 'react-router-dom';
-import { width } from '@mui/system';
 
 const Comment = ({
   commentId,
@@ -99,7 +98,6 @@ const Comment = ({
         justifyContent: 'space-between',
         backgroundColor: 'white',
         borderRadius: '5px',
-        width: '320px',
         alignItems: 'center',
         padding: '8px',
       }}
@@ -112,7 +110,7 @@ const Comment = ({
           }}
         >
           <CircleImage>
-            <img src={profileImage} alt='Profile' />
+            <img src={profileImage} />
           </CircleImage>
           <div
             style={{
@@ -123,7 +121,7 @@ const Comment = ({
               flexDirection: 'column',
             }}
           >
-            <NameTextStyle>랄랄</NameTextStyle>
+            <NameTextStyle>{userName}</NameTextStyle>
             <DateTextStyle>{date}</DateTextStyle>
           </div>
         </div>

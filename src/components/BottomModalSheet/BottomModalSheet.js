@@ -163,6 +163,7 @@ function BottomModalSheet({ onClose, location, getMarkerList }) {
               numTag={todo.tag}
               numLike={todo.likes}
               like={todo.like}
+              placeId={todo.placeId}
             >
               {todo.content}
             </Todo>
