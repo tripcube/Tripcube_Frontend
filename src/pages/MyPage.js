@@ -246,7 +246,7 @@ const ProfileImage = (props) => {
     if (editmode) {
       try {
         //eslint-disable-next-line
-        GetBImage.postMessage('');
+        GetImage.postMessage('');
       } catch (e) {
         if (e.response.status === 401) {
           // 401 Unauthorized 오류가 발생한 경우

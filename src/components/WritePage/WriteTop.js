@@ -1,14 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router";
 import styled from "styled-components";
 import serverapi from "../../api/serverapi";
 import useAuthToken from "../../hooks/useAuthToken";
+import Toast, { ToastTheme } from '../../components/Toast/Toast';
 
 const WriteTop = ({ reviewText, setReviewText, todoId }) => {
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
   const { getAccessToken } = useAuthToken();
-  const [loading, setLoading] = useState(true);
   const [image, setImage] = useState('');
+  const [isLoading, setLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastTheme, setToastTheme] = useState(ToastTheme.SUCCESS);
+  const [isModal, setModal] = useState(false);
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
 
   const handleReviewChange = (e) => {
     setReviewText(e.target.value);
@@ -19,7 +32,6 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
   const handleUploadReview = async () => {
     if (reviewText) {
       try {
-        setLoading(true);
         const res = await serverapi.post(
           "comments",
           {
@@ -41,7 +53,6 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
         console.error("오류가 발생했습니다:", e);
         // 에러 처리 로직을 추가하세요.
       } finally {
-        setLoading(false);
       }
     }
   };
@@ -50,9 +61,14 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
 
   function getCImage(text) {
     setImage(text);
+    setLoading(false);
+    setToastMessage('사진을 불러오는데 성공했습니다.');
+    setToastTheme(ToastTheme.SUCCESS);
+    setShowToast(true);
   }
 
   const handleFileSelect = () => {
+    setLoading(true);
     try {
       //eslint-disable-next-line
       GetCImage.postMessage('');
@@ -67,7 +83,24 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
         // 다른 오류가 발생한 경우
         console.error('오류가 발생했습니다:', e);
       }
+      setLoading(false);
     }
+  };
+
+  const viewImage = () => {
+    if (isLoading) {
+      setToastMessage('이미지를 불러오는 중입니다.');
+      setToastTheme(ToastTheme.ERROR);
+      setShowToast(true);
+      return ;
+    }
+    if (image === "11") {
+      setToastMessage('이미지를 선택하지 않았습니다.');
+      setToastTheme(ToastTheme.ERROR);
+      setShowToast(true);
+      return ;
+    }
+    setModal(true);
   };
 
   return (
@@ -79,11 +112,33 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
       </TopBox>
       <Outlet />
       <ViewSelectedPhotoButton
-        selectedPhoto={selectedPhoto}
-        onClick={() => {}}
+        onClick={viewImage}
       >
         선택한 사진 보기
       </ViewSelectedPhotoButton>
+      {isLoading && (
+        <div
+          style={{
+            position: 'fixed',
+            zIndex: 1,
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          <img
+            src={require('../../images/loading.svg').default}
+            height='80px'
+            width='80px'
+          ></img>
+        </div>
+      )}
+      {showToast && <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>}
+      {isModal &&
+        <ImageOverlay onClick={() => {setModal(false)}}>
+          <Image src={"https://ojsfile.ohmynews.com/STD_IMG_FILE/2023/0210/IE003111451_STD.jpg"}></Image>
+        </ImageOverlay>
+      }
     </>
   );
 };
@@ -160,8 +215,25 @@ const ViewSelectedPhotoButton = styled.button`
   margin-left: 10px;
   margin-right: 10px;
   padding: 10px 20px;
-  border: 1px solid ${(props) => (props.selectedPhoto ? "black" : "#ccc")};
   border-radius: 5px;
-  background-color: ${(props) => (props.selectedPhoto ? "white" : "#f0f0f0")};
-  color: ${(props) => (props.selectedPhoto ? "black" : "#ccc")};
+`;
+
+const ImageOverlay = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.2);
+  height: 100%;
+`;
+
+const Image = styled.img`
+  max-width: 100%;
+  height: auto;
 `;
