@@ -86,6 +86,13 @@ const PopularList = (props) => {
 
   return (
     <>
+      <TextStyle>
+        <img
+          src='images/main_pop.svg'
+          style={{ width: '20px', height: '20px', margin: '4px' }}
+        />
+        지난 24시간 인기 장소
+      </TextStyle>
       {loading ? (
         <LinearProgress />
       ) : (
@@ -125,6 +132,14 @@ const PopularList = (props) => {
 };
 
 export default PopularList;
+
+const TextStyle = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  padding: 20px 0px 10px 0px;
+  display: flex;
+  align-items: center;
+`;
 
 const PlaceStyle = styled.div`
   display: flex;
