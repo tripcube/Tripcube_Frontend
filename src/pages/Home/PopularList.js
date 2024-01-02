@@ -4,14 +4,14 @@ import { LinearProgress, CircularProgress, Select } from '@mui/material';
 import Place from '../../components/Place/Place';
 import styled from 'styled-components';
 
-const PopularList = (props) => {
-  const area1 = props.area1;
-  const area2 = props.area2;
-  const setToastMessage = props.setToastMessage;
-  const setShowToast = props.setShowToast;
-  const navigate = props.navigate;
-  const getAccessToken = props.getAccessToken;
-
+const PopularList = ({
+  area1,
+  area2,
+  setToastMessage,
+  setShowToast,
+  navigate,
+  getAccessToken,
+}) => {
   const [loading, setLoading] = useState(true);
   const [moreLoading, setMoreLoading] = useState(false);
   const [page, setPage] = useState(2);

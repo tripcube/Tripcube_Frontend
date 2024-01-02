@@ -25,14 +25,9 @@ import Splash from './pages/Splash';
 import ReviewWrite from './pages/ReviewWrite';
 import TodoDetail from './pages/TodoDetail';
 
-const ContainerWrapper = styled.div`
-  max-width: 430px;
-  margin: 0 auto;
-`;
-
 const Container = styled.div`
   position: relative;
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   padding: 0px;
@@ -69,25 +64,23 @@ const CommonRoute = () => {
 function App() {
   return (
     <BrowserRouter>
-      <ContainerWrapper>
-        <Container>
-          <GlobalStyle />
-          <Routes>
-            <Route path='/detail/:placeId' element={<Detail />} />
-            <Route path='/map' element={<Maps />} />
-            <Route path='/scrap' element={<Scrap />} />
-            <Route path='/mypage/:userId' element={<MyPage />} />
-            <Route path='/home' element={<Home />} />
-            <Route path='/todo/:todoId' element={<TodoDetail />} />
-            <Route path='/write/:todoId' element={<ReviewWrite />} />
+      <Container>
+        <GlobalStyle />
+        <Routes>
+          <Route path='/detail/:placeId' element={<Detail />} />
+          <Route path='/map' element={<Maps />} />
+          <Route path='/scrap' element={<Scrap />} />
+          <Route path='/mypage/:userId' element={<MyPage />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/todo/:todoId' element={<TodoDetail />} />
+          <Route path='/write/:todoId' element={<ReviewWrite />} />
 
-            <Route path='/nonlogin' index element={<NonLogin />}></Route>
-            <Route path='/login' index element={<Login />}></Route>
-            <Route path='/signup' element={<Signup />}></Route>
-            <Route path='*' element={<NotFound />}></Route>
-          </Routes>
-        </Container>
-      </ContainerWrapper>
+          <Route path='/nonlogin' index element={<NonLogin />}></Route>
+          <Route path='/login' index element={<Login />}></Route>
+          <Route path='/signup' element={<Signup />}></Route>
+          <Route path='*' element={<NotFound />}></Route>
+        </Routes>
+      </Container>
       <Routes></Routes>
     </BrowserRouter>
   );

@@ -8,14 +8,14 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import tags from '../../constants/tags';
 
-const GoodList = (props) => {
-  const area1 = props.area1;
-  const area2 = props.area2;
-  const setToastMessage = props.setToastMessage;
-  const setShowToast = props.setShowToast;
-  const navigate = props.navigate;
-  const getAccessToken = props.getAccessToken;
-
+const GoodList = ({
+  area1,
+  area2,
+  setToastMessage,
+  setShowToast,
+  navigate,
+  getAccessToken,
+}) => {
   const [loading, setLoading] = useState(true);
   const [moreLoading, setMoreLoading] = useState(false);
   const [page, setPage] = useState(2);
