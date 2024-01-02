@@ -7,7 +7,6 @@ import BottomModalSheet from '../components/BottomModalSheet/BottomModalSheet';
 import BottomNav from '../components/BottomNav/BottomNav';
 import SearchDiv from '../components/Search/SearchDiv';
 import Toast, { ToastTheme } from '../components/Toast/Toast';
-import userMarkerImg from '../images/mapMarker.png';
 
 const Maps = () => {
   const [keywordValue, setKeywordValue] = useState('');
@@ -153,9 +152,11 @@ const Maps = () => {
           position={{ lat: marker.mapY, lng: marker.mapX }}
           image={{
             src:
-              selectIdx === idx
-                ? userMarkerImg
-                : 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
+              selectIdx === idx ? (
+                <img src='images/mapMarker.png' />
+              ) : (
+                'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png'
+              ),
             size:
               selectIdx === idx
                 ? { width: 45, height: 45 }
@@ -175,7 +176,7 @@ const Maps = () => {
         key='UserMapker'
         position={{ lat: user_latitude, lng: user_longitude }}
         image={{
-          src: require('../images/location.svg').default,
+          src: 'images/location.svg',
           size: { width: 20, height: 20 },
         }}
         title='UserMapker'
@@ -209,7 +210,7 @@ const Maps = () => {
             onClick={() => {
               search();
             }}
-            src={require('../images/search.svg').default}
+            src='images/search.svg'
             style={{ height: '50px', width: '50px', marginTop: '10px' }}
           ></img>
         </div>
@@ -235,7 +236,7 @@ const Maps = () => {
             >
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img
-                  src={require('../images/refresh.svg').default}
+                  src='images/refresh.svg'
                   height='20px'
                   style={{ marginRight: '5px' }}
                 ></img>
@@ -256,7 +257,7 @@ const Maps = () => {
           onClick={() => {
             getLocation();
           }}
-          src={require('../images/aim.svg').default}
+          src='images/aim.svg'
           height='50px'
           width='50px'
         ></img>
@@ -292,11 +293,7 @@ const Maps = () => {
             transform: 'translate(-50%, -50%)',
           }}
         >
-          <img
-            src={require('../images/loading.svg').default}
-            height='80px'
-            width='80px'
-          ></img>
+          <img src='images/loading.svg' height='80px' width='80px'></img>
         </div>
       )}
       <BottomNav />

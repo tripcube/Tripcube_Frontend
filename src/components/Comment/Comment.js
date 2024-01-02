@@ -133,13 +133,13 @@ const Comment = ({
         >
           {Locallike ? (
             <img
-              src={require('../../images/heartFilled.svg').default}
+              src='images/heartFilled.svg'
               alt='heartFilled'
               onClick={() => hate()}
             />
           ) : (
             <img
-              src={require('../../images/heartEmpty.svg').default}
+              src='images/heartEmpty.svg'
               alt='heartEmpty'
               onClick={() => love()}
             />
@@ -149,19 +149,19 @@ const Comment = ({
       </div>
 
       <div>
-        {(image != null ) && (
-           <img
-           onClick={() => {
-             setModal(true);
-           }}
-           src={image}
-           width='80px'
-           height='80px'
-           style={{
-             borderRadius: '10%',
-             boxShadow: '2px 2px 5px rgba(0,0,0,0.3)',
-           }}
-         ></img>
+        {image != null && (
+          <img
+            onClick={() => {
+              setModal(true);
+            }}
+            src={image}
+            width='80px'
+            height='80px'
+            style={{
+              borderRadius: '10%',
+              boxShadow: '2px 2px 5px rgba(0,0,0,0.3)',
+            }}
+          ></img>
         )}
       </div>
       {isModal && (

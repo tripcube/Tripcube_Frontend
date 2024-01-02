@@ -164,14 +164,14 @@ function TodoDetail() {
         <Like>
           {localLike ? (
             <img
-              src={require('../images/heartFilled.svg').default}
+              src='images/heartFilled.svg'
               alt='filled'
               width='25px'
               onClick={() => hate()}
             />
           ) : (
             <img
-              src={require('../images/heartEmpty.svg').default}
+              src='images/heartEmpty.svg'
               width='25px'
               onClick={() => love()}
             />

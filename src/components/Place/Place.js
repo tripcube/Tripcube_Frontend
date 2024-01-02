@@ -7,7 +7,7 @@ const Place = ({ place, onClick }) => {
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {place.placeImage === '' ? (
           <img
-            src={require('../../images/null.svg').default}
+            src='images/null.svg'
             alt='image_null'
             width='112px'
             height='164px'

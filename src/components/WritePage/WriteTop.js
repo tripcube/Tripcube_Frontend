@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Outlet } from "react-router";
-import styled from "styled-components";
-import serverapi from "../../api/serverapi";
-import useAuthToken from "../../hooks/useAuthToken";
+import React, { useState, useEffect } from 'react';
+import { Outlet } from 'react-router';
+import styled from 'styled-components';
+import serverapi from '../../api/serverapi';
+import useAuthToken from '../../hooks/useAuthToken';
 import Toast, { ToastTheme } from '../../components/Toast/Toast';
 
 const WriteTop = ({ reviewText, setReviewText, todoId }) => {
@@ -33,24 +33,24 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
     if (reviewText) {
       try {
         const res = await serverapi.post(
-          "comments",
+          'comments',
           {
             content: reviewText,
             todoId: todoId,
-            imageURL: image
+            imageURL: image,
           },
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
+          },
         );
 
-        console.log("리뷰 업로드 성공:", res.data);
+        console.log('리뷰 업로드 성공:', res.data);
         window.history.back();
         // 요청이 성공한 경우의 후속 작업을 수행하세요.
       } catch (e) {
-        console.error("오류가 발생했습니다:", e);
+        console.error('오류가 발생했습니다:', e);
         // 에러 처리 로직을 추가하세요.
       } finally {
       }
@@ -75,9 +75,7 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
     } catch (e) {
       if (e.response.status === 401) {
         // 401 Unauthorized 오류가 발생한 경우
-        console.log(
-          'Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.',
-        );
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
         window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
       } else {
         // 다른 오류가 발생한 경우
@@ -92,13 +90,13 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
       setToastMessage('이미지를 불러오는 중입니다.');
       setToastTheme(ToastTheme.ERROR);
       setShowToast(true);
-      return ;
+      return;
     }
-    if (image === "") {
+    if (image === '') {
       setToastMessage('이미지를 선택하지 않았습니다.');
       setToastTheme(ToastTheme.ERROR);
       setShowToast(true);
-      return ;
+      return;
     }
     setModal(true);
   };
@@ -111,9 +109,7 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
         <RegisterButton onClick={handleUploadReview}>등록</RegisterButton>
       </TopBox>
       <Outlet />
-      <ViewSelectedPhotoButton
-        onClick={viewImage}
-      >
+      <ViewSelectedPhotoButton onClick={viewImage}>
         선택한 사진 보기
       </ViewSelectedPhotoButton>
       {isLoading && (
@@ -126,19 +122,21 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
             transform: 'translate(-50%, -50%)',
           }}
         >
-          <img
-            src={require('../../images/loading.svg').default}
-            height='80px'
-            width='80px'
-          ></img>
+          <img src='images/loading.svg' height='80px' width='80px'></img>
         </div>
       )}
-      {showToast && <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>}
-      {isModal &&
-        <ImageOverlay onClick={() => {setModal(false)}}>
+      {showToast && (
+        <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>
+      )}
+      {isModal && (
+        <ImageOverlay
+          onClick={() => {
+            setModal(false);
+          }}
+        >
           <Image src={image}></Image>
         </ImageOverlay>
-      }
+      )}
     </>
   );
 };

@@ -98,21 +98,23 @@ const Todo = ({ todoId, numTag, numLike, children, like, placeId }) => {
 
         {Locallike ? (
           <img
-            src={require('../../images/heartFilled.svg').default}
+            src='images/heartFilled.svg'
             alt='heartFilled'
             onClick={() => hate()}
             style={{ marginLeft: '4px' }}
           />
         ) : (
           <img
-            src={require('../../images/heartEmpty.svg').default}
+            src='images/heartEmpty.svg'
             alt='heartEmpty'
             onClick={() => love()}
             style={{ marginLeft: '4px' }}
           />
         )}
       </div>
-      {showToast && <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>}
+      {showToast && (
+        <Toast toastTheme={ToastTheme.SUCCESS}>{toastMessage}</Toast>
+      )}
     </div>
   );
 };

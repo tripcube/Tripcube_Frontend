@@ -321,7 +321,7 @@ const ProfileImage = (props) => {
       <img
         src={
           info.profileImage === null
-            ? require('../images/profile-image.svg').default
+            ? 'images/profile-image.svg'
             : info.profileImage
         }
         style={{
@@ -881,11 +881,11 @@ const Content = (props) => {
     <>
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         <ImageBox
-          image={require('../images/mypage_todo.svg').default}
+          image='images/mypage_todo.svg'
           onClick={() => getTodolist()}
         />
         <ImageBox
-          image={require('../images/mypage_comment.svg').default}
+          image='images/mypage_comment.svg'
           onClick={() => getCommentlist()}
         />
       </div>
@@ -996,8 +996,8 @@ const MypageComment = (props) => {
             marginTop: '8px',
           }}
         >
-          <img src={require('../images/comment-arrow.svg').default} />
-          <div style={{width: '100%'}}>
+          <img src='images/comment-arrow.svg' />
+          <div style={{ width: '100%' }}>
             <Comment
               commentId={comment.commentId}
               numLike={comment.comment_likes}

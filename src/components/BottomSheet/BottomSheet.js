@@ -6,11 +6,7 @@ function BottomSheet({ title, closeModal, children }) {
       <StyledModalBackground />
       <StyledBottomSheet>
         <StyledBottomSheetHeader>
-          <img
-            src={require('../../images/delete.svg').default}
-            alt='delete'
-            onClick={closeModal}
-          />
+          <img src='images/delete.svg' alt='delete' onClick={closeModal} />
           <div>{title}</div>
         </StyledBottomSheetHeader>
         <div style={{ padding: '4px 15px 15px 15px' }}>{children}</div>

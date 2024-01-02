@@ -16,7 +16,7 @@ import NonLogin from './pages/NonLogin';
 import GlobalStyle from './styles/GlobalStyle';
 
 import Detail from './pages/Detail';
-import Home from './pages/Home';
+import Home from './pages/Home/Home';
 import Maps from './pages/Map';
 import Scrap from './pages/Scrap';
 import MyPage from './pages/MyPage';
