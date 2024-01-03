@@ -101,6 +101,7 @@ const PopularList = ({
             <>
               {list.map((place, index) => (
                 <Place
+                  rankIndex={index}
                   key={place.placeId}
                   place={place}
                   onClick={() => navigate(`/detail/${place.placeId}`)}

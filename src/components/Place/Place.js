@@ -1,10 +1,17 @@
-import styled from 'styled-components';
+import {
+  PlaceWrapper,
+  ImageWrapper,
+  Rank,
+  PlaceNameStyle,
+  TagListStyle,
+  NoTagStyle,
+} from './style';
 import TagChip from '../TagChip/TagChip';
 
-const Place = ({ place, onClick }) => {
+const Place = ({ place, onClick, rankIndex }) => {
   return (
     <div onClick={onClick}>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <PlaceWrapper>
         {place.placeImage === '' ? (
           <img
             src='images/null.svg'
@@ -13,26 +20,24 @@ const Place = ({ place, onClick }) => {
             height='164px'
           />
         ) : (
-          <img src={place.placeImage} width='112px' height='164px' />
+          <ImageWrapper>
+            <img src={place.placeImage} width='112px' height='164px' />
+            {rankIndex === 0 || rankIndex === 1 || rankIndex === 2 ? (
+              <Rank rankIndex={rankIndex}>{rankIndex + 1}</Rank>
+            ) : null}
+          </ImageWrapper>
         )}
-        <div style={{ fontSize: '10px', fontWeight: 600, padding: '4px 0px' }}>
-          {place.placeName}
-        </div>
+        <PlaceNameStyle>{place.placeName}</PlaceNameStyle>
         {place.tags && place.tags.length > 0 ? (
-          <div
-            style={{
-              display: 'flex',
-              gap: '4px',
-            }}
-          >
+          <TagListStyle>
             {place.tags.map((tag, index) => (
               <TagChip key={tag} num={tag} />
             ))}
-          </div>
+          </TagListStyle>
         ) : (
-          <div style={{ height: '12px', weight: '24px' }} />
+          <NoTagStyle />
         )}
-      </div>
+      </PlaceWrapper>
     </div>
   );
 };
