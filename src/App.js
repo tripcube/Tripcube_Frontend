@@ -33,34 +33,6 @@ const Container = styled.div`
   padding: 0px;
 `;
 
-const PrivateRoute = () => {
-  const { isUnauthorized } = useAuthorized();
-
-  console.log('isUnauthorized', isUnauthorized());
-
-  if (isUnauthorized()) {
-    return <Navigate to='/login' replace />;
-  }
-  return <Outlet />;
-};
-
-const CommonRoute = () => {
-  const { isUndefined } = useAuthorized();
-
-  const location = useLocation();
-  const fullPath = location.pathname + location.search + location.hash;
-
-  if (isUndefined()) {
-    return (
-      <Routes>
-        <Route path='*' element={<Splash url={fullPath} />} />
-      </Routes>
-    );
-  }
-
-  return <Outlet />;
-};
-
 function App() {
   return (
     <BrowserRouter>
