@@ -114,7 +114,7 @@ const AllScrap = (props) => {
           ))}
         </PlaceStyle>
       ) : (
-        <a>불러올 장소가 없습니다</a>
+        <NoPlaceTextStyle>불러올 장소가 없습니다</NoPlaceTextStyle>
       )}
     </>
   );
@@ -150,4 +150,15 @@ const ScrapStyle = styled.div`
   background-color: rgb(237, 237, 237);
   padding: 20px 15px;
   margin-bottom: 8px;
+`;
+
+const NoPlaceTextStyle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-size: 14px;
+  padding: 8px;
+  border-radius: 10px;
+  border: 0.1px solid #acacac;
 `;

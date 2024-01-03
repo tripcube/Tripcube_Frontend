@@ -119,7 +119,7 @@ const PopularList = ({
               )}
             </>
           ) : (
-            <a>불러올 장소가 없습니다</a>
+            <NoPlaceTextStyle>최근에 방문한 장소가 없습니다</NoPlaceTextStyle>
           )}
         </PlaceStyle>
       )}
@@ -153,4 +153,15 @@ const MorePlaceImage = styled.img`
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
   object-fit: cover;
   margin-right: 8px;
+`;
+
+const NoPlaceTextStyle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-size: 14px;
+  padding: 8px;
+  border-radius: 10px;
+  border: 0.1px solid #acacac;
 `;
