@@ -98,14 +98,14 @@ const Todo = ({ todoId, numTag, numLike, children, like, placeId }) => {
 
         {Locallike ? (
           <img
-            src='images/heartFilled.svg'
+            src='/images/heartFilled.svg'
             alt='heartFilled'
             onClick={() => hate()}
             style={{ marginLeft: '4px' }}
           />
         ) : (
           <img
-            src='images/heartEmpty.svg'
+            src='/images/heartEmpty.svg'
             alt='heartEmpty'
             onClick={() => love()}
             style={{ marginLeft: '4px' }}

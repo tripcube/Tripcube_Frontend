@@ -43,7 +43,7 @@ const Splash = ({ url }) => {
 
   return (
     <BackgroundStyle>
-      <img src='images/splash.svg' alt='splash' />
+      <img src='/images/splash.svg' alt='splash' />
     </BackgroundStyle>
   );
 };

@@ -8,7 +8,7 @@ const Header = ({ children }) => {
     <div style={{ width: '100%' }}>
       <HeaderStyle>
         <img
-          src='.images/delete.svg'
+          src='/images/delete.svg'
           alt='delete'
           onClick={() => navigate('/home')}
         />

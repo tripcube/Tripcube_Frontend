@@ -153,7 +153,7 @@ const Maps = () => {
           image={{
             src:
               selectIdx === idx ? (
-                <img src='images/mapMarker.png' />
+                <img src='/images/mapMarker.png' />
               ) : (
                 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png'
               ),
@@ -176,7 +176,7 @@ const Maps = () => {
         key='UserMapker'
         position={{ lat: user_latitude, lng: user_longitude }}
         image={{
-          src: 'images/location.svg',
+          src: '/images/location.svg',
           size: { width: 20, height: 20 },
         }}
         title='UserMapker'
@@ -210,7 +210,7 @@ const Maps = () => {
             onClick={() => {
               search();
             }}
-            src='images/search.svg'
+            src='/images/search.svg'
             style={{ height: '50px', width: '50px', marginTop: '10px' }}
           ></img>
         </div>
@@ -236,7 +236,7 @@ const Maps = () => {
             >
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img
-                  src='images/refresh.svg'
+                  src='/images/refresh.svg'
                   height='20px'
                   style={{ marginRight: '5px' }}
                 ></img>
@@ -257,7 +257,7 @@ const Maps = () => {
           onClick={() => {
             getLocation();
           }}
-          src='images/aim.svg'
+          src='/images/aim.svg'
           height='50px'
           width='50px'
         ></img>
@@ -293,7 +293,7 @@ const Maps = () => {
             transform: 'translate(-50%, -50%)',
           }}
         >
-          <img src='images/loading.svg' height='80px' width='80px'></img>
+          <img src='/images/loading.svg' height='80px' width='80px'></img>
         </div>
       )}
       <BottomNav />

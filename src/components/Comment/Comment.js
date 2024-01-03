@@ -133,13 +133,13 @@ const Comment = ({
         >
           {Locallike ? (
             <img
-              src='images/heartFilled.svg'
+              src='/images/heartFilled.svg'
               alt='heartFilled'
               onClick={() => hate()}
             />
           ) : (
             <img
-              src='images/heartEmpty.svg'
+              src='/images/heartEmpty.svg'
               alt='heartEmpty'
               onClick={() => love()}
             />

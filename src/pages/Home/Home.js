@@ -119,7 +119,7 @@ const UserRec = ({ setToastMessage, setShowToast, navigate }) => {
     <>
       <TextStyle>
         <img
-          src='images/main_rec.svg'
+          src='/images/main_rec.svg'
           style={{ width: '20px', height: '20px', margin: '4px' }}
         />
         회원님이 좋아할 장소
@@ -142,7 +142,7 @@ const UserRec = ({ setToastMessage, setShowToast, navigate }) => {
                 <CircularProgress />
               ) : (
                 <MorePlaceImage
-                  src='images/more_place.svg'
+                  src='/images/more_place.svg'
                   onClick={() => {
                     getList(page);
                   }}

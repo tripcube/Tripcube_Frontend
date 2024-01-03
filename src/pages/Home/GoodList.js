@@ -105,7 +105,7 @@ const GoodList = ({
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <TextStyle>
           <img
-            src='images/main_act.svg'
+            src='/images/main_act.svg'
             style={{ width: '20px', height: '20px', margin: '4px' }}
           />
           <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
@@ -159,7 +159,7 @@ const GoodList = ({
                   <CircularProgress />
                 ) : (
                   <MorePlaceImage
-                    src='images/more_place.svg'
+                    src='/images/more_place.svg'
                     onClick={() => {
                       getList(page);
                     }}

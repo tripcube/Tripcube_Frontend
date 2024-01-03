@@ -122,7 +122,7 @@ const WriteTop = ({ reviewText, setReviewText, todoId }) => {
             transform: 'translate(-50%, -50%)',
           }}
         >
-          <img src='images/loading.svg' height='80px' width='80px'></img>
+          <img src='/images/loading.svg' height='80px' width='80px'></img>
         </div>
       )}
       {showToast && (

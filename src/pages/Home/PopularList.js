@@ -88,7 +88,7 @@ const PopularList = ({
     <>
       <TextStyle>
         <img
-          src='images/main_pop.svg'
+          src='/images/main_pop.svg'
           style={{ width: '20px', height: '20px', margin: '4px' }}
         />
         지난 24시간 인기 장소
@@ -111,7 +111,7 @@ const PopularList = ({
                 <CircularProgress />
               ) : (
                 <MorePlaceImage
-                  src='images/more_place.svg'
+                  src='/images/more_place.svg'
                   onClick={() => {
                     getList(page);
                   }}

@@ -10,7 +10,7 @@ const Login = () => {
   return (
     <LoginWrapper>
       <LogoWrapper>
-        <LogoImg src='images/tripcube_logo.svg' alt='logo' />
+        <LogoImg src='/images/tripcube_logo.svg' alt='logo' />
       </LogoWrapper>
       <BottomBtnWrapper>
         <div

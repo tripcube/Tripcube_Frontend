@@ -123,13 +123,13 @@ function BottomModalSheet({ onClose, location, getMarkerList }) {
               {isScrap ? (
                 <img
                   onClick={() => deleteScrap()}
-                  src='images/save_full.svg'
+                  src='/images/save_full.svg'
                   style={{ width: '24px', height: '24px', marginRight: '15px' }}
                 />
               ) : (
                 <img
                   onClick={() => insertScrap()}
-                  src='images/save.svg'
+                  src='/images/save.svg'
                   style={{ width: '24px', height: '24px', marginRight: '15px' }}
                 />
               )}

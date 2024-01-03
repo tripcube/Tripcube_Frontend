@@ -176,36 +176,36 @@ function PlaceDetail(props) {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img src='images/detail_map.svg' style={{ marginRight: '12px' }} />
+          <img src='/images/detail_map.svg' style={{ marginRight: '12px' }} />
           {placeInfo.placeName}
         </div>
         <div>
           {placeInfo.scrap ? (
             <img
-              src='images/detail_scrap_filled.svg'
+              src='/images/detail_scrap_filled.svg'
               alt='filled'
               onClick={() => unscrap()}
             />
           ) : (
-            <img src='images/detail_scrap.svg' onClick={() => scrap()} />
+            <img src='/images/detail_scrap.svg' onClick={() => scrap()} />
           )}
         </div>
       </div>
       <Title>공간 정보</Title>
       <Content>
-        <img src='images/detail_location.svg' style={{ marginRight: '4px' }} />
+        <img src='/images/detail_location.svg' style={{ marginRight: '4px' }} />
         {placeInfo.address}
       </Content>
       <Content>
-        <img src='images/detail_phone.svg' style={{ marginRight: '4px' }} />
+        <img src='/images/detail_phone.svg' style={{ marginRight: '4px' }} />
         {placeInfo.tel}
       </Content>
       <Content>
-        <img src='images/detail_parking.svg' style={{ marginRight: '4px' }} />
+        <img src='/images/detail_parking.svg' style={{ marginRight: '4px' }} />
         {placeInfo.parking}
       </Content>
       <Content>
-        <img src='images/detail_link.svg' style={{ marginRight: '4px' }} />
+        <img src='/images/detail_link.svg' style={{ marginRight: '4px' }} />
         <Content
           dangerouslySetInnerHTML={{ __html: placeInfo.website }}
         ></Content>
@@ -217,7 +217,7 @@ function PlaceDetail(props) {
             gap: '2px',
           }}
         >
-          <img src='images/detail_tag.svg' style={{ marginRight: '4px' }} />
+          <img src='/images/detail_tag.svg' style={{ marginRight: '4px' }} />
           {placeInfo.tags.map((tag, index) => (
             <TagChip key={tag} num={tag} chipSize={ChipSize.NORMAL} />
           ))}

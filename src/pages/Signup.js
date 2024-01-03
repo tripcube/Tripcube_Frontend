@@ -188,7 +188,7 @@ const Signup = () => {
     <InfoWrapper>
       <div>
         <LogoWrapper href='/nonlogin'>
-          <LogoImg src='images/tripcube_logo.svg' alt='logo' />
+          <LogoImg src='/images/tripcube_logo.svg' alt='logo' />
         </LogoWrapper>
         <div
           style={{

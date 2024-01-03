@@ -14,7 +14,7 @@ const Place = ({ place, onClick, rankIndex }) => {
     <div onClick={onClick}>
       <PlaceWrapper>
         {place.placeImage === '' ? (
-          <PlaceImage src='images/null.svg' />
+          <PlaceImage src='/images/null.svg' />
         ) : (
           <ImageWrapper>
             <PlaceImage src={place.placeImage} />
