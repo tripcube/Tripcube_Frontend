@@ -10,6 +10,14 @@ export const ImageWrapper = styled.div`
   display: inline-block;
 `;
 
+export const PlaceImage = styled.img`
+  width: 112px;
+  height: 164px;
+  border-radius: 8px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+  object-fit: cover;
+`;
+
 export const Rank = styled.div`
   position: absolute;
   top: 4px;

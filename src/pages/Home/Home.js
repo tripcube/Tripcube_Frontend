@@ -141,17 +141,12 @@ const UserRec = ({ setToastMessage, setShowToast, navigate }) => {
               {moreLoading ? (
                 <CircularProgress />
               ) : (
-                <>
-                  <img
-                    src='images/more_place.svg'
-                    alt='image_more'
-                    width='112px'
-                    height='164px'
-                    onClick={() => {
-                      getList(page);
-                    }}
-                  />
-                </>
+                <MorePlaceImage
+                  src='images/more_place.svg'
+                  onClick={() => {
+                    getList(page);
+                  }}
+                />
               )}
             </>
           ) : (
@@ -180,4 +175,13 @@ const PlaceStyle = styled.div`
   overflow-x: auto;
   height: auto;
   align-items: flex-start;
+`;
+
+const MorePlaceImage = styled.img`
+  width: 112px;
+  height: 164px;
+  border-radius: 8px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+  object-fit: cover;
+  margin-right: 8px;
 `;

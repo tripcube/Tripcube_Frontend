@@ -1,6 +1,7 @@
 import {
   PlaceWrapper,
   ImageWrapper,
+  PlaceImage,
   Rank,
   PlaceNameStyle,
   TagListStyle,
@@ -13,15 +14,10 @@ const Place = ({ place, onClick, rankIndex }) => {
     <div onClick={onClick}>
       <PlaceWrapper>
         {place.placeImage === '' ? (
-          <img
-            src='images/null.svg'
-            alt='image_null'
-            width='112px'
-            height='164px'
-          />
+          <PlaceImage src='images/null.svg' />
         ) : (
           <ImageWrapper>
-            <img src={place.placeImage} width='112px' height='164px' />
+            <PlaceImage src={place.placeImage} />
             {rankIndex === 0 || rankIndex === 1 || rankIndex === 2 ? (
               <Rank rankIndex={rankIndex}>{rankIndex + 1}</Rank>
             ) : null}
