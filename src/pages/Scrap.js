@@ -106,6 +106,7 @@ const AllScrap = (props) => {
         <PlaceStyle>
           {scraplist.map((place, index) => (
             <Place
+              rankIndex={-1}
               key={place.placeId}
               place={place}
               onClick={() => navigate(`/detail/${place.placeId}`)}

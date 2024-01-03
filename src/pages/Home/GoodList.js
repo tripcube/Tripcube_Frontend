@@ -139,6 +139,7 @@ const GoodList = ({
                 {list.map((place, index) => (
                   <div>
                     <Place
+                      rankIndex={-1}
                       key={place.placeId}
                       place={place}
                       onClick={() => navigate(`/detail/${place.placeId}`)}
