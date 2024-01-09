@@ -31,8 +31,7 @@ const Place = ({ place, onClick, rankIndex, todo, people, tagColor }) => {
             )}
           {rankIndex !== -1 && (
             <People>
-              <PeopleImage src='/images/people.svg' />
-              {people}
+              <PeopleImage src='/images/people.svg' /> {people}
             </People>
           )}
           {todo !== 'none' && <Todo color={tagColor}># {todo}</Todo>}
