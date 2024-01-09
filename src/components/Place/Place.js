@@ -3,13 +3,15 @@ import {
   ImageWrapper,
   PlaceImage,
   Rank,
+  PeopleImage,
+  People,
   PlaceNameStyle,
   TagListStyle,
   NoTagStyle,
 } from './style';
 import TagChip from '../TagChip/TagChip';
 
-const Place = ({ place, onClick, rankIndex, todo }) => {
+const Place = ({ place, onClick, rankIndex, todo, people }) => {
   const nullImageUrl =
     todo === 'none' ? '/images/null.svg' : '/images/null_todo.svg';
 
@@ -24,7 +26,13 @@ const Place = ({ place, onClick, rankIndex, todo }) => {
           <ImageWrapper>
             <PlaceImage src={place.placeImage} todo={todo} />
             {rankIndex === 0 || rankIndex === 1 || rankIndex === 2 ? (
-              <Rank rankIndex={rankIndex}>{rankIndex + 1}</Rank>
+              <>
+                <Rank rankIndex={rankIndex}>{rankIndex + 1}</Rank>
+                <People rankIndex={rankIndex}>
+                  <PeopleImage src='/images/people.svg' />
+                  {people}
+                </People>
+              </>
             ) : null}
           </ImageWrapper>
         )}

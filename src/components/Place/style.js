@@ -45,6 +45,38 @@ export const Rank = styled.div`
   }};
 `;
 
+export const People = styled.div`
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  padding: 4px;
+  display: flex;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 400;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  letter-spacing: -0.5px;
+  background-color: ${(props) => {
+    switch (props.rankIndex) {
+      case 0:
+        return '#d5a11e';
+      case 1:
+        return '#A3A3A3';
+      case 2:
+        return '#CD7F32';
+      default:
+        return 'transparent';
+    }
+  }};
+`;
+
+export const PeopleImage = styled.img`
+  width: 13px;
+  height: 13px;
+`;
+
 export const PlaceNameStyle = styled.div`
   font-size: 10px;
   font-weight: 600;
