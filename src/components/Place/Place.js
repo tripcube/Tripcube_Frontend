@@ -6,13 +6,22 @@ import {
   PeopleImage,
   People,
   Todo,
+  Accuracy,
   PlaceNameStyle,
   TagListStyle,
   NoTagStyle,
 } from './style';
 import TagChip from '../TagChip/TagChip';
 
-const Place = ({ place, onClick, rankIndex, todo, people, tagColor }) => {
+const Place = ({
+  place,
+  onClick,
+  rankIndex,
+  todo,
+  people,
+  tagColor,
+  accuracy,
+}) => {
   const imageUrl =
     place.placeImage !== ''
       ? place.placeImage
@@ -35,6 +44,7 @@ const Place = ({ place, onClick, rankIndex, todo, people, tagColor }) => {
             </People>
           )}
           {todo !== 'none' && <Todo color={tagColor}># {todo}</Todo>}
+          {accuracy !== 'none' && <Accuracy>{accuracy}</Accuracy>}
         </ImageWrapper>
         <PlaceNameStyle>{place.placeName}</PlaceNameStyle>
         {place.tags && place.tags.length > 0 ? (

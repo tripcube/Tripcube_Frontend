@@ -84,6 +84,10 @@ const PopularList = ({
     getFirstList();
   }, []);
 
+  useEffect(() => {
+    getFirstList();
+  }, [area1, area2]);
+
   return (
     <>
       <TextStyle>
@@ -107,6 +111,7 @@ const PopularList = ({
                   onClick={() => navigate(`/detail/${place.placeId}`)}
                   todo={'none'}
                   people={place.visitorNum}
+                  accuracy={'none'}
                 />
               ))}
               {moreLoading ? (

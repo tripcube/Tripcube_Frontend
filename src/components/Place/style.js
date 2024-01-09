@@ -81,6 +81,22 @@ export const Todo = styled.div`
   background-color: ${(props) => props.color || '#000'};
 `;
 
+export const Accuracy = styled.div`
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  padding: 4px;
+  display: flex;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 400;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  letter-spacing: -0.5px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+`;
+
 export const PlaceNameStyle = styled.div`
   font-size: 10px;
   font-weight: 600;

@@ -3,6 +3,8 @@ import serverapi from '../../api/serverapi';
 import { LinearProgress, CircularProgress, Select } from '@mui/material';
 import Place from '../../components/Place/Place';
 import styled from 'styled-components';
+import areaCode1 from '../../constants/areaCode1';
+import areaCode2 from '../../constants/areaCode2';
 
 const RecommendationList = ({
   area1,
@@ -16,9 +18,11 @@ const RecommendationList = ({
   const [moreLoading, setMoreLoading] = useState(false);
   const [page, setPage] = useState(2);
   const [list, setList] = useState([]);
+  const [areaName1, setAreaName1] = useState('');
+  const [areaName2, setAreaName2] = useState('');
 
-  const getFirstList = async () => {
-    const api = `places/recommend/like-place?page=${page}`;
+  const getFirstList = async (page, areaName1, areaName2) => {
+    const api = `places/recommend/like-place?area1=${areaName1}&area2=${areaName2}&page=${page}`;
 
     try {
       setLoading(true);
@@ -82,8 +86,20 @@ const RecommendationList = ({
   };
 
   useEffect(() => {
-    getFirstList(1);
+    const areaName1 = areaCode1.find((area) => area.num === area1)?.name;
+    const areaName2 = areaCode2[area1].find((area) => area.num === area2)?.name;
+    setAreaName1(areaName1);
+    setAreaName2(areaName2);
+    getFirstList(1, areaName1, areaName2);
   }, []);
+
+  useEffect(() => {
+    const areaName1 = areaCode1.find((area) => area.num === area1)?.name;
+    const areaName2 = areaCode2[area1].find((area) => area.num === area2)?.name;
+    setAreaName1(areaName1);
+    setAreaName2(areaName2);
+    getFirstList(1, areaName1, areaName2);
+  }, [area1, area2]);
 
   return (
     <>
@@ -107,6 +123,7 @@ const RecommendationList = ({
                   place={place}
                   onClick={() => navigate(`/detail/${place.placeId}`)}
                   todo={'none'}
+                  accuracy={place.accuracy.toFixed(2)}
                 />
               ))}
               {moreLoading ? (

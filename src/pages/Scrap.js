@@ -111,6 +111,7 @@ const AllScrap = (props) => {
               place={place}
               onClick={() => navigate(`/detail/${place.placeId}`)}
               todo={'none'}
+              accuracy={'none'}
             />
           ))}
         </PlaceStyle>
