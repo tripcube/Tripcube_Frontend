@@ -16,10 +16,40 @@ const RecommendationList = ({
 }) => {
   const [loading, setLoading] = useState(true);
   const [moreLoading, setMoreLoading] = useState(false);
+  const [nameLoading, setNameLoading] = useState(true);
   const [page, setPage] = useState(2);
   const [list, setList] = useState([]);
   const [areaName1, setAreaName1] = useState('');
   const [areaName2, setAreaName2] = useState('');
+  const [name, setName] = useState('');
+
+  const getName = async () => {
+    const api = `users/name`;
+
+    try {
+      setNameLoading(true);
+      const res = await serverapi.get(api, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      });
+      console.log('getName', api);
+      if (res.status === 201) {
+        setName(res.data.data.name);
+      }
+    } catch (e) {
+      if (e.response && e.response.status === 401) {
+        // 401 Unauthorized 오류가 발생한 경우
+        console.log('Unauthorized 오류가 발생했습니다. 리디렉션을 수행합니다.');
+        window.location.href = '/nonlogin'; // 홈페이지로 리디렉션
+      } else {
+        // 다른 오류가 발생한 경우
+        console.error('오류가 발생했습니다:', e);
+      }
+    } finally {
+      setNameLoading(false);
+    }
+  };
 
   const getFirstList = async (page, areaName1, areaName2) => {
     const api = `places/recommend/like-place?area1=${areaName1}&area2=${areaName2}&page=${page}`;
@@ -50,7 +80,7 @@ const RecommendationList = ({
   };
 
   const getList = async (page) => {
-    const api = `places/recommend/like-place?page=${page}`;
+    const api = `places/recommend/like-place?area1=${areaName1}&area2=${areaName2}&page=${page}`;
 
     try {
       setMoreLoading(true);
@@ -88,6 +118,7 @@ const RecommendationList = ({
   useEffect(() => {
     const areaName1 = areaCode1.find((area) => area.num === area1)?.name;
     const areaName2 = areaCode2[area1].find((area) => area.num === area2)?.name;
+    getName();
     setAreaName1(areaName1);
     setAreaName2(areaName2);
     getFirstList(1, areaName1, areaName2);
@@ -103,13 +134,24 @@ const RecommendationList = ({
 
   return (
     <>
-      <TextStyle>
-        <img
-          src='/images/main_rec.svg'
-          style={{ width: '20px', height: '20px', margin: '4px' }}
-        />
-        회원님이 좋아할 장소
-      </TextStyle>
+      {nameLoading ? (
+        <TextStyle>
+          <img
+            src='/images/main_rec.svg'
+            style={{ width: '20px', height: '20px', margin: '4px' }}
+          />
+          회원님이 좋아할 장소
+        </TextStyle>
+      ) : (
+        <TextStyle>
+          <img
+            src='/images/main_rec.svg'
+            style={{ width: '20px', height: '20px', margin: '4px' }}
+          />
+          {name}님이 좋아할 장소
+        </TextStyle>
+      )}
+
       {loading ? (
         <LinearProgress />
       ) : (

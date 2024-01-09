@@ -67,7 +67,14 @@ const AreaPart = ({ setToastMessage, setShowToast, navigate }) => {
           </Select>
         </FormControl>
       </>
-
+      <RecommendationList
+        area1={area1}
+        area2={area2}
+        setToastMessage={setToastMessage}
+        setShowToast={setShowToast}
+        navigate={navigate}
+        getAccessToken={getAccessToken}
+      />
       <PopularList
         area1={area1}
         area2={area2}
@@ -77,14 +84,6 @@ const AreaPart = ({ setToastMessage, setShowToast, navigate }) => {
         getAccessToken={getAccessToken}
       />
       <GoodList
-        area1={area1}
-        area2={area2}
-        setToastMessage={setToastMessage}
-        setShowToast={setShowToast}
-        navigate={navigate}
-        getAccessToken={getAccessToken}
-      />
-      <RecommendationList
         area1={area1}
         area2={area2}
         setToastMessage={setToastMessage}
