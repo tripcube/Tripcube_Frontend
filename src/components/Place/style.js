@@ -58,23 +58,13 @@ export const People = styled.div`
   align-items: center;
   border-radius: 10px;
   letter-spacing: -0.5px;
-  background-color: ${(props) => {
-    switch (props.rankIndex) {
-      case 0:
-        return '#d5a11e';
-      case 1:
-        return '#A3A3A3';
-      case 2:
-        return '#CD7F32';
-      default:
-        return 'transparent';
-    }
-  }};
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 `;
 
 export const PeopleImage = styled.img`
   width: 13px;
   height: 13px;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.8));
 `;
 
 export const Todo = styled.div`
