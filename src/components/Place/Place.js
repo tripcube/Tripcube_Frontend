@@ -9,15 +9,20 @@ import {
 } from './style';
 import TagChip from '../TagChip/TagChip';
 
-const Place = ({ place, onClick, rankIndex }) => {
+const Place = ({ place, onClick, rankIndex, todo }) => {
+  const nullImageUrl =
+    todo === 'none' ? '/images/null.svg' : '/images/null_todo.svg';
+
+  console.log(todo);
+
   return (
     <div onClick={onClick}>
       <PlaceWrapper>
         {place.placeImage === '' ? (
-          <PlaceImage src='/images/null.svg' />
+          <PlaceImage src={nullImageUrl} todo={todo} />
         ) : (
           <ImageWrapper>
-            <PlaceImage src={place.placeImage} />
+            <PlaceImage src={place.placeImage} todo={todo} />
             {rankIndex === 0 || rankIndex === 1 || rankIndex === 2 ? (
               <Rank rankIndex={rankIndex}>{rankIndex + 1}</Rank>
             ) : null}

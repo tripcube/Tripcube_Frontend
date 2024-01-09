@@ -11,8 +11,8 @@ export const ImageWrapper = styled.div`
 `;
 
 export const PlaceImage = styled.img`
-  width: 112px;
-  height: 164px;
+  width: ${(props) => (props.todo === 'none' ? '112px' : '180px')};
+  height: ${(props) => (props.todo === 'none' ? '164px' : '90px')};
   border-radius: 8px;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
   object-fit: cover;

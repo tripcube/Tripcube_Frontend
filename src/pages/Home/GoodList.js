@@ -137,29 +137,19 @@ const GoodList = ({
             {list.length !== 0 ? (
               <>
                 {list.map((place, index) => (
-                  <div>
-                    <Place
-                      rankIndex={-1}
-                      key={place.placeId}
-                      place={place}
-                      onClick={() => navigate(`/detail/${place.placeId}`)}
-                    />
-                    <div
-                      style={{
-                        fontSize: '9px',
-                        backgroundColor: '#ffdb4b',
-                        margin: '5px 0px 0px 0px',
-                      }}
-                    >
-                      "{place.content}"
-                    </div>
-                  </div>
+                  <Place
+                    rankIndex={-1}
+                    key={place.placeId}
+                    place={place}
+                    onClick={() => navigate(`/detail/${place.placeId}`)}
+                    todo={place.content}
+                  />
                 ))}
                 {moreLoading ? (
                   <CircularProgress />
                 ) : (
                   <MorePlaceImage
-                    src='/images/more_place.svg'
+                    src='/images/more_place_todo.svg'
                     onClick={() => {
                       getList(page);
                     }}
@@ -187,17 +177,17 @@ const TextStyle = styled.div`
 `;
 
 const PlaceStyle = styled.div`
-  display: flex;
-  gap: 12px;
-  width: 100%;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: 130px 130px;
+  grid-template-columns: repeat(auto-fill, 180px);
+  gap: 8px;
   overflow-x: auto;
-  height: auto;
-  align-items: flex-start;
 `;
 
 const MorePlaceImage = styled.img`
-  width: 112px;
-  height: 164px;
+  width: 180px;
+  height: 90px;
   border-radius: 8px;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
   object-fit: cover;

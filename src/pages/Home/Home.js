@@ -136,6 +136,7 @@ const UserRec = ({ setToastMessage, setShowToast, navigate }) => {
                   key={place.placeId}
                   place={place}
                   onClick={() => navigate(`/detail/${place.placeId}`)}
+                  todo={'none'}
                 />
               ))}
               {moreLoading ? (
