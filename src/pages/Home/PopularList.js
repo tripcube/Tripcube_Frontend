@@ -106,7 +106,7 @@ const PopularList = ({
                   place={place}
                   onClick={() => navigate(`/detail/${place.placeId}`)}
                   todo={'none'}
-                  people={15}
+                  people={place.people}
                 />
               ))}
               {moreLoading ? (

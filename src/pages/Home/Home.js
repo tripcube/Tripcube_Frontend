@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import serverapi from '../../api/serverapi';
-import useAuthToken from '../../hooks/useAuthToken';
 import TopNav from '../../components/TopNav/TopNav';
-import { LinearProgress, CircularProgress, Select } from '@mui/material';
-import Place from '../../components/Place/Place';
 import styled from 'styled-components';
 import Toast, { ToastTheme } from '../../components/Toast/Toast';
 import BottomNav from '../../components/BottomNav/BottomNav';
@@ -24,11 +20,6 @@ const Home = () => {
           setShowToast={setShowToast}
           navigate={navigate}
         />
-        <UserRec // 지역 기반 추천 X, 오직 유저 기반 추천
-          setToastMessage={setToastMessage}
-          setShowToast={setShowToast}
-          navigate={navigate}
-        />
       </div>
       <BottomNav />
       {showToast && (
@@ -37,7 +28,7 @@ const Home = () => {
     </div>
   );
 };
-
+/*
 const UserRec = ({ setToastMessage, setShowToast, navigate }) => {
   const [page, setPage] = useState(1);
   const [list, setList] = useState([]);
@@ -158,7 +149,7 @@ const UserRec = ({ setToastMessage, setShowToast, navigate }) => {
     </>
   );
 };
-
+*/
 export default Home;
 
 const TextStyle = styled.div`

@@ -7,6 +7,7 @@ import areaCode2 from '../../constants/areaCode2';
 import MenuItem from '@mui/material/MenuItem';
 import PopularList from './PopularList';
 import GoodList from './GoodList';
+import RecommendationList from './RecommendationList';
 import { Select } from '@mui/material';
 
 const AreaPart = ({ setToastMessage, setShowToast, navigate }) => {
@@ -75,8 +76,15 @@ const AreaPart = ({ setToastMessage, setShowToast, navigate }) => {
         navigate={navigate}
         getAccessToken={getAccessToken}
       />
-
       <GoodList
+        area1={area1}
+        area2={area2}
+        setToastMessage={setToastMessage}
+        setShowToast={setShowToast}
+        navigate={navigate}
+        getAccessToken={getAccessToken}
+      />
+      <RecommendationList
         area1={area1}
         area2={area2}
         setToastMessage={setToastMessage}
