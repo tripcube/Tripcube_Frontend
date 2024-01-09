@@ -22,7 +22,7 @@ const GoodList = ({
   const [list, setList] = useState([]);
   const [tag, setTag] = useState(1);
 
-  const getFirstList = async () => {
+  const getFirstList = async (tag) => {
     const api = `places/recommend/todo-place?areaCode1=${area1}&areaCode2=${area2}&page=1&tag=${tag}`;
 
     try {
@@ -88,16 +88,16 @@ const GoodList = ({
   };
 
   useEffect(() => {
-    getFirstList();
+    getFirstList(1);
   }, []);
 
   useEffect(() => {
-    getFirstList();
+    getFirstList(1);
   }, [area1, area2]);
 
   const onChangeTag = (event) => {
     setTag(event.target.value);
-    getFirstList();
+    getFirstList(event.target.value);
   };
 
   return (
@@ -133,9 +133,9 @@ const GoodList = ({
         {loading ? (
           <LinearProgress />
         ) : (
-          <PlaceStyle>
+          <>
             {list.length !== 0 ? (
-              <>
+              <PlaceStyle>
                 {list.map((place, index) => (
                   <Place
                     rankIndex={-1}
@@ -156,11 +156,11 @@ const GoodList = ({
                     }}
                   />
                 )}
-              </>
+              </PlaceStyle>
             ) : (
               <NoPlaceTextStyle>불러올 장소가 없습니다</NoPlaceTextStyle>
             )}
-          </PlaceStyle>
+          </>
         )}
       </div>
     </>
@@ -199,7 +199,8 @@ const NoPlaceTextStyle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: calc(100% - 16px);
+  height: fit-content;
   font-size: 14px;
   padding: 8px;
   border-radius: 10px;
