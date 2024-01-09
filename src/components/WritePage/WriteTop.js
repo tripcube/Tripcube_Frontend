@@ -160,7 +160,6 @@ const WriteTitle = styled.div`
   color: #000;
 
   text-align: center;
-  font-family: Inter;
   font-size: 13px;
   font-style: normal;
   font-weight: 500;
@@ -177,7 +176,6 @@ const PictureButton = styled.button`
   align-items: center;
   color: #9f9f9f;
 
-  font-family: Inter;
   font-size: 13px;
   font-style: normal;
   font-weight: 500;
@@ -197,7 +195,6 @@ const RegisterButton = styled.button`
   align-items: center;
   color: #9f9f9f;
 
-  font-family: Inter;
   font-size: 13px;
   font-style: normal;
   font-weight: 500;

@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const MainContainer = styled.div`
   display: flex;
@@ -51,7 +51,6 @@ const TextContainer = styled.div`
 const BottomText = styled.div`
   padding-top: 8px;
   text-align: center;
-  font-family: Noto Sans KR;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -63,21 +62,21 @@ const BottomToast = ({ changeCheck, isChecked, clickIsShare }) => {
   return (
     <MainContainer
       style={{
-        opacity: isChecked ? "1" : "0",
-        transform: isChecked ? "translateY(0%)" : "translateY(100%)",
-        paddingBottom: clickIsShare ? "12px" : "24px",
+        opacity: isChecked ? '1' : '0',
+        transform: isChecked ? 'translateY(0%)' : 'translateY(100%)',
+        paddingBottom: clickIsShare ? '12px' : '24px',
       }}
     >
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div
           style={{
-            display: "flex",
-            width: "52px",
-            height: "4px",
-            marginTop: "12px",
-            marginBottom: "25px",
-            backgroundColor: "#EEEEEE",
-            borderRadius: "4px",
+            display: 'flex',
+            width: '52px',
+            height: '4px',
+            marginTop: '12px',
+            marginBottom: '25px',
+            backgroundColor: '#EEEEEE',
+            borderRadius: '4px',
           }}
           onClick={changeCheck}
         ></div>

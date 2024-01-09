@@ -242,7 +242,6 @@ const BackSpace = styled.div`
 const PlaceTitle = styled.button`
   background-color: transparent;
   color: #000;
-  font-family: Inter;
   font-size: 15px;
   font-style: normal;
   font-weight: 400;
@@ -260,7 +259,6 @@ const TitleBox = styled.div`
 const TodoTitle = styled.div`
   width: 100%;
   color: #000;
-  font-family: Inter;
   font-size: 22px;
   font-style: normal;
   font-weight: 600;
