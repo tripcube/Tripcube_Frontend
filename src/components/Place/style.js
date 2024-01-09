@@ -95,6 +95,7 @@ export const Accuracy = styled.div`
   border-radius: 10px;
   letter-spacing: -0.5px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  background-color: #5e5e5e;
 `;
 
 export const PlaceNameStyle = styled.div`
