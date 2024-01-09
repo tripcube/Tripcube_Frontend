@@ -143,6 +143,7 @@ const GoodList = ({
                     place={place}
                     onClick={() => navigate(`/detail/${place.placeId}`)}
                     todo={place.content}
+                    tagColor={tags[tag].color}
                   />
                 ))}
                 {moreLoading ? (

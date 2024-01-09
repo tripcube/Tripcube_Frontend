@@ -77,6 +77,20 @@ export const PeopleImage = styled.img`
   height: 13px;
 `;
 
+export const Todo = styled.div`
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  display: flex;
+  color: #000;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px;
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props) => props.color || '#000'};
+`;
+
 export const PlaceNameStyle = styled.div`
   font-size: 10px;
   font-weight: 600;
